@@ -11,6 +11,10 @@ class MyApplication : Application() {
             override fun getGlobalTag(): String {
                 return super.getGlobalTag()
             }
+
+            override fun injectJsonParser(): JsonParser {
+                return super.injectJsonParser()
+            }
         })
     }
 }

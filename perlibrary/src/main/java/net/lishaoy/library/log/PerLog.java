@@ -4,6 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PerLog {
 
     public static void v(Object... contents) {
@@ -65,12 +68,31 @@ public class PerLog {
     public static void log(@NonNull PerLogConfig config, @PerLogType.TYPE int type, @NonNull String tag, Object... contents) {
         if (!config.enable()) return;
         StringBuffer sb = new StringBuffer();
-        String body = parseBody(contents);
+        if (config.includeTread()) {
+            String threadInfo = PerLogConfig.PER_THREAD_FORMATTER.format(Thread.currentThread());
+            sb.append(threadInfo).append("\n");
+        }
+        if (config.stackTraceDepth() > 0) {
+            String stackTrace = PerLogConfig.PER_STACKTRACE_FORMATTER.format(new Throwable().getStackTrace());
+            sb.append(stackTrace).append("\n");
+        }
+        String body = parseBody(contents, config);
         sb.append(body);
-        Log.println(type, tag, body);
+        List<PerLogPrinter> printers = config.printers() != null ? Arrays.asList(config.printers()) : PerLogManager.getInstance().getPrinters();
+        if (printers == null) return;
+        for (PerLogPrinter printer : printers) {
+            printer.print(config, type, tag, sb.toString());
+        }
     }
 
-    private static String parseBody(@NonNull Object[] contents) {
+    private static String parseBody(@NonNull Object[] contents, @NonNull PerLogConfig config) {
+        if (config.injectJsonParser() != null) {
+            if (contents.length == 1 && contents[0] instanceof String) {
+                return (String) contents[0];
+            }
+
+            return config.injectJsonParser().toJson(contents);
+        }
         StringBuffer sb = new StringBuffer();
         for (Object o : contents) {
             sb.append(o.toString()).append(";");
