@@ -1,2 +1,3 @@
+include ':perlibrary'
 include ':app'
 rootProject.name = "PerPro"
