@@ -1,6 +1,8 @@
 package net.lishaoy.perpro
 
 import android.app.Application
+import com.google.gson.Gson
+import net.lishaoy.library.log.PerConsolePrinter
 import net.lishaoy.library.log.PerLogConfig
 import net.lishaoy.library.log.PerLogManager
 
@@ -13,8 +15,8 @@ class MyApplication : Application() {
             }
 
             override fun injectJsonParser(): JsonParser {
-                return super.injectJsonParser()
+                return JsonParser { src -> Gson().toJson(src) }
             }
-        })
+        }, PerConsolePrinter())
     }
 }

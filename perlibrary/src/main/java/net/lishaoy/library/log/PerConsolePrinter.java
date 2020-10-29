@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import static net.lishaoy.library.log.PerLogConfig.MAX_LEN;
 
-public class PerConsolePrinter implements PerLogPrinter{
+public class PerConsolePrinter implements PerLogPrinter {
     @Override
     public void print(@NonNull PerLogConfig config, int level, String tag, @NonNull String printString) {
         int len = printString.length();
@@ -17,9 +17,11 @@ public class PerConsolePrinter implements PerLogPrinter{
                 Log.println(level, tag, printString.substring(index, index + MAX_LEN));
                 index += MAX_LEN;
             }
-            if (index != len){
+            if (index != len) {
                 Log.println(level, tag, printString.substring(index, len));
             }
+        } else {
+            Log.println(level, tag, printString);
         }
     }
 }
