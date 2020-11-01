@@ -142,10 +142,10 @@ public class PerTabBottomLayout extends FrameLayout implements IPerTabLayout<Per
     }
 
     private void onSelected(PerTabBottomInfo<?> info) {
-        this.selectInfo = info;
         for (OnTabSelectedListener<PerTabBottomInfo<?>> listener : tabSelectedListeners) {
             listener.onTabSelectedChange(infoList.indexOf(info), selectInfo, info);
         }
+        this.selectInfo = info;
     }
 
     private void addBackground() {

@@ -4,6 +4,7 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.List;
 
@@ -17,6 +18,6 @@ public interface IPerTabLayout<Tab extends ViewGroup, D> {
     void inflateInfo(@NonNull List<D> infoList);
 
     interface OnTabSelectedListener<D> {
-        void onTabSelectedChange(int index, @NonNull D prevInfo, @NonNull D nextInfo);
+        void onTabSelectedChange(int index, @Nullable D prevInfo, @NonNull D nextInfo);
     }
 }

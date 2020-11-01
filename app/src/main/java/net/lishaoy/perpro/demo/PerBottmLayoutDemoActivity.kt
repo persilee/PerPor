@@ -67,6 +67,6 @@ class PerBottmLayoutDemoActivity : AppCompatActivity() {
         per_bottom_tab_layout.addTabSelectedChangeListener { _,_,nextInfo ->
             Toast.makeText(this, nextInfo.name, Toast.LENGTH_SHORT).show()
         }
-        per_bottom_tab_layout.defaultSelected(homeInfo)
+        per_bottom_tab_layout.defaultSelected(infoChat)
     }
 }

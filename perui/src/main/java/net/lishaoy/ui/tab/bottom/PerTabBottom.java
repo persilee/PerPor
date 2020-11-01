@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.lishaoy.ui.R;
 import net.lishaoy.ui.tab.common.IPerTab;
@@ -115,7 +116,7 @@ public class PerTabBottom extends RelativeLayout implements IPerTab<PerTabBottom
     }
 
     @Override
-    public void onTabSelectedChange(int index, @NonNull PerTabBottomInfo<?> prevInfo, @NonNull PerTabBottomInfo<?> nextInfo) {
+    public void onTabSelectedChange(int index, @Nullable PerTabBottomInfo<?> prevInfo, @NonNull PerTabBottomInfo<?> nextInfo) {
         if (prevInfo != tabInfo && nextInfo != tabInfo || prevInfo == nextInfo) return;
         if (prevInfo == tabInfo)
             inflateInfo(false, false);
