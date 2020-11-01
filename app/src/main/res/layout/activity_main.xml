@@ -16,11 +16,18 @@
         android:text="log"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:onClick="onClick"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginTop="16dp"/>
 
-    <net.lishaoy.ui.tab.bottom.PerTabBottom
-        android:id="@+id/tab_bottom"
+    <Button
+        android:id="@+id/tab_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Bottom Layout"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:onClick="onClick"
+        tools:ignore="MissingConstraints"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>
