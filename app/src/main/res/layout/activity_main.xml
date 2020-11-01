@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-    android:padding="16dp">
+    android:paddingBottom="0dp">
 
     <Button
         android:id="@+id/log"
@@ -17,5 +17,10 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:onClick="onClick"
         tools:ignore="MissingConstraints" />
+
+    <net.lishaoy.ui.tab.bottom.PerTabBottom
+        android:id="@+id/tab_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
