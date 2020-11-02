@@ -8,22 +8,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.perpro.demo.PerBottmLayoutDemoActivity
 import net.lishaoy.perpro.demo.PerLogDemoActivity
+import net.lishaoy.perpro.logic.MainActivityLogic
 import net.lishaoy.ui.tab.bottom.PerTabBottomInfo
 
-class MainActivity : PerBaseActivity(), View.OnClickListener {
+class MainActivity : PerBaseActivity(), MainActivityLogic.ActivityProvider {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
-
-    override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.log -> {
-                startActivity(Intent(this, PerLogDemoActivity::class.java))
-            }
-            R.id.tab_layout -> {
-                startActivity(Intent(this, PerBottmLayoutDemoActivity::class.java))
-            }
-        }
+        MainActivityLogic(this)
     }
 }
