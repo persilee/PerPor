@@ -28,9 +28,7 @@ class PerRefreshDemoActivity : AppCompatActivity() {
             }
 
             override fun onRefresh() {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    refresh_layout.refreshFinished()
-                }, 1000)
+                Handler(Looper.getMainLooper()).postDelayed({ refresh_layout.refreshFinished() }, 1000)
             }
 
         })

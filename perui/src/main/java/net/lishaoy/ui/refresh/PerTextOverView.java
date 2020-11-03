@@ -35,7 +35,7 @@ public class PerTextOverView extends PerOverView{
     public void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.per_refresh_overview, this, true);
         imageView = findViewById(R.id.iv_rotate);
-        textView = findViewById(R.id.tv_name);
+        textView = findViewById(R.id.tv_text);
     }
 
     @Override

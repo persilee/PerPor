@@ -38,7 +38,7 @@ public abstract class PerOverView extends FrameLayout {
     }
 
     protected void preInit() {
-        pullRefreshHeight = PerDisplayUtil.dp2px(66, getResources());
+        pullRefreshHeight = PerDisplayUtil.dp2px(86, getResources());
         init();
     }
 

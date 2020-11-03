@@ -58,9 +58,9 @@ public class PerRefreshLayout extends FrameLayout implements PerRefresh {
     }
 
     @Override
-    public void setRefreshOverView(PerOverView overView) {
-        if (overView != null) removeView(overView);
-        this.overView = overView;
+    public void setRefreshOverView(PerOverView perOverView) {
+        if (this.overView != null) removeView(overView);
+        this.overView = perOverView;
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         addView(overView, 0, params);
     }
@@ -79,7 +79,7 @@ public class PerRefreshLayout extends FrameLayout implements PerRefresh {
                 child.layout(0, childTop, right, childTop + child.getMeasuredHeight());
             }
             View other;
-            for (int i = 2; i < getChildCount(); i++) {
+            for (int i = 2; i < getChildCount(); ++i) {
                 other = getChildAt(i);
                 other.layout(0, top, right, bottom);
             }
@@ -95,15 +95,15 @@ public class PerRefreshLayout extends FrameLayout implements PerRefresh {
         @Override
         public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float scrollX, float scrollY) {
 
-            if (Math.abs(scrollX) > Math.abs(scrollY) || listener != null && listener.enableRefresh())
+            if (Math.abs(scrollX) > Math.abs(scrollY) || listener != null && !listener.enableRefresh())
                 return false;
             if (disableRefreshScroll && state == PerOverView.PerRefreshState.STATE_REFRESH)
                 return true;
             View header = getChildAt(0);
             View child = PerScrollUtil.findScrollableChild(PerRefreshLayout.this);
             if (PerScrollUtil.childScrolled(child)) return false;
-            if ((state != PerOverView.PerRefreshState.STATE_REFRESH || header.getBottom() < overView.pullRefreshHeight) && (header.getBottom() > 0 || scrollX <= scrollY)) {
-                if (state == PerOverView.PerRefreshState.STATE_OVER_RELEASE) {
+            if ((state != PerOverView.PerRefreshState.STATE_REFRESH || header.getBottom() <= overView.pullRefreshHeight) && (header.getBottom() > 0 || scrollY <= 0.0f)) {
+                if (state != PerOverView.PerRefreshState.STATE_OVER_RELEASE) {
                     int speed;
                     if (child.getTop() < overView.pullRefreshHeight) {
                         speed = (int) (lastY / overView.minDamp);
@@ -171,6 +171,7 @@ public class PerRefreshLayout extends FrameLayout implements PerRefresh {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (!scroller.isFinished()) return false;
         View header = getChildAt(0);
         if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL || ev.getAction() == MotionEvent.ACTION_POINTER_INDEX_MASK) {
             if (header.getBottom() > 0) {

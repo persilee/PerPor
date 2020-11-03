@@ -4,7 +4,7 @@ public interface PerRefresh {
     void refreshFinished();
     void setDisableRefreshScroll(boolean disableRefreshScroll);
     void setRefreshListener(PerRefreshListener refreshListener);
-    void setRefreshOverView(PerOverView overView);
+    void setRefreshOverView(PerOverView perOverView);
     interface PerRefreshListener {
         void onRefresh();
         boolean enableRefresh();

@@ -32,7 +32,6 @@ public class PerScrollUtil {
             RecyclerView recyclerView = (RecyclerView) child;
             View view = recyclerView.getChildAt(0);
             int firstPosition = recyclerView.getChildAdapterPosition(view);
-            PerLog.d("----:top", view.getTop() + "");
             return firstPosition != 0 || view.getTop() != 0;
         }
         return false;

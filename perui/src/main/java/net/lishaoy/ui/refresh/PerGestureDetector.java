@@ -20,7 +20,7 @@ public class PerGestureDetector implements GestureDetector.OnGestureListener {
     }
 
     @Override
-    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float scrollX, float scrollY) {
         return false;
     }
 
