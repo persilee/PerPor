@@ -28,6 +28,7 @@ class PerTopLayoutActivity : PerBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_per_top_layout)
+        supportActionBar?.hide()
         var infoList: MutableList<PerTabTopInfo<*>> = ArrayList()
         var defaultColor = getColor(R.color.tabDefaultColor)
         var tintColor = getColor(R.color.tabTintColor)

@@ -1,6 +1,7 @@
 package net.lishaoy.ui.tab.top;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+
+import net.lishaoy.library.util.PerDisplayUtil;
 import net.lishaoy.ui.tab.common.IPerTabLayout;
 
 import java.util.ArrayList;
@@ -90,6 +93,56 @@ public class PerTabTopLayout extends HorizontalScrollView implements IPerTabLayo
             listener.onTabSelectedChange(infoList.indexOf(info), selectedInfo, info);
         }
         this.selectedInfo = info;
+        autoScroll(info);
+    }
+
+    int tabWidth;
+
+    private void autoScroll(PerTabTopInfo<?> info) {
+        PerTabTop tabTop = findTab(info);
+        if (tabTop == null) return;
+        int index = infoList.indexOf(info);
+        int[] loc = new int[2];
+        int scrollWidth;
+        tabTop.getLocationInWindow(loc);
+        if (tabWidth == 0) tabWidth = tabTop.getWidth();
+        if ((loc[0] + tabWidth / 2) > PerDisplayUtil.getDisplayWidthInPx(getContext()) / 2) {
+            scrollWidth = rangeScrollWidth(index, 2);
+        } else {
+            scrollWidth = rangeScrollWidth(index, -2);
+        }
+        scrollTo(getScrollX() + scrollWidth, 0);
+    }
+
+    private int rangeScrollWidth(int index, int range) {
+        int scrollWidth = 0;
+        for (int i = 0; i < Math.abs(range); i++) {
+            int next;
+            if (range < 0) next = range + i + index;
+            else next = range - i + index;
+            if (next >= 0 && next < infoList.size()) {
+                if (range < 0)
+                    scrollWidth -= scrollWidth(next, false);
+                else
+                    scrollWidth += scrollWidth(next, true);
+            }
+        }
+        return scrollWidth;
+    }
+
+    private int scrollWidth(int index, boolean toRight) {
+        PerTabTop tabTop = findTab(infoList.get(index));
+        if (tabTop == null) return 0;
+        Rect rect = new Rect();
+        tabTop.getLocalVisibleRect(rect);
+        if (toRight) {
+            if (rect.right > tabWidth) return tabWidth;
+            else return tabWidth - rect.right;
+        } else {
+            if (rect.left <= -tabWidth) return tabWidth;
+            else if (rect.left > 0) return rect.left;
+            else return 0;
+        }
     }
 
     private LinearLayout getRootLayout(boolean clear) {

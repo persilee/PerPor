@@ -11,8 +11,7 @@
         android:id="@+id/btn_tab_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="tab top"
-        android:onClick="onClick"
+        android:text="tab top demo"
         style="@style/Widget.MaterialComponents.Button.TextButton" />
 
 </LinearLayout>
