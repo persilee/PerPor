@@ -3,6 +3,7 @@ package net.lishaoy.ui.tab.top;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -104,8 +105,9 @@ public class PerTabTopLayout extends HorizontalScrollView implements IPerTabLayo
         int index = infoList.indexOf(info);
         int[] loc = new int[2];
         int scrollWidth;
-        tabTop.getLocationInWindow(loc);
+        tabTop.getLocationInWindow(loc); //获取一个控件在其父窗口中的坐标位置
         if (tabWidth == 0) tabWidth = tabTop.getWidth();
+        //判断 TabTop 是否在屏幕的右边（loc[0]：获取横坐标的位置）
         if ((loc[0] + tabWidth / 2) > PerDisplayUtil.getDisplayWidthInPx(getContext()) / 2) {
             scrollWidth = rangeScrollWidth(index, 2);
         } else {
@@ -135,6 +137,7 @@ public class PerTabTopLayout extends HorizontalScrollView implements IPerTabLayo
         if (tabTop == null) return 0;
         Rect rect = new Rect();
         tabTop.getLocalVisibleRect(rect);
+        Log.d("TabTop", "scrollWidth: " + rect);
         if (toRight) {
             if (rect.right > tabWidth) return tabWidth;
             else return tabWidth - rect.right;

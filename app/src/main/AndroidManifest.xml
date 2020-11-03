@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".demo.PerTopLayoutActivity"></activity>
+        <activity android:name=".demo.PerRefreshDemoActivity"></activity>
+        <activity android:name=".demo.PerTopLayoutActivity" />
         <activity android:name=".demo.PerBottmLayoutDemoActivity" />
         <activity android:name=".demo.PerLogDemoActivity" />
         <activity android:name=".MainActivity">

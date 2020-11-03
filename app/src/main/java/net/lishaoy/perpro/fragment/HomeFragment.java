@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import net.lishaoy.common.ui.PerBaseFragment;
 import net.lishaoy.perpro.R;
+import net.lishaoy.perpro.demo.PerRefreshDemoActivity;
 import net.lishaoy.perpro.demo.PerTopLayoutActivity;
 
 public class HomeFragment extends PerBaseFragment {
@@ -25,6 +26,13 @@ public class HomeFragment extends PerBaseFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), PerTopLayoutActivity.class));
+            }
+        });
+
+        view.findViewById(R.id.btn_refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), PerRefreshDemoActivity.class));
             }
         });
     }
