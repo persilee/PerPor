@@ -1,6 +1,7 @@
 package net.lishaoy.perpro.logic;
 
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.IdRes;
@@ -30,6 +31,8 @@ public class MainActivityLogic {
     private PerTabBottomLayout tabBottomLayout;
     private List<PerTabBottomInfo<?>> infoList;
     private ActivityProvider activityProvider;
+    private int currentItemIndex;
+    private final static String SAVED_CURRENT_ID = "SAVED_CURRENT_ID";
 
     public PerFragmentTabView getFragmentTabView() {
         return fragmentTabView;
@@ -47,7 +50,7 @@ public class MainActivityLogic {
         return activityProvider;
     }
 
-    private int currentItemIndex;
+
 
     public interface ActivityProvider {
         <T extends View> T findViewById(@IdRes int id);
@@ -59,8 +62,13 @@ public class MainActivityLogic {
         String getString(@StringRes int resId);
     }
 
-    public MainActivityLogic(ActivityProvider activityProvider) {
+    public void onSaveInstanceState(@NonNull Bundle outState){
+        outState.putInt(SAVED_CURRENT_ID, currentItemIndex);
+    }
+
+    public MainActivityLogic(ActivityProvider activityProvider, Bundle savedInstanceState) {
         this.activityProvider = activityProvider;
+        if (savedInstanceState != null) currentItemIndex = savedInstanceState.getInt(SAVED_CURRENT_ID);
         initTabBottom();
     }
 
@@ -124,9 +132,10 @@ public class MainActivityLogic {
             @Override
             public void onTabSelectedChange(int index, @Nullable PerTabBottomInfo<?> prevInfo, @NonNull PerTabBottomInfo<?> nextInfo) {
                 fragmentTabView.setCurrentItem(index);
+                MainActivityLogic.this.currentItemIndex = index;
             }
         });
-        tabBottomLayout.defaultSelected(infoHome);
+        tabBottomLayout.defaultSelected(infoList.get(currentItemIndex));
     }
 
     private void initFragmentTabView() {
