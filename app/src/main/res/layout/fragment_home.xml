@@ -7,10 +7,12 @@
     android:gravity="center"
     tools:ignore="MissingDefaultResource">
 
-    <TextView
+    <Button
+        android:id="@+id/btn_tab_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="home page"
-        android:textSize="26dp"/>
+        android:text="tab top"
+        android:onClick="onClick"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
 
 </LinearLayout>
