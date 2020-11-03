@@ -1,4 +1,4 @@
-package net.lishaoy.ui.tab.bottom;
+package net.lishaoy.ui.tab.top;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -19,14 +19,14 @@ import androidx.annotation.Nullable;
 import net.lishaoy.ui.R;
 import net.lishaoy.ui.tab.common.IPerTab;
 
-public class PerTabBottom extends RelativeLayout implements IPerTab<PerTabBottomInfo<?>> {
+public class PerTabTop extends RelativeLayout implements IPerTab<PerTabTopInfo<?>> {
 
-    private PerTabBottomInfo<?> tabInfo;
+    private PerTabTopInfo<?> tabInfo;
     private ImageView tabImageView;
-    private TextView tabIcon;
     private TextView tabName;
+    private View indicator;
 
-    public PerTabBottomInfo<?> getTabInfo() {
+    public PerTabTopInfo<?> getTabInfo() {
         return tabInfo;
     }
 
@@ -34,69 +34,58 @@ public class PerTabBottom extends RelativeLayout implements IPerTab<PerTabBottom
         return tabImageView;
     }
 
-    public TextView getTabIcon() {
-        return tabIcon;
-    }
-
     public TextView getTabName() {
         return tabName;
     }
 
-    public PerTabBottom(Context context) {
+    public PerTabTop(Context context) {
         this(context, null);
         init();
     }
 
-    public PerTabBottom(Context context, AttributeSet attrs) {
+    public PerTabTop(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         init();
     }
 
-    public PerTabBottom(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PerTabTop(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     private void init() {
-        LayoutInflater.from(getContext()).inflate(R.layout.per_tab_bottom, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.per_tab_top, this);
         tabImageView = findViewById(R.id.iv_image);
-        tabIcon = findViewById(R.id.tv_icon);
         tabName = findViewById(R.id.tv_name);
+        indicator = findViewById(R.id.tab_top_indicator);
     }
 
     @Override
-    public void setPerTabInfo(@NonNull PerTabBottomInfo<?> data) {
+    public void setPerTabInfo(@NonNull PerTabTopInfo<?> data) {
         this.tabInfo = data;
         inflateInfo(false, true);
     }
 
     private void inflateInfo(boolean selected, boolean init) {
-        if (tabInfo.tabType == PerTabBottomInfo.TabType.ICON) {
+        if (tabInfo.tabType == PerTabTopInfo.TabType.TEXT) {
             if (init) {
                 tabImageView.setVisibility(GONE);
-                tabIcon.setVisibility(VISIBLE);
-                Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), tabInfo.iconFont);
-                tabIcon.setTypeface(typeface);
+                tabName.setVisibility(VISIBLE);
                 if (!TextUtils.isEmpty(tabInfo.name)) {
                     tabName.setText(tabInfo.name);
                 }
             }
             if (selected) {
-                tabIcon.setText(TextUtils.isEmpty(tabInfo.selectedIconName) ? tabInfo.defaultIconName : tabInfo.selectedIconName);
-                tabIcon.setTextColor(getTextColor(tabInfo.tintColor));
                 tabName.setTextColor(getTextColor(tabInfo.tintColor));
+                indicator.setVisibility(VISIBLE);
             } else {
-                tabIcon.setText(tabInfo.defaultIconName);
-                tabIcon.setTextColor(getTextColor(tabInfo.defaultColor));
                 tabName.setTextColor(getTextColor(tabInfo.defaultColor));
+                indicator.setVisibility(GONE);
             }
-        } else if (tabInfo.tabType == PerTabBottomInfo.TabType.BITMAP) {
+        } else if (tabInfo.tabType == PerTabTopInfo.TabType.BITMAP) {
             if (init) {
                 tabImageView.setVisibility(VISIBLE);
-                tabIcon.setVisibility(GONE);
-                if (!TextUtils.isEmpty(tabInfo.name)) {
-                    tabName.setText(tabInfo.name);
-                }
+                tabName.setVisibility(GONE);
             }
             if (selected) {
                 tabImageView.setImageBitmap(tabInfo.selectedBitmap);
@@ -115,7 +104,7 @@ public class PerTabBottom extends RelativeLayout implements IPerTab<PerTabBottom
     }
 
     @Override
-    public void onTabSelectedChange(int index, @Nullable PerTabBottomInfo<?> prevInfo, @NonNull PerTabBottomInfo<?> nextInfo) {
+    public void onTabSelectedChange(int index, @Nullable PerTabTopInfo<?> prevInfo, @NonNull PerTabTopInfo<?> nextInfo) {
         if (prevInfo != tabInfo && nextInfo != tabInfo || prevInfo == nextInfo) return;
         if (prevInfo == tabInfo)
             inflateInfo(false, false);

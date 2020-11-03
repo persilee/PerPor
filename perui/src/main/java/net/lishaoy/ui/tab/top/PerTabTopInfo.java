@@ -1,40 +1,34 @@
-package net.lishaoy.ui.tab.bottom;
+package net.lishaoy.ui.tab.top;
 
 import android.graphics.Bitmap;
 
 import androidx.fragment.app.Fragment;
 
-public class PerTabBottomInfo<Color> {
+public class PerTabTopInfo<Color> {
 
     public enum TabType {
-        BITMAP, ICON
+        BITMAP, TEXT
     }
 
     public Class<? extends Fragment> fragment;
     public String name;
     public Bitmap defaultBitmap;
     public Bitmap selectedBitmap;
-    public String iconFont;
-    public String defaultIconName;
-    public String selectedIconName;
     public Color defaultColor;
     public Color tintColor;
     public TabType tabType;
 
-    public PerTabBottomInfo(String name, Bitmap defaultBitmap, Bitmap selectedBitmap) {
+    public PerTabTopInfo(String name, Bitmap defaultBitmap, Bitmap selectedBitmap) {
         this.name = name;
         this.defaultBitmap = defaultBitmap;
         this.selectedBitmap = selectedBitmap;
         this.tabType = TabType.BITMAP;
     }
 
-    public PerTabBottomInfo(String name, String iconFont, String defaultIconName, String selectedIconName, Color defaultColor, Color tintColor) {
+    public PerTabTopInfo(String name, Color defaultColor, Color tintColor) {
         this.name = name;
-        this.iconFont = iconFont;
-        this.defaultIconName = defaultIconName;
-        this.selectedIconName = selectedIconName;
         this.defaultColor = defaultColor;
         this.tintColor = tintColor;
-        this.tabType = TabType.ICON;
+        this.tabType = TabType.TEXT;
     }
 }

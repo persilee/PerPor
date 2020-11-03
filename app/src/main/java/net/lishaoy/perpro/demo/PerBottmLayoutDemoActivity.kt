@@ -1,6 +1,5 @@
 package net.lishaoy.perpro.demo
 
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
