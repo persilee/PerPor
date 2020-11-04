@@ -24,23 +24,30 @@ class PerRefreshDemoActivity : AppCompatActivity() {
         var header = PerTextOverView(this)
         var lottie = PerLottieOverView(this)
         refresh_layout.setRefreshOverView(lottie)
-        refresh_layout.setRefreshListener(object : PerRefresh.PerRefreshListener{
+        refresh_layout.setRefreshListener(object : PerRefresh.PerRefreshListener {
             override fun enableRefresh(): Boolean {
                 return true
             }
 
             override fun onRefresh() {
-                Handler(Looper.getMainLooper()).postDelayed({ refresh_layout.refreshFinished() }, 1000)
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { refresh_layout.refreshFinished() },
+                    1000
+                )
             }
 
         })
         refresh_layout.setDisableRefreshScroll(false)
-        var data = arrayOf("HiRefresh", "HiRefresh", "HiRefresh", "HiRefresh", "HiRefresh", "HiRefresh", "HiRefresh")
+        var data = arrayListOf<String>()
+        for (index in 1..16) {
+            data.add("item$index")
+        }
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = MyAdapter(data)
     }
 
-    class MyAdapter(private val data: Array<String>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+    class MyAdapter(private val data: ArrayList<String>) :
+        RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
 
         class MyViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -52,7 +59,8 @@ class PerRefreshDemoActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            var view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
+            var view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
             return MyViewHolder(view)
         }
 
