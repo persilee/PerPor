@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_per_refresh_demo.*
 import net.lishaoy.perpro.R
+import net.lishaoy.ui.refresh.PerLottieOverView
 import net.lishaoy.ui.refresh.PerRefresh
 import net.lishaoy.ui.refresh.PerTextOverView
 
@@ -21,7 +22,8 @@ class PerRefreshDemoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_per_refresh_demo)
         supportActionBar?.hide()
         var header = PerTextOverView(this)
-        refresh_layout.setRefreshOverView(header)
+        var lottie = PerLottieOverView(this)
+        refresh_layout.setRefreshOverView(lottie)
         refresh_layout.setRefreshListener(object : PerRefresh.PerRefreshListener{
             override fun enableRefresh(): Boolean {
                 return true
