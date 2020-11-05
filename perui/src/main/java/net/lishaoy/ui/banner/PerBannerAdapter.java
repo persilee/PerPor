@@ -32,6 +32,8 @@ public class PerBannerAdapter extends PagerAdapter {
         notifyDataSetChanged();
     }
 
+
+
     public void setBindAdapter(IBindAdapter bindAdapter) {
         this.bindAdapter = bindAdapter;
     }
