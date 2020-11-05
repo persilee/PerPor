@@ -1,7 +1,7 @@
 package net.lishaoy.ui.banner;
 
-public interface IBindAdapter {
+public interface IBindAdapter<M extends PerBannerMo> {
 
-    void onBind(PerBannerAdapter.PerBannerViewHolder viewHolder, PerBannerMo bannerMo, int position);
+     void onBind(PerBannerAdapter.PerBannerViewHolder viewHolder, M bannerMo, int position);
 
 }

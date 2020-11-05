@@ -37,7 +37,7 @@ public class PerBanner extends FrameLayout implements IPerBanner {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PerBanner);
         boolean autoPlay = typedArray.getBoolean(R.styleable.PerBanner_autoPlay, true);
-        boolean loop = typedArray.getBoolean(R.styleable.PerBanner_loop, true);
+        boolean loop = typedArray.getBoolean(R.styleable.PerBanner_loop, false);
         int intervalTime = typedArray.getInteger(R.styleable.PerBanner_intervalTime, -1);
         setAutoPlay(autoPlay);
         setLoop(loop);

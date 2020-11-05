@@ -25,6 +25,7 @@ public class PerBannerDelegate implements IPerBanner, ViewPager.OnPageChangeList
     private int intervalTime = 3600;
     private OnBannerClickListener bannerClickListener;
     private PerViewPager viewPager;
+    private int scrollDuration = -1;
 
     public PerBannerDelegate(Context context, PerBanner banner) {
         this.context = context;
@@ -81,7 +82,8 @@ public class PerBannerDelegate implements IPerBanner, ViewPager.OnPageChangeList
 
     @Override
     public void setScrollDuration(int duration) {
-
+        this.scrollDuration = duration;
+        if (viewPager != null && duration > 0) viewPager.setScrollDuration(duration);
     }
 
     private void init(int layoutResId) {
@@ -98,6 +100,7 @@ public class PerBannerDelegate implements IPerBanner, ViewPager.OnPageChangeList
         viewPager.addOnPageChangeListener(this);
         viewPager.setAutoPlay(autoPlay);
         viewPager.setAdapter(adapter);
+        if (scrollDuration > 0) viewPager.setScrollDuration(scrollDuration);
         if ((loop || autoPlay) && adapter.getRealCount() != 0) {
             int firstItem = adapter.getFirstItem();
             viewPager.setCurrentItem(firstItem, false);

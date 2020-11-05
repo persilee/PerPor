@@ -38,6 +38,16 @@ public class PerViewPager extends ViewPager {
         this.intervalTime = intervalTime;
     }
 
+    public void setScrollDuration(int duration) {
+        try {
+            Field scrollerField = ViewPager.class.getDeclaredField("mScroller");
+            scrollerField.setAccessible(true);
+            scrollerField.set(this, new PerBannerScroller(getContext(), duration));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setAutoPlay(boolean autoPlay) {
         this.autoPlay = autoPlay;
         if (!autoPlay) handler.removeCallbacks(runnable);
@@ -51,9 +61,8 @@ public class PerViewPager extends ViewPager {
     public boolean onTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_UP:
-                start();
-                break;
             case MotionEvent.ACTION_CANCEL:
+                start();
                 break;
             default:
                 stop();
@@ -73,8 +82,8 @@ public class PerViewPager extends ViewPager {
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-            start();
         }
+        start();
     }
 
     @Override

@@ -30,8 +30,8 @@ public interface IPerBanner {
 
     void setScrollDuration(int duration);
 
-    interface OnBannerClickListener {
-        void onBannerClick(@NonNull PerBannerAdapter.PerBannerViewHolder viewHolder, @NonNull PerBannerMo bannerMo, int position);
+    interface OnBannerClickListener<M extends PerBannerMo> {
+       <M> void onBannerClick(@NonNull PerBannerAdapter.PerBannerViewHolder viewHolder, @NonNull M bannerMo, int position);
     }
 
 }

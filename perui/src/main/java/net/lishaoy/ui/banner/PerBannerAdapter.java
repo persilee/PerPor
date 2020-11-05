@@ -98,7 +98,7 @@ public class PerBannerAdapter extends PagerAdapter {
         return viewHolder.rootView;
     }
 
-    protected void onBind(@NonNull final PerBannerViewHolder viewHolder, @NonNull final PerBannerMo bannerMo, final int position) {
+    protected <M extends PerBannerMo> void onBind(@NonNull final PerBannerViewHolder viewHolder, @NonNull final M bannerMo, final int position) {
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
