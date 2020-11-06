@@ -27,7 +27,8 @@
             android:text="是否自动播放"
             android:textColor="@color/colorPrimary"
             android:textSize="18dp"
-            android:layout_marginTop="26dp" />
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"/>
 
         <Switch
             android:id="@+id/banner_switch"
@@ -52,7 +53,8 @@
             android:text="切换指示器"
             android:textColor="@color/colorPrimary"
             android:textSize="18dp"
-            android:layout_marginTop="26dp" />
+            android:layout_marginTop="26dp"
+            android:layout_marginLeft="10dp"/>
 
         <Switch
             android:id="@+id/switch_indicator"
