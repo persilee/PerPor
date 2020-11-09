@@ -51,7 +51,7 @@ object PerExecutor {
             }
 
             override fun afterExecute(r: Runnable?, t: Throwable?) {
-
+                PerLog.e("runnable priority is ${(r as PriorityRunnable).priority}")
             }
         }
     }
@@ -77,7 +77,7 @@ object PerExecutor {
         abstract fun onCompleted(t: T)
     }
 
-    class PriorityRunnable(private val priority: Int, private val runnable: Runnable) : Runnable,
+    class PriorityRunnable(val priority: Int, private val runnable: Runnable) : Runnable,
         Comparable<PriorityRunnable> {
         override fun run() {
             runnable.run()
