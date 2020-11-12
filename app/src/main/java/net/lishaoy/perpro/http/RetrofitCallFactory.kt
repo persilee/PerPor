@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.http.*
 import java.lang.IllegalStateException
 
-class RetrofitCallFactory(val baseUrl: String) : PerCall.Factory {
+class RetrofitCallFactory(private val baseUrl: String) : PerCall.Factory {
 
     private var perConvert: PerConvert
     private var apiService: ApiService

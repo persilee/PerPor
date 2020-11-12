@@ -45,7 +45,7 @@ public class HomeFragment extends PerBaseFragment {
             }
         });
 
-        view.findViewById(R.id.btn_banner).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btn_get_city).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), ApiTestActivity.class));
