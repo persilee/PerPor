@@ -16,7 +16,7 @@ class MethodParser(private val baseUrl: String, method: Method, args: Array<Any>
     private var replaceRelativeUrl: String? = null
     private lateinit var type: Type
     private var headers: MutableMap<String, String> = mutableMapOf()
-    private var parameters: MutableMap<String, Any> = mutableMapOf()
+    private var parameters: MutableMap<String, String> = mutableMapOf()
 
     companion object {
         fun parse(baseUrl: String, method: Method, args: Array<Any>): MethodParser {
@@ -59,7 +59,7 @@ class MethodParser(private val baseUrl: String, method: Method, args: Array<Any>
             if (annotation is Filed) {
                 val key = annotation.value
                 val value = args[index]
-                parameters[key] = value
+                parameters[key] = value.toString()
             } else if (annotation is Path) {
                 val replaceName = annotation.value
                 val replacement = value.toString()
