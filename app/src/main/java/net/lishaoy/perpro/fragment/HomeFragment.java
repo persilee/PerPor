@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import net.lishaoy.common.ui.PerBaseFragment;
 import net.lishaoy.perpro.R;
+import net.lishaoy.perpro.demo.ApiTestActivity;
 import net.lishaoy.perpro.demo.PerBannerDemoActivity;
 import net.lishaoy.perpro.demo.PerRefreshDemoActivity;
 import net.lishaoy.perpro.demo.PerTopLayoutActivity;
@@ -41,6 +42,13 @@ public class HomeFragment extends PerBaseFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), PerBannerDemoActivity.class));
+            }
+        });
+
+        view.findViewById(R.id.btn_banner).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), ApiTestActivity.class));
             }
         });
     }

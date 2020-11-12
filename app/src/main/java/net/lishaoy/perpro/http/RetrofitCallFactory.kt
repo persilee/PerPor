@@ -1,15 +1,13 @@
 package net.lishaoy.perpro.http
 
-import net.lishaoy.library.restful.PerCall
-import net.lishaoy.library.restful.PerCallback
-import net.lishaoy.library.restful.PerRequest
-import net.lishaoy.library.restful.PerResponse
+import net.lishaoy.library.restful.*
 import okhttp3.FormBody
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.*
@@ -17,6 +15,7 @@ import java.lang.IllegalStateException
 
 class RetrofitCallFactory(val baseUrl: String) : PerCall.Factory {
 
+    private var perConvert: PerConvert
     private var apiService: ApiService
 
     init {
@@ -25,6 +24,7 @@ class RetrofitCallFactory(val baseUrl: String) : PerCall.Factory {
             .build()
 
         apiService = retrofit.create(ApiService::class.java)
+        perConvert = GsonConvert()
     }
 
     override fun newCall(request: PerRequest): PerCall<Any> {
@@ -39,7 +39,7 @@ class RetrofitCallFactory(val baseUrl: String) : PerCall.Factory {
         }
 
         private fun parseResponse(response: Response<ResponseBody>?): PerResponse<T> {
-            var rawData: String
+            var rawData: String? = null
             if (response != null) {
                 if (response.isSuccessful){
                     val body = response.body()
@@ -52,8 +52,8 @@ class RetrofitCallFactory(val baseUrl: String) : PerCall.Factory {
                         rawData = body.string()
                     }
                 }
-
             }
+            return perConvert.convert(rawData!!, request.returnType!!)
         }
 
         private fun createRealCall(request: PerRequest): Call<ResponseBody> {
@@ -86,7 +86,21 @@ class RetrofitCallFactory(val baseUrl: String) : PerCall.Factory {
         }
 
         override fun enqueue(callback: PerCallback<T>) {
-            TODO("Not yet implemented")
+            val createRealCall = createRealCall(request)
+            createRealCall.enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    callback.onFailed(throwable = t)
+                }
+
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    val response = parseResponse(response)
+                    callback.onSuccess(response)
+                }
+
+            })
         }
 
     }

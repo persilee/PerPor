@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".demo.PerBannerDemoActivity"></activity>
+        <activity android:name=".demo.ApiTestActivity"></activity>
+        <activity android:name=".demo.PerBannerDemoActivity" />
         <activity android:name=".demo.PerRefreshDemoActivity" />
         <activity android:name=".demo.PerTopLayoutActivity" />
         <activity android:name=".demo.PerBottmLayoutDemoActivity" />

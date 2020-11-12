@@ -38,4 +38,11 @@ open class PerRequest {
         return domainUrl!!.substring(0, indexOf) + relativeUrl
     }
 
+    fun addHeader(name: String, value: String) {
+        if (headers == null) {
+            headers = mutableMapOf()
+        }
+        headers!![name] = value
+    }
+
 }

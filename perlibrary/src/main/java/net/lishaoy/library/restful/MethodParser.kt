@@ -9,7 +9,7 @@ import java.lang.reflect.Type
 
 class MethodParser(private val baseUrl: String, method: Method, args: Array<Any>) {
 
-    private lateinit var domainUrl: String
+    private var domainUrl: String? = null
     private var formPost: Boolean = true
     private var httpMethod: Int = 0
     private lateinit var relativeUrl: String
