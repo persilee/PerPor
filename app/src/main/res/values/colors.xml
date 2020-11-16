@@ -5,4 +5,6 @@
     <color name="colorAccent">#D81B60</color>
     <color name="tabDefaultColor">#ff656667</color>
     <color name="tabTintColor">#ffd44949</color>
+    <color name="color_C1B">#C1BEBE</color>
+    <color name="color_background">#f3f4f5</color>
 </resources>
