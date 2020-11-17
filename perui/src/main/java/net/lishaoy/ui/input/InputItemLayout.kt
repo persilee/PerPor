@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.ColorDrawable
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.InputFilter
@@ -16,10 +17,12 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.ui.R
 
 open class InputItemLayout : LinearLayout {
 
+    private lateinit var editText: EditText
     private lateinit var titleView: TextView
     private var topLine: InputItemLayout.Line
     private var bottomLine: InputItemLayout.Line
@@ -32,7 +35,10 @@ open class InputItemLayout : LinearLayout {
         defStyleAttr
     ) {
 
-        orientation = LinearLayout.HORIZONTAL
+        dividerDrawable = ColorDrawable()
+        showDividers = SHOW_DIVIDER_BEGINNING
+
+        orientation = HORIZONTAL
         val array =
             context.obtainStyledAttributes(attributeSet, R.styleable.InputItemLayout)
         val titleStyleId = array.getResourceId(R.styleable.InputItemLayout_titleTextAppearance, 0)
@@ -68,7 +74,10 @@ open class InputItemLayout : LinearLayout {
         val line = Line()
         val array = context.obtainStyledAttributes(lineStyleId, R.styleable.lineAppearance)
         line.color =
-            array.getColor(R.styleable.lineAppearance_color, ContextCompat.getColor(context, R.color.color_d1d2))
+            array.getColor(
+                R.styleable.lineAppearance_color,
+                ContextCompat.getColor(context, R.color.color_d1d2)
+            )
         line.height = array.getDimensionPixelOffset(R.styleable.lineAppearance_height, 0).toFloat()
         line.leftMargin =
             array.getDimensionPixelOffset(R.styleable.lineAppearance_leftMargin, 0).toFloat()
@@ -100,10 +109,10 @@ open class InputItemLayout : LinearLayout {
         )
         val textSize = array.getDimensionPixelSize(
             R.styleable.inputTextAppearance_textSize,
-            applyUnit(TypedValue.COMPLEX_UNIT_SP, 14.0f)
+            PerDisplayUtil.sp2px(14.0f)
         )
         val maxInputLength = array.getInteger(R.styleable.inputTextAppearance_maxInputLength, 0)
-        val editText = EditText(context)
+        editText = EditText(context)
         if (maxInputLength > 0) {
             editText.filters = arrayOf(InputFilter.LengthFilter(maxInputLength))
         }
@@ -122,7 +131,8 @@ open class InputItemLayout : LinearLayout {
                 editText.inputType = InputType.TYPE_CLASS_TEXT
             }
             1 -> {
-                editText.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or (InputType.TYPE_CLASS_TEXT)
+                editText.inputType =
+                    InputType.TYPE_TEXT_VARIATION_PASSWORD or (InputType.TYPE_CLASS_TEXT)
             }
             2 -> {
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
@@ -142,7 +152,7 @@ open class InputItemLayout : LinearLayout {
 
         val titleSize = array.getDimensionPixelSize(
             R.styleable.titleTextAppearance_titleSize,
-            applyUnit(TypedValue.COMPLEX_UNIT_SP, 15f)
+            PerDisplayUtil.sp2px(15f)
         )
 
         val minWidth = array.getDimensionPixelOffset(R.styleable.titleTextAppearance_minWidth, 0)
@@ -188,8 +198,12 @@ open class InputItemLayout : LinearLayout {
 
     }
 
-    private fun applyUnit(unit: Int, value: Float): Int {
-        return TypedValue.applyDimension(unit, value, resources.displayMetrics).toInt()
+    fun getTitleView(): TextView {
+        return titleView
+    }
+
+    fun getEditText(): EditText {
+        return editText
     }
 
 }

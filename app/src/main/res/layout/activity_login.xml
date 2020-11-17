@@ -55,7 +55,7 @@
     <net.lishaoy.ui.input.InputItemLayout
         android:id="@+id/input_item_username"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp_50"
         app:titleTextAppearance="@style/titleTextAppearance"
         app:inputTextAppearance="@style/inputTextAppearance"
         app:topLineAppearance="@style/lineAppearance"
@@ -69,13 +69,14 @@
     <net.lishaoy.ui.input.InputItemLayout
         android:id="@+id/input_item_password"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/dp_50"
         app:titleTextAppearance="@style/titleTextAppearance"
         app:inputTextAppearance="@style/inputTextAppearance"
         app:bottomLineAppearance="@style/lineAppearance"
         app:title="@string/input_item_password"
         app:hint="@string/input_item_hint_password"
         android:paddingLeft="@dimen/dp_16"
+        app:inputType="password"
         android:background="@color/color_white"/>
 
     <com.google.android.material.button.MaterialButton

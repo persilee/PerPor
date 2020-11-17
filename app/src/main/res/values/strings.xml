@@ -16,4 +16,6 @@
     <string name="input_item_password">密码</string>
     <string name="input_item_hint_password">请输入密码</string>
     <string name="login_tip_text">提示：如果忘记了密码，请重新注册</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_fail">登录失败:</string>
 </resources>
