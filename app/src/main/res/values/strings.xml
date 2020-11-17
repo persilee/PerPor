@@ -11,6 +11,11 @@
     <string name="if_back_soild">&#xe680;</string>
     <string name="if_unexpected">&#xe606;</string>
     <string name="if_unexpected1">&#xe692;</string>
+    <string name="item_collection">&#xe604;   我的收藏</string>
+    <string name="item_notify">&#xe654;  课程通知</string>
+    <string name="item_history">&#xe606;   浏览历史</string>
+    <string name="item_playground">&#xe640;   playground</string>
+    <string name="item_address">&#xe603;   收货地址</string>
     <string name="title_login">登录</string>
     <string name="btn_register">注册</string>
     <string name="input_item_user_name">用户名</string>

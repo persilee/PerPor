@@ -3,14 +3,183 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center"
+    android:paddingHorizontal="@dimen/dp_16"
+    android:background="@color/color_white"
     tools:ignore="MissingDefaultResource">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_70"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_20">
+
+        <ImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:ellipsize="end"
+            android:maxLength="10"
+            android:singleLine="true"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/color_000"
+            tools:text="用户头像"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/user_avatar" />
+
+        <TextView
+            android:id="@+id/login_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_999"
+            android:textSize="@dimen/sp_16"
+            android:layout_toRightOf="@id/user_avatar"
+            android:layout_below="@id/user_name"
+            tools:text="请先登录"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="profile page"
-        android:textSize="26dp"/>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/dp_25">
+
+        <TextView
+            android:id="@+id/item_collection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_333"
+            tools:text="36\n收藏"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/item_history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_333"
+            tools:text="66\n历史浏览"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/item_learn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_333"
+            tools:text="86\n学习时长"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <net.lishaoy.ui.banner.PerBanner
+        android:id="@+id/profile_banner"
+        android:layout_width="match_parent"
+        android:layout_height="126dp"
+        android:layout_marginBottom="@dimen/dp_25"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:loop="true"
+        app:autoPlay="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <net.lishaoy.ui.iconfont.IconFontTextView
+            android:id="@+id/notify_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_444"
+            tools:text="@string/item_notify"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/notify_count"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:background="@drawable/bg_red_circle"
+            android:textSize="@dimen/sp_10"
+            android:textColor="@color/color_white"
+            android:gravity="center"
+            tools:text="6"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_eee"/>
+
+    <net.lishaoy.ui.iconfont.IconFontTextView
+        android:id="@+id/collection"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_444"
+        tools:text="@string/item_collection"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_eee"/>
+
+    <net.lishaoy.ui.iconfont.IconFontTextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_444"
+        tools:text="@string/item_address"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_eee"/>
+
+    <net.lishaoy.ui.iconfont.IconFontTextView
+        android:id="@+id/history"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_444"
+        tools:text="@string/item_history"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_eee"/>
+
 
 </LinearLayout>
