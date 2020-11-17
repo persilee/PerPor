@@ -38,19 +38,17 @@ class RetrofitCallFactory(private val baseUrl: String) : PerCall.Factory {
             return parseResponse(response)
         }
 
-        private fun parseResponse(response: Response<ResponseBody>?): PerResponse<T> {
+        private fun parseResponse(response: Response<ResponseBody>): PerResponse<T> {
             var rawData: String? = null
-            if (response != null) {
-                if (response.isSuccessful){
-                    val body = response.body()
-                    if (body != null) {
-                        rawData = body.string()
-                    }
-                } else {
-                    val body = response.body()
-                    if (body != null) {
-                        rawData = body.string()
-                    }
+            if (response.isSuccessful){
+                val body = response.body()
+                if (body != null) {
+                    rawData = body.string()
+                }
+            } else {
+                val body = response.errorBody()
+                if (body != null) {
+                    rawData = body.string()
                 }
             }
             return perConvert.convert(rawData!!, request.returnType!!)

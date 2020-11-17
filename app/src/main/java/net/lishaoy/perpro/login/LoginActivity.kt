@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.EditText
 import androidx.core.view.get
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.activity_login.*
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.restful.PerCallback
@@ -16,6 +18,7 @@ import net.lishaoy.perpro.R
 import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.AccountApi
 
+@Route(path = "/account/login")
 class LoginActivity : PerBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +71,8 @@ class LoginActivity : PerBaseActivity() {
     }
 
     private fun goRegistration() {
-        startActivity(Intent(this, RegistrationActivity::class.java))
+//        startActivity(Intent(this, RegistrationActivity::class.java))
+        ARouter.getInstance().build("/account/register").navigation()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

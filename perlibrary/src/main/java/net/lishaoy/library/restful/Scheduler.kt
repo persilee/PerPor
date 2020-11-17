@@ -21,11 +21,13 @@ class Scheduler(
         }
 
         private fun dispatchInterceptor(request: PerRequest, response: PerResponse<T>?) {
+            if (interceptors.size < 0) return
             InterceptorChain(request, response).dispatch()
         }
 
         override fun enqueue(callback: PerCallback<T>) {
             dispatchInterceptor(request, null)
+
             delegate.enqueue(object :PerCallback<T>{
                 override fun onSuccess(response: PerResponse<T>) {
                     dispatchInterceptor(request, response)

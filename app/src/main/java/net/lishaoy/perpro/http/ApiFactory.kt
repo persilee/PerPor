@@ -1,6 +1,7 @@
 package net.lishaoy.perpro.http
 
 import net.lishaoy.library.restful.PerRestful
+import net.lishaoy.perpro.http.api.HttpStatusInterceptor
 
 object ApiFactory {
     private val baseUrl = "https://api.devio.org/as/"
@@ -8,6 +9,7 @@ object ApiFactory {
 
     init {
         perRestful.addInterceptor(BizInterceptor())
+        perRestful.addInterceptor(HttpStatusInterceptor())
     }
 
     fun <T> create(service: Class<T>): T {

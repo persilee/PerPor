@@ -28,7 +28,7 @@ class GsonConvert : PerConvert {
                 if (response.code == PerResponse.SUCCESS) {
                     response.data = gson.fromJson(data.toString(), dataType)
                 } else {
-                    response.errorData == gson.fromJson<MutableMap<String, String>>(
+                    response.errorData = gson.fromJson<MutableMap<String, String>>(
                         data.toString(),
                         object : TypeToken<MutableMap<String, String>>() {}.type
                     )
