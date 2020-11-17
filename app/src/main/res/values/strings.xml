@@ -18,4 +18,9 @@
     <string name="login_tip_text">提示：如果忘记了密码，请重新注册</string>
     <string name="login_success">登录成功</string>
     <string name="login_fail">登录失败:</string>
+    <string name="register">注册</string>
+    <string name="input_item_order_id">课程订单号</string>
+    <string name="input_item_order_id_hint">请输入课程订单号后4位</string>
+    <string name="input_item_imooc_id">慕课网ID</string>
+    <string name="input_item_imooc_id_hint">请输入慕课网ID</string>
 </resources>

@@ -68,6 +68,14 @@ class LoginActivity : PerBaseActivity() {
     }
 
     private fun goRegistration() {
+        startActivity(Intent(this, RegistrationActivity::class.java))
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if ((resultCode == Activity.RESULT_OK) and (data != null)) {
+            val username = data!!.getStringExtra("username")
+            input_item_username.getEditText().setText(username)
+        }
     }
 }
