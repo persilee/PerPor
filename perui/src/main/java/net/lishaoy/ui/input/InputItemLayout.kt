@@ -1,4 +1,4 @@
-package net.lishaoy.common.ui.view
+package net.lishaoy.ui.input
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.InputFilter
 import android.text.InputType
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -14,7 +15,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import net.lishaoy.common.R
+import androidx.core.content.ContextCompat
+import net.lishaoy.ui.R
 
 open class InputItemLayout : LinearLayout {
 
@@ -49,15 +51,15 @@ open class InputItemLayout : LinearLayout {
         bottomLine = parseLineStyle(bottomLineStyleId)
 
         if (topLine.enable) {
-            topLine.color = topLine.color
+            topPaint.color = topLine.color
             topPaint.style = Paint.Style.FILL_AND_STROKE
-            topPaint.strokeWidth = topLine.height.toFloat()
+            topPaint.strokeWidth = topLine.height
         }
 
         if (bottomLine.enable) {
-            bottomLine.color = bottomLine.color
+            bottomPaint.color = bottomLine.color
             bottomPaint.style = Paint.Style.FILL_AND_STROKE
-            bottomPaint.strokeWidth = topLine.height.toFloat()
+            bottomPaint.strokeWidth = bottomLine.height
         }
         array.recycle()
     }
@@ -66,10 +68,12 @@ open class InputItemLayout : LinearLayout {
         val line = Line()
         val array = context.obtainStyledAttributes(lineStyleId, R.styleable.lineAppearance)
         line.color =
-            array.getColor(R.styleable.lineAppearance_color, resources.getColor(R.color.color_d1d2))
-        line.height = array.getDimensionPixelOffset(R.styleable.lineAppearance_height, 0)
-        line.leftMargin = array.getDimensionPixelOffset(R.styleable.lineAppearance_leftMargin, 0)
-        line.rightMargin = array.getDimensionPixelOffset(R.styleable.lineAppearance_rightMargin, 0)
+            array.getColor(R.styleable.lineAppearance_color, ContextCompat.getColor(context, R.color.color_d1d2))
+        line.height = array.getDimensionPixelOffset(R.styleable.lineAppearance_height, 0).toFloat()
+        line.leftMargin =
+            array.getDimensionPixelOffset(R.styleable.lineAppearance_leftMargin, 0).toFloat()
+        line.rightMargin =
+            array.getDimensionPixelOffset(R.styleable.lineAppearance_rightMargin, 0).toFloat()
         line.enable = array.getBoolean(R.styleable.lineAppearance_enable, false)
         array.recycle()
 
@@ -78,9 +82,9 @@ open class InputItemLayout : LinearLayout {
 
     inner class Line {
         var color = 0
-        var height = 0
-        var leftMargin = 0
-        var rightMargin = 0
+        var height = 0f
+        var leftMargin = 0f
+        var rightMargin = 0f
         var enable = false
     }
 
@@ -88,32 +92,41 @@ open class InputItemLayout : LinearLayout {
         val array = context.obtainStyledAttributes(inputStyleId, R.styleable.inputTextAppearance)
         val hintColor = array.getColor(
             R.styleable.inputTextAppearance_hintColor,
-            resources.getColor(R.color.color_d1d2)
+            ContextCompat.getColor(context, R.color.color_d1d2)
         )
         val textColor = array.getColor(
             R.styleable.inputTextAppearance_inputColor,
-            resources.getColor(R.color.color_565)
+            ContextCompat.getColor(context, R.color.color_565)
         )
         val textSize = array.getDimensionPixelSize(
             R.styleable.inputTextAppearance_textSize,
             applyUnit(TypedValue.COMPLEX_UNIT_SP, 14.0f)
         )
+        val maxInputLength = array.getInteger(R.styleable.inputTextAppearance_maxInputLength, 0)
         val editText = EditText(context)
+        if (maxInputLength > 0) {
+            editText.filters = arrayOf(InputFilter.LengthFilter(maxInputLength))
+        }
+        editText.setPadding(0, 0, 0, 0)
         val params = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
         params.weight = 1f
         editText.layoutParams = params
-        editText.textSize = textSize.toFloat()
         editText.hint = hint
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
         editText.setHintTextColor(hintColor)
         editText.setTextColor(textColor)
         editText.setBackgroundColor(Color.TRANSPARENT)
-        editText.gravity = Gravity.LEFT and Gravity.CENTER
-        if (inputType == 0) {
-            editText.inputType = InputType.TYPE_TEXT_VARIATION_NORMAL
-        } else if (inputType == 1) {
-            editText.inputType = InputType.TYPE_NUMBER_VARIATION_PASSWORD
-        } else if (inputType == 2) {
-            editText.inputType = InputType.TYPE_NUMBER_VARIATION_NORMAL
+        editText.gravity = Gravity.LEFT or Gravity.CENTER
+        when (inputType) {
+            0 -> {
+                editText.inputType = InputType.TYPE_CLASS_TEXT
+            }
+            1 -> {
+                editText.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD or (InputType.TYPE_CLASS_TEXT)
+            }
+            2 -> {
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
         }
         addView(editText)
         array.recycle()
@@ -124,7 +137,7 @@ open class InputItemLayout : LinearLayout {
         val array = context.obtainStyledAttributes(titleStyleId, R.styleable.titleTextAppearance)
         val titleColor = array.getColor(
             R.styleable.titleTextAppearance_titleColor,
-            resources.getColor(R.color.color_565)
+            ContextCompat.getColor(context, R.color.color_565)
         )
 
         val titleSize = array.getDimensionPixelSize(
@@ -135,7 +148,7 @@ open class InputItemLayout : LinearLayout {
         val minWidth = array.getDimensionPixelOffset(R.styleable.titleTextAppearance_minWidth, 0)
 
         titleView = TextView(context)
-        titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleSize.toFloat())  //sp---当做sp在转换一次
+        titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleSize.toFloat())
         titleView.setTextColor(titleColor)
         titleView.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
         titleView.minWidth = minWidth
@@ -155,9 +168,9 @@ open class InputItemLayout : LinearLayout {
 
         if (topLine.enable) {
             canvas!!.drawLine(
-                topLine.leftMargin.toFloat(),
+                topLine.leftMargin,
                 0f,
-                (measuredWidth - topLine.rightMargin).toFloat(),
+                measuredWidth - topLine.rightMargin,
                 0f,
                 topPaint
             )
@@ -165,10 +178,10 @@ open class InputItemLayout : LinearLayout {
 
         if (bottomLine.enable) {
             canvas!!.drawLine(
-                topLine.leftMargin.toFloat(),
-                (height - bottomLine.height).toFloat(),
-                (measuredWidth - topLine.rightMargin).toFloat(),
-                (height - bottomLine.height).toFloat(),
+                bottomLine.leftMargin,
+                height - bottomLine.height,
+                measuredWidth - bottomLine.rightMargin,
+                height - bottomLine.height,
                 bottomPaint
             )
         }

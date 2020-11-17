@@ -12,13 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45">
 
-        <net.lishaoy.common.ui.view.IconFontTextView
+        <net.lishaoy.ui.iconfont.IconFontTextView
             android:id="@+id/btn_back"
             android:layout_width="@dimen/dp_45"
             android:layout_height="@dimen/dp_45"
             android:gravity="center"
             android:text="@string/if_back"
             android:textSize="@dimen/sp_24"
+            android:textColor="@color/color_000"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"/>
 
@@ -42,8 +43,7 @@
             android:gravity="center"
             android:text="@string/btn_register"
             android:textColor="@color/color_298"
-            android:textSize="@dimen/sp_16"
-            android:paddingHorizontal="6dp"/>
+            android:textSize="@dimen/sp_16"/>
 
     </RelativeLayout>
 
@@ -52,7 +52,7 @@
         android:layout_height="1dp"
         android:background="@color/color_d1d2" />
 
-    <net.lishaoy.common.ui.view.InputItemLayout
+    <net.lishaoy.ui.input.InputItemLayout
         android:id="@+id/input_item_username"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -66,7 +66,7 @@
         android:layout_marginTop="@dimen/dp_10"
         android:background="@color/color_white"/>
 
-    <net.lishaoy.common.ui.view.InputItemLayout
+    <net.lishaoy.ui.input.InputItemLayout
         android:id="@+id/input_item_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -92,7 +92,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="提示：如果忘记了密码，请重新注册"
+        android:text="@string/login_tip_text"
         android:layout_marginHorizontal="@dimen/dp_10"
         android:textSize="@dimen/sp_14"
         android:layout_marginTop="@dimen/dp_6"

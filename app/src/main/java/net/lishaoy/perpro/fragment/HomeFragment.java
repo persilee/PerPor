@@ -13,6 +13,7 @@ import net.lishaoy.perpro.demo.ApiTestActivity;
 import net.lishaoy.perpro.demo.PerBannerDemoActivity;
 import net.lishaoy.perpro.demo.PerRefreshDemoActivity;
 import net.lishaoy.perpro.demo.PerTopLayoutActivity;
+import net.lishaoy.perpro.login.LoginActivity;
 
 public class HomeFragment extends PerBaseFragment {
 
@@ -49,6 +50,13 @@ public class HomeFragment extends PerBaseFragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getContext(), ApiTestActivity.class));
+            }
+        });
+
+        view.findViewById(R.id.btn_input_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
             }
         });
     }

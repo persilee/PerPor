@@ -8,10 +8,12 @@
     <string name="if_favorite">&#xe639;</string>
     <string name="if_favorite1">&#xe620;</string>
     <string name="if_back">&#xe607;</string>
+    <string name="if_back_soild">&#xe680;</string>
     <string name="title_login">登录</string>
     <string name="btn_register">注册</string>
     <string name="input_item_user_name">用户名</string>
     <string name="input_item_hint_username">请输入用户名</string>
     <string name="input_item_password">密码</string>
     <string name="input_item_hint_password">请输入密码</string>
+    <string name="login_tip_text">提示：如果忘记了密码，请重新注册</string>
 </resources>

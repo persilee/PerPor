@@ -1,4 +1,4 @@
-package net.lishaoy.common.ui.view
+package net.lishaoy.ui.iconfont
 
 import android.content.Context
 import android.graphics.Typeface
@@ -12,7 +12,7 @@ class IconFontTextView @JvmOverloads constructor(
 ): AppCompatTextView(context, attributeSet, defStyleAttr) {
 
     init {
-        val typeface = Typeface.createFromAsset(context.assets, "/fonts/iconfont.ttf")
+        val typeface = Typeface.createFromAsset(context.assets, "fonts/iconfont.ttf")
         setTypeface(typeface)
     }
 
