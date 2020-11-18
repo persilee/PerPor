@@ -23,7 +23,7 @@ public abstract class PerLogConfig {
     }
 
     public int stackTraceDepth() {
-        return 6;
+        return 2;
     }
 
     public PerLogPrinter[] printers() {

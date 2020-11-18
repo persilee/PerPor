@@ -37,4 +37,22 @@ abstract class PerDataItem<DATA, VH: RecyclerView.ViewHolder>(data: DATA) {
     fun getSpanSize() : Int {
         return 0
     }
+
+    /**
+     * 该item被滑进屏幕
+     */
+    open fun onViewAttachedToWindow(holder: VH) {
+
+    }
+
+    /**
+     * 该item被滑出屏幕
+     */
+    open fun onViewDetachedFromWindow(holder: VH) {
+
+    }
+
+    open fun onCreateViewHolder(parent: ViewGroup): VH? {
+        return null
+    }
 }
