@@ -38,13 +38,11 @@ class ProfileFragment : PerBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         notify_title.setText(R.string.item_notify)
-        notify_count.text = "6"
         collection.setText(R.string.item_collection)
         address.setText(R.string.item_address)
         history.setText(R.string.item_history)
 
         queryLoginUserData()
-        queryCourseNotice()
     }
 
     private fun queryCourseNotice() {
@@ -90,7 +88,8 @@ class ProfileFragment : PerBaseFragment() {
             if (userProfile.isLogin) getString(R.string.login_desc_login) else getString(R.string.login_desc_no_login)
 
         if (userProfile.isLogin) {
-            user_avatar.loadCircle(userProfile.avatar)
+            user_avatar.loadCircle(userProfile.userIcon)
+            queryCourseNotice()
         } else {
             user_avatar.setImageResource(R.drawable.ic_avatar_default)
             user_name.setOnClickListener {
@@ -167,7 +166,7 @@ class ProfileFragment : PerBaseFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1001 && requestCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == 1001 && resultCode == Activity.RESULT_OK && data != null) {
             queryLoginUserData()
         }
     }
