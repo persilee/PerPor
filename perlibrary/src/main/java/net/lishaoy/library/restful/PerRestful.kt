@@ -1,5 +1,6 @@
 package net.lishaoy.library.restful
 
+import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
 import java.util.concurrent.ConcurrentHashMap
@@ -20,16 +21,19 @@ open class PerRestful(val baseUrl: String, callFactory: PerCall.Factory) {
     }
 
     fun <T> create(service: Class<T>) : T {
-        return Proxy.newProxyInstance(service.classLoader, arrayOf<Class<*>>(service)) { proxy, method, args ->
-            var methodParser = methodService[method]
-            if (methodParser == null) {
-                methodParser = MethodParser.parse(baseUrl, method, args)
-                methodService[method] = methodParser
-            }
-            val request = methodParser.newRequest(method, args)
+        return Proxy.newProxyInstance(service.classLoader, arrayOf<Class<*>>(service), object : InvocationHandler {
+            override fun invoke(proxy: Any, method: Method, args: Array<out Any>?): Any {
+                var methodParser = methodService[method]
+                if (methodParser == null) {
+                    methodParser = MethodParser.parse(baseUrl, method)
+                    methodService[method] = methodParser
+                }
+                val request = methodParser.newRequest(method, args)
 
-            scheduler.newCall(request)
-        } as T
+                return scheduler.newCall(request)
+            }
+
+        }) as T
     }
 
 }

@@ -7,7 +7,7 @@ import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class MethodParser(private val baseUrl: String, method: Method, args: Array<Any>) {
+class MethodParser(private val baseUrl: String, method: Method) {
 
     private var domainUrl: String? = null
     private var formPost: Boolean = true
@@ -19,14 +19,14 @@ class MethodParser(private val baseUrl: String, method: Method, args: Array<Any>
     private var parameters: MutableMap<String, String> = mutableMapOf()
 
     companion object {
-        fun parse(baseUrl: String, method: Method, args: Array<Any>): MethodParser {
-            return MethodParser(baseUrl, method, args)
+        fun parse(baseUrl: String, method: Method): MethodParser {
+            return MethodParser(baseUrl, method)
         }
     }
 
     init {
         parseMethodAnnotations(method)
-        parseMethodParameters(method, args)
+//        parseMethodParameters(method, args)
         parseMethodReturnType(method)
     }
 

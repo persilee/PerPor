@@ -32,7 +32,7 @@
             android:singleLine="true"
             android:textSize="@dimen/sp_18"
             android:textColor="@color/color_000"
-            tools:text="用户头像"
+            tools:text="用户"
             android:textStyle="bold"
             android:layout_toRightOf="@id/user_avatar" />
 

@@ -8,7 +8,7 @@ class BizInterceptor : PerInterceptor {
     override fun intercept(chain: PerInterceptor.Chain): Boolean {
         if (chain.isRequestPeriod) {
             val request = chain.request()
-            request.addHeader("auth-token", "MTU5Mjg1MDg3NDcwNw=")
+            request.addHeader("auth-token", "MTU5Mjg1MDg3NDcwNw==")
 
             val boardingPass = SPUtil.getString("boarding-pass") ?: ""
             request.addHeader("boarding-pass", boardingPass)
