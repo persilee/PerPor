@@ -260,4 +260,9 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         dataItem.onViewDetachedFromWindow(holder)
     }
 
+    fun clearItems() {
+        dataSets.clear()
+        notifyDataSetChanged()
+    }
+
 }
