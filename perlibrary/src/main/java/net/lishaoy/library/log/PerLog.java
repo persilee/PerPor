@@ -9,6 +9,13 @@ import java.util.List;
 
 public class PerLog {
 
+    private static final String PER_LOG_PACKAGE;
+
+    static {
+        String className = PerLog.class.getName();
+        PER_LOG_PACKAGE = className.substring(0, className.lastIndexOf('.') + 1);
+    }
+
     public static void v(Object... contents) {
         log(PerLogType.V, contents);
     }
@@ -73,10 +80,13 @@ public class PerLog {
             sb.append(threadInfo).append("\n");
         }
         if (config.stackTraceDepth() > 0) {
-            String stackTrace = PerLogConfig.PER_STACKTRACE_FORMATTER.format(new Throwable().getStackTrace());
+            String stackTrace = PerLogConfig.PER_STACKTRACE_FORMATTER.format(PerStackTraceUtil.getCroppedRealStackTrack(new Throwable().getStackTrace(), PER_LOG_PACKAGE, config.stackTraceDepth()));
             sb.append(stackTrace).append("\n");
         }
         String body = parseBody(contents, config);
+        if (body != null) {//替换转义字符\
+            body = body.replace("\\\"", "\"");
+        }
         sb.append(body);
         List<PerLogPrinter> printers = config.printers() != null ? Arrays.asList(config.printers()) : PerLogManager.getInstance().getPrinters();
         if (printers == null) return;
