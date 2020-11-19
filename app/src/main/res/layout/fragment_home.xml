@@ -4,47 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:background="@color/color_white"
     tools:ignore="MissingDefaultResource">
 
-    <Button
-        android:id="@+id/btn_tab_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tab top demo"
-        android:layout_marginBottom="16dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton" />
+    <net.lishaoy.ui.iconfont.IconFontTextView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:background="@drawable/shape_home_search"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginVertical="@dimen/dp_10"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_d9f"
+        android:text="@string/home_search_hint"
+        android:gravity="center"/>
 
-    <Button
-        android:id="@+id/btn_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="refresh demo"
-        android:layout_marginBottom="16dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton" />
+    <net.lishaoy.ui.tab.top.PerTabTopLayout
+        android:id="@+id/tab_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/color_white" />
 
-    <Button
-        android:id="@+id/btn_banner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="banner demo"
-        android:layout_marginBottom="16dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton" />
-
-    <Button
-        android:id="@+id/btn_get_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="get city"
-        android:layout_marginBottom="16dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton" />
-
-    <Button
-        android:id="@+id/btn_input_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="input item demo"
-        android:layout_marginBottom="16dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

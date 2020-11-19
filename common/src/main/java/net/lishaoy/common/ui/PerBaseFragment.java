@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 public abstract class PerBaseFragment extends Fragment {
 
     protected View layoutView;
+
     @LayoutRes
     public abstract int getLayoutId();
 
@@ -28,5 +29,10 @@ public abstract class PerBaseFragment extends Fragment {
     public void showToast(String message) {
         if (TextUtils.isEmpty(message)) return;
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean isAlive() {
+        if (isRemoving() || isDetached() || getActivity() == null) return false;
+        else return true;
     }
 }

@@ -17,7 +17,7 @@ import net.lishaoy.ui.refresh.PerRefresh
 import net.lishaoy.ui.refresh.PerRefreshLayout
 import net.lishaoy.ui.refresh.PerTextOverView
 
-class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener {
+open class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener {
 
     private var pageIndex: Int = 1
     private lateinit var adapter: PerAdapter
@@ -61,6 +61,7 @@ class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener {
         })
 
         loadingBar?.visibility = View.VISIBLE
+        pageIndex = 1
     }
 
     fun finishRefresh(dataItems: List<PerDataItem<*, RecyclerView.ViewHolder>>?) {
@@ -70,6 +71,7 @@ class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener {
             loadingBar?.visibility = View.GONE
             if (success) {
                 loadingBar?.visibility = View.GONE
+                refreshLayout?.refreshFinished()
                 adapter.clearItems()
                 if (dataItems != null) {
                     adapter.addItems(dataItems, true)
@@ -113,7 +115,9 @@ class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener {
     @CallSuper
     override fun onRefresh() {
         if (recyclerView?.isLoadingMore() == true) {
-            refreshLayout?.refreshFinished()
+            refreshLayout?.post {
+                refreshLayout?.refreshFinished()
+            }
             return
         }
         pageIndex = 1
