@@ -19,7 +19,7 @@ import net.lishaoy.ui.refresh.PerTextOverView
 
 open class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener {
 
-    private var pageIndex: Int = 1
+    var pageIndex: Int = 1
     private lateinit var adapter: PerAdapter
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var refreshHeaderView: PerTextOverView

@@ -42,7 +42,12 @@ data class HomeBanner(
     val title: String,
     val type: String,
     val url: String
-)
+) {
+    companion object {
+        const val TYPE_GOODS = "goods"
+        const val TYPE_RECOMMEND = "recommend"
+    }
+}
 
 /**
  * {

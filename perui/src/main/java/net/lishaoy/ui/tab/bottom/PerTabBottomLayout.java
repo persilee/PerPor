@@ -172,4 +172,11 @@ public class PerTabBottomLayout extends FrameLayout implements IPerTabLayout<Per
             targetView.setClipToPadding(false);
         }
     }
+
+    public static void clipBottomPadding(ViewGroup targetView) {
+        if (targetView != null) {
+            targetView.setPadding(0, 0, 0, PerDisplayUtil.dp2px(tabBottomHeight));
+            targetView.setClipToPadding(false);
+        }
+    }
 }

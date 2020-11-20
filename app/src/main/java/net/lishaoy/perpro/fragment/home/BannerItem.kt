@@ -3,11 +3,13 @@ package net.lishaoy.perpro.fragment.home
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.view.loadUrl
 import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.perpro.model.HomeBanner
@@ -34,8 +36,12 @@ class BannerItem(val list: List<HomeBanner>): PerDataItem<List<HomeBanner>, Recy
                 bannerMo: M,
                 position: Int
             ) {
-                var intent = Intent(Intent.ACTION_VIEW, Uri.parse(list[position].url))
-                context.startActivity(intent)
+                val homeBanner = list[position]
+                if (TextUtils.equals(homeBanner.type, HomeBanner.TYPE_GOODS)) {
+
+                } else {
+                    PerRoute.startActivity4Browser(homeBanner.url)
+                }
             }
 
         })

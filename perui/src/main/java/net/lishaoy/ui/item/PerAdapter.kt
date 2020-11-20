@@ -123,7 +123,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         val itemPosition = position - getHeaderSize()
         val dataItem = dataSets[itemPosition]
         val type = dataItem.javaClass.hashCode()
-        typeArray.put(type,position)
+        typeArray.put(type, position)
         return type
     }
 
@@ -172,8 +172,12 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
                         argument
                     )
                 ) {
-                    return argument.getConstructor(View::class.java)
-                        .newInstance(view) as RecyclerView.ViewHolder
+                    try {
+                        return argument.getConstructor(View::class.java)
+                            .newInstance(view) as RecyclerView.ViewHolder
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }

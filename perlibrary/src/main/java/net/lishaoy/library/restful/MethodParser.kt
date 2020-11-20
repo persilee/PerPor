@@ -64,8 +64,7 @@ class MethodParser(private val baseUrl: String, method: Method) {
                 val replaceName = annotation.value
                 val replacement = value.toString()
                 if (replaceName != null && replacement != null) {
-                    val newRelativeUrl = relativeUrl.replace("{$replaceName}", replacement)
-                    relativeUrl = newRelativeUrl
+                    replaceRelativeUrl = relativeUrl.replace("{$replaceName}", replacement)
                 }
             } else {
                 throw IllegalStateException("cannot handle parameter annotation: ${annotation.javaClass.toString()}")

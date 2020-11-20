@@ -52,7 +52,7 @@ class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
             labelContainer.visibility = View.GONE
         }
 
-        if (hotTab) {
+        if (!hotTab) {
             val params = holder.itemView.layoutParams as RecyclerView.LayoutParams
             val parentLeft = getAdapter()?.getAttachRecyclerView()?.left ?: 0
             val parentPaddingLeft = getAdapter()?.getAttachRecyclerView()?.paddingLeft ?: 0
@@ -69,8 +69,9 @@ class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
 
     fun createLabelView(context: Context): TextView {
         val labelView = TextView(context)
-        labelView.setTextColor(ContextCompat.getColor(context, R.color.color_eed))
-        labelView.textSize = 11f
+        labelView.setTextColor(ContextCompat.getColor(context, R.color.color_e75))
+        labelView.background = ContextCompat.getDrawable(context,R.drawable.shape_goods_label)
+        labelView.textSize = 10f
         labelView.gravity = Gravity.CENTER
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -84,6 +85,10 @@ class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
 
     override fun getItemLayoutRes(): Int {
         return if (hotTab) R.layout.layout_home_goods_list_item_h else R.layout.layout_home_goods_list_item_v
+    }
+
+    override fun getSpanSize(): Int {
+        return if(hotTab) super.getSpanSize() else 1
     }
 
 }

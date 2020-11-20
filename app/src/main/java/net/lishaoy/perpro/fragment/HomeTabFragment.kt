@@ -46,7 +46,7 @@ class HomeTabFragment : PerAbsListFragment() {
     }
 
     private fun queryTabCategoryList() {
-        ApiFactory.create(HomeApi::class.java).queryTabCategoryList(categoryId!!, 1, 10)
+        ApiFactory.create(HomeApi::class.java).queryTabCategoryList(categoryId!!, pageIndex, 10)
             .enqueue(object : PerCallback<HomeModel> {
                 override fun onSuccess(response: PerResponse<HomeModel>) {
                     if (response.successful() && response.data != null) {
@@ -67,15 +67,15 @@ class HomeTabFragment : PerAbsListFragment() {
         if (!isAlive) return
         val dateItems = mutableListOf<PerDataItem<*, *>>()
         data.bannerList?.let {
-            dateItems.add(BannerItem(data.bannerList))
+            dateItems.add(BannerItem(it))
         }
         data.subcategoryList?.let {
-            dateItems.add(GridItem(data.subcategoryList))
+            dateItems.add(GridItem(it))
         }
         data.goodsList?.forEachIndexed { index, goodsModel ->
             dateItems.add(
                 GoodsItem(
-                    data.goodsList[index],
+                    goodsModel,
                     TextUtils.equals(categoryId, DEFAULT_TAB_CATEGORY_ID)
                 )
             )

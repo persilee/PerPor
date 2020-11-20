@@ -12,7 +12,7 @@ abstract class PerDataItem<DATA, VH: RecyclerView.ViewHolder>(data: DATA) {
         this.data = data
     }
 
-    abstract fun onBindData(holder: RecyclerView.ViewHolder, position: Int)
+    abstract fun onBindData(holder: VH, position: Int)
 
     open fun getItemLayoutRes() : Int {
         return -1
@@ -38,7 +38,7 @@ abstract class PerDataItem<DATA, VH: RecyclerView.ViewHolder>(data: DATA) {
         adapter?.removeItem(this)
     }
 
-    fun getSpanSize() : Int {
+    open fun getSpanSize() : Int {
         return 0
     }
 
