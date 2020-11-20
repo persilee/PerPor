@@ -2,6 +2,7 @@ package net.lishaoy.ui.item
 
 import android.content.Context
 import android.util.SparseArray
+import android.util.SparseIntArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,8 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
     private var recyclerViewRef: WeakReference<RecyclerView>? = null
     private var context: Context = context
     private var inflater: LayoutInflater? = null
-    private var dataSets = ArrayList<PerDataItem<*, RecyclerView.ViewHolder>>()
-    private var typeArray = SparseArray<PerDataItem<*, RecyclerView.ViewHolder>>()
+    private var dataSets = ArrayList<PerDataItem<*, out RecyclerView.ViewHolder>>()
+    private var typeArray = SparseIntArray()
     private var headers = SparseArray<View>()
     private var footers = SparseArray<View>()
     private var BASE_ITEM_TYPE_HEADER = 1000000
@@ -79,7 +80,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         if (notify) notifyItemInserted(notifyPos)
     }
 
-    fun addItems(items: List<PerDataItem<*, RecyclerView.ViewHolder>>, notify: Boolean) {
+    fun addItems(items: List<PerDataItem<*, out RecyclerView.ViewHolder>>, notify: Boolean) {
         val start: Int = dataSets.size
         for (item in items) {
             dataSets.add(item)
@@ -101,7 +102,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyItemChanged(indexOf)
     }
 
-    fun removeItem(index: Int): PerDataItem<*, RecyclerView.ViewHolder>? {
+    fun removeItem(index: Int): PerDataItem<*, out RecyclerView.ViewHolder>? {
         return if (index > 0 && index < dataSets.size) {
             val remove = dataSets.removeAt(index)
             notifyItemRemoved(index)
@@ -122,9 +123,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         val itemPosition = position - getHeaderSize()
         val dataItem = dataSets[itemPosition]
         val type = dataItem.javaClass.hashCode()
-        if (typeArray.indexOfKey(type) < 0) {
-            typeArray.put(type, dataItem)
-        }
+        typeArray.put(type,position)
         return type
     }
 
@@ -145,7 +144,11 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
             val view = footers[viewType]
             return object : RecyclerView.ViewHolder(view) {}
         }
-        val dataItem = typeArray[viewType]
+        val position = typeArray[viewType]
+        val dataItem = dataSets[position]
+        val viewHolder = dataItem.onCreateViewHolder(parent)
+        if (viewHolder != null) return viewHolder
+
         var view: View? = dataItem.getItemView(parent)
         if (view == null) {
             val layoutRes = dataItem.getItemLayoutRes()
@@ -158,7 +161,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private fun createViewHolderInternal(
-        clazz: Class<PerDataItem<*, RecyclerView.ViewHolder>>,
+        clazz: Class<PerDataItem<*, out RecyclerView.ViewHolder>>,
         view: View?
     ): RecyclerView.ViewHolder {
         val superclass = clazz.genericSuperclass

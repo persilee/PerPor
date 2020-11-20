@@ -26,6 +26,10 @@ abstract class PerDataItem<DATA, VH: RecyclerView.ViewHolder>(data: DATA) {
         this.adapter = adapter
     }
 
+    fun getAdapter(): PerAdapter? {
+        return adapter
+    }
+
     fun refreshItem() {
         adapter?.refreshItem(this)
     }

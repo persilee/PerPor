@@ -135,6 +135,10 @@ public class PerBannerAdapter extends PagerAdapter {
 
         View rootView;
 
+        public View getRootView() {
+            return rootView;
+        }
+
         public PerBannerViewHolder(View rootView) {
             this.rootView = rootView;
         }

@@ -64,7 +64,7 @@ open class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener
         pageIndex = 1
     }
 
-    fun finishRefresh(dataItems: List<PerDataItem<*, RecyclerView.ViewHolder>>?) {
+    fun finishRefresh(dataItems: List<PerDataItem<*, out RecyclerView.ViewHolder>>?) {
         val success = dataItems != null && dataItems.isNotEmpty()
         val refresh = pageIndex == 1
         if (refresh) {
@@ -74,7 +74,7 @@ open class PerAbsListFragment : PerBaseFragment(), PerRefresh.PerRefreshListener
                 refreshLayout?.refreshFinished()
                 adapter.clearItems()
                 if (dataItems != null) {
-                    adapter.addItems(dataItems, true)
+                    adapter.addItems(dataItems as List<PerDataItem<*, RecyclerView.ViewHolder>>, true)
                 }
             } else {
                 if (adapter.itemCount <= 0) {
