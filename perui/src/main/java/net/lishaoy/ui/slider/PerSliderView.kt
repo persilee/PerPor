@@ -223,8 +223,8 @@ class PerSliderView @JvmOverloads constructor(
     )
 
     private fun generateColorStateList(): ColorStateList {
-        val states = Array(2) { intArrayOf(2) }
-        val colors = intArrayOf(2)
+        val states = Array(2) { IntArray(2) }
+        val colors = IntArray(2)
 
         colors[0] = TEXT_COLOR_SELECT
         colors[1] = TEXT_COLOR_NORMAL

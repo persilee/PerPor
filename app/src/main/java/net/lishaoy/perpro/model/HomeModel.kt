@@ -62,7 +62,7 @@ data class HomeBanner(
 
 data class Subcategory(
     val categoryId: String,
-    val groupName: Any,
+    val groupName: String,
     val showType: String,
     val subcategoryIcon: String,
     val subcategoryId: String,
