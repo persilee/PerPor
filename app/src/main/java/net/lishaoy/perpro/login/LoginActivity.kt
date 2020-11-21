@@ -2,10 +2,12 @@ package net.lishaoy.perpro.login
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.EditText
+import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -13,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
+import net.lishaoy.library.util.PerStatusBar
 import net.lishaoy.library.util.SPUtil
 import net.lishaoy.perpro.R
 import net.lishaoy.perpro.http.ApiFactory
@@ -24,6 +27,7 @@ class LoginActivity : PerBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
+        PerStatusBar.setStatusBar(this,true, ContextCompat.getColor(baseContext,R.color.color_background),false)
 
         btn_back.setOnClickListener{
             onBackPressed()

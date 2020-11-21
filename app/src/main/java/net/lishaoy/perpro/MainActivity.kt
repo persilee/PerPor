@@ -1,9 +1,11 @@
 package net.lishaoy.perpro
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import net.lishaoy.common.ui.PerBaseActivity
+import net.lishaoy.library.util.PerStatusBar
 import net.lishaoy.perpro.logic.MainActivityLogic
 
 class MainActivity : PerBaseActivity(), MainActivityLogic.ActivityProvider {
@@ -14,6 +16,7 @@ class MainActivity : PerBaseActivity(), MainActivityLogic.ActivityProvider {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
+        PerStatusBar.setStatusBar(this,true, Color.WHITE,false)
         activityLogic = MainActivityLogic(this, savedInstanceState)
     }
 

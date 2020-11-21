@@ -192,8 +192,8 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (isHeaderPosition(position) || isFooterPosition(position)) return
         val itemPosition = position - getHeaderSize()
-        val dataItem = dataSets[itemPosition]
-        dataItem.onBindData(holder, itemPosition)
+        val dataItem = getItem(itemPosition)
+        dataItem?.onBindData(holder, itemPosition)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
