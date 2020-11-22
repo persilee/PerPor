@@ -15,11 +15,13 @@ import net.lishaoy.common.view.loadUrl
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.perpro.R
+import net.lishaoy.perpro.fragment.category.CategoryItemDecoration
 import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.CategoryApi
 import net.lishaoy.perpro.model.Subcategory
 import net.lishaoy.perpro.model.TabCategory
 import net.lishaoy.ui.empty.EmptyView
+import net.lishaoy.ui.tab.bottom.PerTabBottomLayout
 
 class CategoryFragment : PerBaseFragment() {
     private val SPAN_COUNT: Int = 3
@@ -31,7 +33,7 @@ class CategoryFragment : PerBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        PerTabBottomLayout.clipBottomPadding(category)
         queryCategoryList()
     }
 
@@ -88,26 +90,30 @@ class CategoryFragment : PerBaseFragment() {
     }
 
     private val subcategoryList = mutableListOf<Subcategory>()
+    private val decoration =
+        CategoryItemDecoration({ position -> subcategoryList[position].groupName }, SPAN_COUNT)
     private val layoutManager = GridLayoutManager(context, SPAN_COUNT)
     private val groupSpanSizeOffset = SparseIntArray()
     private val spanSizeLookUp = object : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
             var spanSize = 1
             val groupName = subcategoryList[position].groupName
-            val nextGroupName = if (position + 1 < subcategoryList.size) subcategoryList[position].groupName else null
-            if (TextUtils.equals(groupName,nextGroupName)) {
+            val nextGroupName =
+                if (position + 1 < subcategoryList.size) subcategoryList[position + 1].groupName else null
+            if (TextUtils.equals(groupName, nextGroupName)) {
                 spanSize = 1
             } else {
                 val indexOfKey = groupSpanSizeOffset.indexOfKey(position)
                 val size = groupSpanSizeOffset.size()
-                val lastGroupOffset = if (size <= 0) 0 else if (indexOfKey >=0 ) {
+                val lastGroupOffset = if (size <= 0) 0 else if (indexOfKey >= 0) {
                     if (indexOfKey == 0) 0 else groupSpanSizeOffset.valueAt(indexOfKey - 1)
                 } else {
-                    groupSpanSizeOffset.valueAt(size -1)
+                    groupSpanSizeOffset.valueAt(size - 1)
                 }
                 spanSize = SPAN_COUNT - (position + lastGroupOffset) % SPAN_COUNT
                 if (indexOfKey < 0) {
                     val groupOffset = lastGroupOffset + spanSize - 1
+                    groupSpanSizeOffset.put(position, groupOffset)
                 }
             }
 
@@ -117,6 +123,7 @@ class CategoryFragment : PerBaseFragment() {
     }
 
     private fun updateUIContent(data: List<Subcategory>) {
+        decoration.clear()
         groupSpanSizeOffset.clear()
         subcategoryList.clear()
         subcategoryList.addAll(data)
@@ -128,7 +135,7 @@ class CategoryFragment : PerBaseFragment() {
         slider_view.bindContentView(
             itemCount = data.size,
             layoutManager = layoutManager,
-            itemDecoration = null,
+            itemDecoration = decoration,
             onBindView = { holder, position ->
                 val subcategory = data[position]
                 holder.findViewById<ImageView>(R.id.content_item_image)

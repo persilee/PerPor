@@ -129,41 +129,61 @@ class PerSliderView @JvmOverloads constructor(
     ) {
         if (contentView.layoutManager == null) {
             contentView.layoutManager = layoutManager
-            contentView.adapter = object : RecyclerView.Adapter<PerViewHolder>() {
-                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PerViewHolder {
-                    val view = LayoutInflater.from(context).inflate(layoutRes, parent, false)
-                    val remainSpace = width - paddingLeft - paddingRight - menuItemAttr.width
-                    val layoutManager = (parent as RecyclerView).layoutManager
-                    var spanCount = 0
-                    if (layoutManager is GridLayoutManager) {
-                        spanCount = layoutManager.spanCount
-                    } else if (layoutManager is StaggeredGridLayoutManager) {
-                        spanCount = layoutManager.spanCount
-                    }
-
-                    if (spanCount > 0) {
-                        val itemWidth = remainSpace / spanCount
-                        view.layoutParams = RecyclerView.LayoutParams(itemWidth, itemWidth)
-                    }
-                    return  PerViewHolder(view)
-                }
-
-                override fun getItemCount(): Int {
-                    return itemCount
-                }
-
-                override fun onBindViewHolder(holder: PerViewHolder, position: Int) {
-                    onBindView(holder, position)
-                    holder.itemView.setOnClickListener {
-                        onItemClick(holder, position)
-                    }
-                }
-            }
+            contentView.adapter = ContentViewAdapter(layoutRes)
             itemDecoration?.let {
                 contentView.addItemDecoration(itemDecoration)
             }
         }
+        val contentViewAdapter = contentView.adapter as ContentViewAdapter
+        contentViewAdapter.update(itemCount, onBindView, onItemClick)
+        contentViewAdapter.notifyDataSetChanged()
         contentView.scrollToPosition(0)
+    }
+
+    inner class ContentViewAdapter(val layoutRes: Int) : RecyclerView.Adapter<PerViewHolder>() {
+
+        private lateinit var onItemClick: (PerViewHolder, Int) -> Unit
+        private lateinit var onBindView: (PerViewHolder, Int) -> Unit
+        private var count: Int = 0
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PerViewHolder {
+            val view = LayoutInflater.from(context).inflate(layoutRes, parent, false)
+            val remainSpace = width - paddingLeft - paddingRight - menuItemAttr.width
+            val layoutManager = (parent as RecyclerView).layoutManager
+            var spanCount = 0
+            if (layoutManager is GridLayoutManager) {
+                spanCount = layoutManager.spanCount
+            } else if (layoutManager is StaggeredGridLayoutManager) {
+                spanCount = layoutManager.spanCount
+            }
+
+            if (spanCount > 0) {
+                val itemWidth = remainSpace / spanCount
+                view.layoutParams = RecyclerView.LayoutParams(itemWidth, itemWidth)
+            }
+            return  PerViewHolder(view)
+        }
+
+        override fun getItemCount(): Int {
+            return count
+        }
+
+        override fun onBindViewHolder(holder: PerViewHolder, position: Int) {
+            onBindView(holder, position)
+            holder.itemView.setOnClickListener {
+                onItemClick(holder, position)
+            }
+        }
+
+        fun update(
+            itemCount: Int,
+            onBindView: (PerViewHolder, Int) -> Unit,
+            onItemClick: (PerViewHolder, Int) -> Unit
+        ) {
+            this.count = itemCount
+            this.onBindView = onBindView
+            this.onItemClick = onItemClick
+        }
     }
 
     private fun parseMenuItemAttr(attrs: AttributeSet?): MenuItemAttr {
