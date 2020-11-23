@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import com.alibaba.android.arouter.launcher.ARouter
 import net.lishaoy.library.util.AppGlobals
 
 object PerRoute {
@@ -19,21 +20,25 @@ object PerRoute {
         AppGlobals.get()?.startActivity(intent)
     }
 
-//    fun startActivity(
-//        context: Context?,
-//        bundle: Bundle? = null,
-//        destination: String,
-//        requestCode: Int = -1
-//    ) {
-//        val postcard = ARouter.getInstance().build(destination).with(bundle)
-//        if (requestCode == -1 || context !is Activity) {
-//            postcard.navigation(context)
-//        } else {
-//            postcard.navigation(context, requestCode)
-//        }
-//    }
-//
-//    fun inject(target: Any) {
-//        ARouter.getInstance().inject(target)
-//    }
+    enum class Destination(val path:String) {
+        GOODS_LIST("/goods/list")
+    }
+
+    fun startActivity(
+        context: Context?,
+        bundle: Bundle? = null,
+        destination: Destination,
+        requestCode: Int = -1
+    ) {
+        val postcard = ARouter.getInstance().build(destination.path).with(bundle)
+        if (requestCode == -1 || context !is Activity) {
+            postcard.navigation(context)
+        } else {
+            postcard.navigation(context, requestCode)
+        }
+    }
+
+    fun inject(target: Any) {
+        ARouter.getInstance().inject(target)
+    }
 }

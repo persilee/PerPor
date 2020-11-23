@@ -3,12 +3,15 @@ package net.lishaoy.perpro.goods
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.launcher.ARouter
 import net.lishaoy.common.ui.PerAbsListFragment
 import net.lishaoy.common.ui.PerBaseFragment
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
+import net.lishaoy.perpro.fragment.home.GoodsItem
 import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.GoodsApi
 import net.lishaoy.perpro.model.GoodsList
@@ -43,6 +46,7 @@ class GoodsListFragment: PerAbsListFragment() {
         super.onViewCreated(view, savedInstanceState)
         ARouter.getInstance().inject(this)
         enableLoadMore { loadDate() }
+        loadDate()
     }
 
     override fun onRefresh() {
@@ -51,17 +55,34 @@ class GoodsListFragment: PerAbsListFragment() {
     }
 
     private fun loadDate() {
-        ApiFactory.create(GoodsApi::class.java).queryCategoryGoodsList(categoryId, subcategoryId, 10, pageIndex)
+        ApiFactory.create(GoodsApi::class.java).queryCategoryGoodsList(categoryId, subcategoryId, pageIndex, 10)
             .enqueue(object : PerCallback<GoodsList> {
                 override fun onSuccess(response: PerResponse<GoodsList>) {
-                    TODO("Not yet implemented")
+                    if (response.successful() && response.data != null) {
+                        updateUI(response.data!!)
+                    } else {
+                        finishRefresh(null)
+                    }
                 }
 
                 override fun onFailed(throwable: Throwable) {
-                    TODO("Not yet implemented")
+                    finishRefresh(null)
                 }
 
             })
+    }
+
+    private fun updateUI(data: GoodsList) {
+        val goods = mutableListOf<GoodsItem>()
+        for (goodModel in data.list) {
+            val  goodsItem = GoodsItem(goodModel,false)
+            goods.add(goodsItem)
+        }
+        finishRefresh(goods)
+    }
+
+    override fun createLayoutManager(): RecyclerView.LayoutManager {
+        return GridLayoutManager(context,2)
     }
 
 }

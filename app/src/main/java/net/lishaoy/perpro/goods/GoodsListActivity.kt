@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.activity_goods_list.*
+import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.util.PerStatusBar
 import net.lishaoy.perpro.R
@@ -32,7 +33,7 @@ class GoodsListActivity : PerBaseActivity() {
         super.onCreate(savedInstanceState)
         PerStatusBar.setStatusBar(this,true,translucent = false)
         setContentView(R.layout.activity_goods_list)
-        ARouter.getInstance().inject(this)
+        PerRoute.inject(this)
 
         top_bar_btn_back.setOnClickListener {
             onBackPressed()

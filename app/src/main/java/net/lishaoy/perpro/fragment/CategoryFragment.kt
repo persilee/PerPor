@@ -9,7 +9,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.fragment_category.*
+import net.lishaoy.common.route.PerRoute
+import net.lishaoy.common.route.PerRoute.Destination
+import net.lishaoy.common.route.PerRoute.Destination.*
 import net.lishaoy.common.ui.PerBaseFragment
 import net.lishaoy.common.view.loadUrl
 import net.lishaoy.library.restful.PerCallback
@@ -153,7 +157,11 @@ class CategoryFragment : PerBaseFragment() {
             },
             onItemClick = { holder, position ->
                 val subcategory = data[position]
-                showToast("the sub category id:" + subcategory.subcategoryId)
+                val bundle = Bundle()
+                bundle.putString("categoryId", subcategory.categoryId)
+                bundle.putString("subcategoryId", subcategory.subcategoryId)
+                bundle.putString("categoryTitle", subcategory.subcategoryName)
+                PerRoute.startActivity(context,bundle, GOODS_LIST)
             }
         )
     }
