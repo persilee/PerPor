@@ -26,6 +26,7 @@ import net.lishaoy.ui.tab.bottom.PerTabBottomLayout
 class CategoryFragment : PerBaseFragment() {
     private val SPAN_COUNT: Int = 3
     private var emptyView: EmptyView? = null
+    private val subcategoryListCache = mutableMapOf<String, List<Subcategory>>()
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_category
@@ -68,7 +69,11 @@ class CategoryFragment : PerBaseFragment() {
             },
             onItemClick = { holder, position ->
                 val category = data[position]
-                querySubCategoryList(category.categoryId)
+                if (subcategoryListCache.containsKey(category.categoryId)) {
+                    updateUIContent(subcategoryListCache[category.categoryId]!!)
+                }else{
+                    querySubCategoryList(category.categoryId)
+                }
             })
 
     }
@@ -79,6 +84,9 @@ class CategoryFragment : PerBaseFragment() {
                 override fun onSuccess(response: PerResponse<List<Subcategory>>) {
                     if (response.successful() && response.data != null) {
                         updateUIContent(response.data!!)
+                    }
+                    if (!subcategoryListCache.containsKey(categoryId)) {
+                        subcategoryListCache[categoryId] = response.data!!
                     }
                 }
 
