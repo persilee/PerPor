@@ -25,9 +25,8 @@ import net.lishaoy.perpro.http.api.AccountApi
 class LoginActivity : PerBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        supportActionBar?.hide()
         PerStatusBar.setStatusBar(this,true, ContextCompat.getColor(baseContext,R.color.color_background),false)
+        setContentView(R.layout.activity_login)
 
         btn_back.setOnClickListener{
             onBackPressed()

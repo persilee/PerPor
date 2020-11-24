@@ -46,7 +46,7 @@ class HomeFragment : PerBaseFragment() {
                 }
 
                 override fun onFailed(throwable: Throwable) {
-                    TODO("Not yet implemented")
+                    showToast("加载数据失败")
                 }
 
             })

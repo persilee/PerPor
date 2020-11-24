@@ -21,10 +21,8 @@ import net.lishaoy.perpro.http.api.AccountApi
 class RegistrationActivity : PerBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registration)
-        supportActionBar?.hide()
         PerStatusBar.setStatusBar(this,true, ContextCompat.getColor(baseContext,R.color.color_background),false)
-
+        setContentView(R.layout.activity_registration)
         btn_back.setOnClickListener {
             onBackPressed()
         }

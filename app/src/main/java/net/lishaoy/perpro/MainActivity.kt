@@ -14,9 +14,8 @@ class MainActivity : PerBaseActivity(), MainActivityLogic.ActivityProvider {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        supportActionBar?.hide()
         PerStatusBar.setStatusBar(this,true, Color.WHITE,false)
+        setContentView(R.layout.activity_main)
         activityLogic = MainActivityLogic(this, savedInstanceState)
     }
 
