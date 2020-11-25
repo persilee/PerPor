@@ -1,5 +1,7 @@
 package net.lishaoy.perpro.model
 
+import java.io.Serializable
+
 
 /**
  * "isLogin": false,
@@ -15,7 +17,7 @@ data class UserProfile(
     val userName: String,
     val userIcon: String,
     val bannerNoticeList: List<Notice>
-)
+) : Serializable
 
 
 /**
@@ -39,10 +41,10 @@ data class Notice(
     val url: String,
     val cover: String,
     val createTime: String
-)
+) : Serializable
 
 data class CourseNotice(
     val total: Int,
     val list: List<Notice>?
-)
+) : Serializable
 

@@ -18,6 +18,7 @@ import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.HomeApi
 import net.lishaoy.perpro.model.TabCategory
 import net.lishaoy.ui.tab.bottom.PerTabBottomLayout
+import net.lishaoy.ui.tab.common.IPerTabLayout
 import net.lishaoy.ui.tab.top.PerTabTopInfo
 
 class HomeFragment : PerBaseFragment() {
@@ -52,6 +53,12 @@ class HomeFragment : PerBaseFragment() {
             })
     }
 
+    private val onTabSelectedListener = IPerTabLayout.OnTabSelectedListener<PerTabTopInfo<*>> { index, _, _ ->
+        if (hone_view_pager.currentItem != index) {
+            hone_view_pager.setCurrentItem(index, false)
+        }
+    }
+
     private fun updateUI(data: List<TabCategory>) {
         if (!isAlive) return
         val viewPager = hone_view_pager
@@ -65,11 +72,7 @@ class HomeFragment : PerBaseFragment() {
         }
         tabTopLayout.inflateInfo(topTabs as List<PerTabTopInfo<*>>)
         tabTopLayout.defaultSelected(topTabs[0])
-        tabTopLayout.addTabSelectedChangeListener { index, prevInfo, nextInfo ->
-            if (viewPager.currentItem != index) {
-                viewPager.setCurrentItem(index, false)
-            }
-        }
+        tabTopLayout.addTabSelectedChangeListener(onTabSelectedListener)
 
         val adapter = if (viewPager.adapter == null) {
             val homePagerAdapter = HomePagerAdapter(

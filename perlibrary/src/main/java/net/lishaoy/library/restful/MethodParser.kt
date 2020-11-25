@@ -15,6 +15,7 @@ class MethodParser(private val baseUrl: String, method: Method) {
     private lateinit var relativeUrl: String
     private var replaceRelativeUrl: String? = null
     private lateinit var type: Type
+    private var cacheStrategy: Int = CacheStrategy.NET_ONLY
     private var headers: MutableMap<String, String> = mutableMapOf()
     private var parameters: MutableMap<String, String> = mutableMapOf()
 
@@ -66,6 +67,8 @@ class MethodParser(private val baseUrl: String, method: Method) {
                 if (replaceName != null && replacement != null) {
                     replaceRelativeUrl = relativeUrl.replace("{$replaceName}", replacement)
                 }
+            } else if (annotation is CacheStrategy) {
+                cacheStrategy = value as Int
             } else {
                 throw IllegalStateException("cannot handle parameter annotation: ${annotation.javaClass.toString()}")
             }
@@ -110,7 +113,9 @@ class MethodParser(private val baseUrl: String, method: Method) {
                 }
             } else if (annotation is BaseUrl) {
                 domainUrl = annotation.value
-            } else {
+            } else if (annotation is CacheStrategy) {
+                cacheStrategy = annotation.value
+            }  else {
                 throw IllegalStateException("cannot handle method annotation: ${annotation.javaClass.toString()}")
             }
         }
@@ -141,6 +146,7 @@ class MethodParser(private val baseUrl: String, method: Method) {
         request.headers = headers
         request.httpMethod = httpMethod
         request.formPost = formPost
+        request.cacheStrategy = cacheStrategy
         return request
     }
 

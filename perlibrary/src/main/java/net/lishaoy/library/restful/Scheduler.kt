@@ -1,5 +1,10 @@
 package net.lishaoy.library.restful
 
+import net.lishaoy.library.cache.PerStorage
+import net.lishaoy.library.executor.PerExecutor
+import net.lishaoy.library.util.MainHandler
+import org.devio.hi.library.restful.annotation.CacheStrategy
+
 class Scheduler(
     private val callFactory: PerCall.Factory,
     val interceptors: MutableList<PerInterceptor>
@@ -15,7 +20,14 @@ class Scheduler(
     ) : PerCall<T> {
         override fun execute(): PerResponse<T> {
             dispatchInterceptor(request, null)
+            if (request.cacheStrategy == CacheStrategy.CACHE_FIRST) {
+                val cacheResponse = readCache<T>()
+                if (cacheResponse.data != null) {
+                    return cacheResponse
+                }
+            }
             val response = delegate.execute()
+            saveCacheIfNeed(response)
             dispatchInterceptor(request, response)
             return response
         }
@@ -28,9 +40,21 @@ class Scheduler(
         override fun enqueue(callback: PerCallback<T>) {
             dispatchInterceptor(request, null)
 
-            delegate.enqueue(object :PerCallback<T>{
+            if (request.cacheStrategy == CacheStrategy.CACHE_FIRST) {
+                PerExecutor.execute(runnable = Runnable {
+                    val cacheResponse = readCache<T>()
+                    if (cacheResponse.data != null) {
+                        MainHandler.sendAtFromOfQueue(runnable = Runnable {
+                            callback.onSuccess(cacheResponse)
+                        })
+                    }
+                })
+            }
+
+            delegate.enqueue(object : PerCallback<T> {
                 override fun onSuccess(response: PerResponse<T>) {
                     dispatchInterceptor(request, response)
+                    saveCacheIfNeed(response)
                     callback.onSuccess(response)
                 }
 
@@ -41,7 +65,30 @@ class Scheduler(
             })
         }
 
-        internal inner class InterceptorChain(val request: PerRequest, val response: PerResponse<T>?): PerInterceptor.Chain {
+        private fun saveCacheIfNeed(response: PerResponse<T>) {
+            if (request.cacheStrategy == CacheStrategy.CACHE_FIRST || request.cacheStrategy == CacheStrategy.NET_CACHE) {
+                if (response.data != null) {
+                    PerExecutor.execute(runnable = Runnable {
+                        PerStorage.saveCache(request.getCacheKey(), response.data)
+                    })
+                }
+            }
+        }
+
+        private fun <T> readCache(): PerResponse<T> {
+            val cacheKey = request.getCacheKey()
+            val cache = PerStorage.getCache<T>(cacheKey)
+            val cacheResponse = PerResponse<T>()
+            cacheResponse.data = cache
+            cacheResponse.code = PerResponse.CACHE_SUCCESS
+            cacheResponse.msg = "get cache success"
+            return cacheResponse
+        }
+
+        internal inner class InterceptorChain(
+            val request: PerRequest,
+            val response: PerResponse<T>?
+        ) : PerInterceptor.Chain {
             var callIndex: Int = 0
             override fun request(): PerRequest {
                 return request
@@ -54,7 +101,7 @@ class Scheduler(
             fun dispatch() {
                 val interceptor = interceptors[callIndex]
                 val intercept = interceptor.intercept(this)
-                callIndex ++
+                callIndex++
                 if (!intercept && callIndex < interceptors.size) {
                     dispatch()
                 }

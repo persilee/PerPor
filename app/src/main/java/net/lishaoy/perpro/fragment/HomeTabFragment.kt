@@ -15,6 +15,7 @@ import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.HomeApi
 import net.lishaoy.perpro.model.HomeModel
 import net.lishaoy.ui.item.PerDataItem
+import org.devio.hi.library.restful.annotation.CacheStrategy
 
 class HomeTabFragment : PerAbsListFragment() {
 
@@ -35,9 +36,9 @@ class HomeTabFragment : PerAbsListFragment() {
         categoryId = arguments?.getString("categoryId", DEFAULT_TAB_CATEGORY_ID)
         super.onViewCreated(view, savedInstanceState)
 
-        queryTabCategoryList()
+        queryTabCategoryList(CacheStrategy.CACHE_FIRST)
 
-        enableLoadMore { queryTabCategoryList() }
+        enableLoadMore { queryTabCategoryList(CacheStrategy.NET_ONLY) }
     }
 
     override fun createLayoutManager(): RecyclerView.LayoutManager {
@@ -45,8 +46,8 @@ class HomeTabFragment : PerAbsListFragment() {
         return if (isHotTab) super.createLayoutManager() else GridLayoutManager(context, 2)
     }
 
-    private fun queryTabCategoryList() {
-        ApiFactory.create(HomeApi::class.java).queryTabCategoryList(categoryId!!, pageIndex, 10)
+    private fun queryTabCategoryList(cacheStrategy: Int) {
+        ApiFactory.create(HomeApi::class.java).queryTabCategoryList(cacheStrategy, categoryId!!, pageIndex, 10)
             .enqueue(object : PerCallback<HomeModel> {
                 override fun onSuccess(response: PerResponse<HomeModel>) {
                     if (response.successful() && response.data != null) {
@@ -85,7 +86,7 @@ class HomeTabFragment : PerAbsListFragment() {
 
     override fun onRefresh() {
         super.onRefresh()
-        queryTabCategoryList()
+        queryTabCategoryList(CacheStrategy.NET_CACHE)
     }
 
 }

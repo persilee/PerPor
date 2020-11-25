@@ -8,17 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import java.lang.RuntimeException
 import java.lang.ref.WeakReference
 import java.lang.reflect.ParameterizedType
 
-class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PerAdapter(context: Context) : Adapter<ViewHolder>() {
 
     private var recyclerViewRef: WeakReference<RecyclerView>? = null
     private var context: Context = context
     private var inflater: LayoutInflater? = null
-    private var dataSets = ArrayList<PerDataItem<*, out RecyclerView.ViewHolder>>()
+    private var dataSets = ArrayList<PerDataItem<*, out ViewHolder>>()
     private var typeArray = SparseIntArray()
     private var headers = SparseArray<View>()
     private var footers = SparseArray<View>()
@@ -69,7 +70,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         return dataSets.size
     }
 
-    fun addItem(index: Int, item: PerDataItem<*, RecyclerView.ViewHolder>, notify: Boolean) {
+    fun addItem(index: Int, item: PerDataItem<*, ViewHolder>, notify: Boolean) {
         if (index > 0) {
             dataSets.add(index, item)
         } else {
@@ -80,7 +81,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         if (notify) notifyItemInserted(notifyPos)
     }
 
-    fun addItems(items: List<PerDataItem<*, out RecyclerView.ViewHolder>>, notify: Boolean) {
+    fun addItems(items: List<PerDataItem<*, out ViewHolder>>, notify: Boolean) {
         val start: Int = dataSets.size
         for (item in items) {
             dataSets.add(item)
@@ -90,7 +91,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    fun removeItem(item: PerDataItem<*, out RecyclerView.ViewHolder>) {
+    fun removeItem(item: PerDataItem<*, out ViewHolder>) {
         if (item != null) {
             val index = dataSets.indexOf(item)
             removeItem(index)
@@ -102,7 +103,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyItemChanged(indexOf)
     }
 
-    fun removeItem(index: Int): PerDataItem<*, out RecyclerView.ViewHolder>? {
+    fun removeItem(index: Int): PerDataItem<*, out ViewHolder>? {
         return if (index > 0 && index < dataSets.size) {
             val remove = dataSets.removeAt(index)
             notifyItemRemoved(index)
@@ -135,14 +136,14 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         return position < headers.size()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (headers.indexOfKey(viewType) >= 0) {
             val view = headers[viewType]
-            return object : RecyclerView.ViewHolder(view) {}
+            return object : ViewHolder(view) {}
         }
         if (footers.indexOfKey(viewType) >= 0) {
             val view = footers[viewType]
-            return object : RecyclerView.ViewHolder(view) {}
+            return object : ViewHolder(view) {}
         }
         val position = typeArray[viewType]
         val dataItem = dataSets[position]
@@ -161,20 +162,20 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private fun createViewHolderInternal(
-        clazz: Class<PerDataItem<*, out RecyclerView.ViewHolder>>,
+        clazz: Class<PerDataItem<*, out ViewHolder>>,
         view: View?
-    ): RecyclerView.ViewHolder {
+    ): ViewHolder {
         val superclass = clazz.genericSuperclass
         if (superclass is ParameterizedType) {
             val arguments = superclass.actualTypeArguments
             for (argument in arguments) {
-                if (argument is Class<*> && RecyclerView.ViewHolder::class.java.isAssignableFrom(
+                if (argument is Class<*> && ViewHolder::class.java.isAssignableFrom(
                         argument
                     )
                 ) {
                     try {
                         return argument.getConstructor(View::class.java)
-                            .newInstance(view) as RecyclerView.ViewHolder
+                            .newInstance(view) as ViewHolder
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
@@ -182,14 +183,14 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
 
-        return object : RecyclerView.ViewHolder(view!!) {}
+        return object : ViewHolder(view!!) {}
     }
 
     override fun getItemCount(): Int {
         return dataSets.size + getHeaderSize() + getFooterSize()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (isHeaderPosition(position) || isFooterPosition(position)) return
         val itemPosition = position - getHeaderSize()
         val dataItem = getItem(itemPosition)
@@ -228,13 +229,13 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         return recyclerViewRef?.get()
     }
 
-    fun getItem(position: Int): PerDataItem<*, RecyclerView.ViewHolder>? {
+    fun getItem(position: Int): PerDataItem<*, ViewHolder>? {
         if (position < 0 || position >= dataSets.size)
             return null
-        return dataSets[position] as PerDataItem<*, RecyclerView.ViewHolder>
+        return dataSets[position] as PerDataItem<*, ViewHolder>
     }
 
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
         val recyclerView = getAttachRecyclerView()
         if (recyclerView != null) {
             //瀑布流的item占比适配
@@ -259,7 +260,7 @@ class PerAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
         val position = holder.adapterPosition
         if (isHeaderPosition(position) || isFooterPosition(position)) return
         val itemPosition = position - getHeaderSize()

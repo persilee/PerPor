@@ -1,10 +1,12 @@
 package net.lishaoy.perpro.model
 
+import java.io.Serializable
+
 data class HomeModel(
     val bannerList: List<HomeBanner>?,
     val subcategoryList: List<Subcategory>?,
     val goodsList: List<GoodsModel>?
-)
+) : Serializable
 
 /**
 {
@@ -17,7 +19,7 @@ data class TabCategory(
     val categoryId: String,
     val categoryName: String,
     val goodsCount: String
-)
+) : Serializable
 
 
 /**
@@ -42,7 +44,7 @@ data class HomeBanner(
     val title: String,
     val type: String,
     val url: String
-) {
+): Serializable {
     companion object {
         const val TYPE_GOODS = "goods"
         const val TYPE_RECOMMEND = "recommend"
@@ -67,7 +69,7 @@ data class Subcategory(
     val subcategoryIcon: String,
     val subcategoryId: String,
     val subcategoryName: String
-)
+): Serializable
 
 
 /**
@@ -112,7 +114,7 @@ data class GoodsModel(
     val sliderImage: String,
     val sliderImages: List<SliderImage>,
     val tags: String
-)
+) : Serializable
 
 data class GoodsList(
     val total:Int,
@@ -122,4 +124,4 @@ data class GoodsList(
 data class SliderImage(
     val type: Int,
     val url: String
-)
+): Serializable
