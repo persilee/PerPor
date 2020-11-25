@@ -2,12 +2,14 @@ package net.lishaoy.perpro.goods
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.activity_goods_list.*
 import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.ui.PerBaseActivity
+import net.lishaoy.library.util.PerDataBus
 import net.lishaoy.library.util.PerStatusBar
 import net.lishaoy.perpro.R
 

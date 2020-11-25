@@ -70,9 +70,9 @@ object PerDataBus {
 }
 
 class StickyObserver<T>(
-    val stickyLiveData: PerDataBus.StickyLiveData<T>,
-    val sticky: Boolean,
-    val observer: Observer<in T>
+    private val stickyLiveData: PerDataBus.StickyLiveData<T>,
+    private val sticky: Boolean,
+    private val observer: Observer<in T>
 ) : Observer<T> {
 
     private var lastVersion = stickyLiveData.version
