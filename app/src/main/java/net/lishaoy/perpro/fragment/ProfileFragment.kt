@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import android.widget.ImageView
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.fragment_profile.*
 import net.lishaoy.common.ui.PerBaseFragment
@@ -22,6 +23,7 @@ import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.perpro.R
+import net.lishaoy.perpro.account.AccountManager
 import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.AccountApi
 import net.lishaoy.perpro.model.CourseNotice
@@ -63,22 +65,13 @@ class ProfileFragment : PerBaseFragment() {
     }
 
     private fun queryLoginUserData() {
-        ApiFactory.create(AccountApi::class.java).profile()
-            .enqueue(object : PerCallback<UserProfile> {
-                override fun onSuccess(response: PerResponse<UserProfile>) {
-                    val data = response.data
-                    if (response.code == PerResponse.SUCCESS && data != null) {
-                        updateUI(data)
-                    } else {
-                        showToast(response.msg)
-                    }
-                }
-
-                override fun onFailed(throwable: Throwable) {
-                    showToast(throwable.message)
-                }
-
-            })
+        AccountManager.getUserProfile(this, Observer { profile ->
+            if (profile != null) {
+                updateUI(profile)
+            } else {
+                showToast(getString(R.string.get_profile_failed))
+            }
+        }, onlyCache = false)
     }
 
     private fun updateUI(userProfile: UserProfile) {
@@ -93,7 +86,9 @@ class ProfileFragment : PerBaseFragment() {
         } else {
             user_avatar.setImageResource(R.drawable.ic_avatar_default)
             user_name.setOnClickListener {
-                ARouter.getInstance().build("/account/login").navigation(activity, 1001)
+               AccountManager.login(context, Observer {
+                   queryLoginUserData()
+               })
             }
         }
 

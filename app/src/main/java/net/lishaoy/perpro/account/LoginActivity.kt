@@ -1,14 +1,10 @@
-package net.lishaoy.perpro.login
+package net.lishaoy.perpro.account
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.EditText
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.activity_login.*
@@ -57,7 +53,7 @@ class LoginActivity : PerBaseActivity() {
                     if (response.code == PerResponse.SUCCESS) {
                         showToast(getString(R.string.login_success))
                         val data = response.data
-                        SPUtil.putString("boarding-pass", data!!)
+                        AccountManager.loginSuccess(data!!)
                         setResult(Activity.RESULT_OK, Intent())
                         finish()
                     } else {

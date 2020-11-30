@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/color_background"
-    tools:context=".login.RegistrationActivity">
+    tools:context=".account.RegistrationActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

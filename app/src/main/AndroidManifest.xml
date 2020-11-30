@@ -21,9 +21,9 @@
         android:networkSecurityConfig="@xml/network_sercurity_config"
         android:usesCleartextTraffic="true">
         <activity android:name=".goods.GoodsListActivity"></activity>
-        <activity android:name=".login.DegradeGlobalActivity" />
-        <activity android:name=".login.RegistrationActivity" />
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".account.DegradeGlobalActivity" />
+        <activity android:name=".account.RegistrationActivity" />
+        <activity android:name=".account.LoginActivity" />
         <activity android:name=".demo.ApiTestActivity" />
         <activity android:name=".demo.PerBannerDemoActivity" />
         <activity android:name=".demo.PerRefreshDemoActivity" />
