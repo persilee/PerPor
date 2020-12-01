@@ -87,7 +87,7 @@ object AccountManager {
             profileLiveData.observe(lifecycleOwner, observer)
         }
 
-        if (userProfile != null) {
+        if (userProfile != null && onlyCache) {
             profileLiveData.postValue(userProfile)
             return
         }

@@ -9,10 +9,8 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
-import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.fragment_category.*
 import net.lishaoy.common.route.PerRoute
-import net.lishaoy.common.route.PerRoute.Destination
 import net.lishaoy.common.route.PerRoute.Destination.*
 import net.lishaoy.common.ui.PerBaseFragment
 import net.lishaoy.common.view.loadUrl

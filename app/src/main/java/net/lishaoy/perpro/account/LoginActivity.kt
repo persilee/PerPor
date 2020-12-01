@@ -70,7 +70,6 @@ class LoginActivity : PerBaseActivity() {
     }
 
     private fun goRegistration() {
-//        startActivity(Intent(this, RegistrationActivity::class.java))
         ARouter.getInstance().build("/account/register").navigation()
     }
 

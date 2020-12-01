@@ -33,6 +33,7 @@
     <string name="if_share">&#xe60d;</string>
     <string name="if_shop">&#xe895;</string>
     <string name="if_like">&#xe60e;</string>
+    <string name="if_like_btn">&#xe60e;\n收藏</string>
     <string name="if_add">&#xe62b;</string>
     <string name="if_location">&#xe61b;</string>
     <string name="if_close">&#xe611;</string>
