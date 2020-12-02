@@ -15,6 +15,7 @@ import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.util.PerStatusBar
 import net.lishaoy.perpro.R
+import net.lishaoy.perpro.fragment.home.GoodsItem
 import net.lishaoy.perpro.model.DetailModel
 import net.lishaoy.perpro.model.GoodsModel
 import net.lishaoy.perpro.model.selectPrice
@@ -86,6 +87,15 @@ class DetailActivity : PerBaseActivity() {
         dataItems.add(CommentItem(detailModel))
         dataItems.add(ShopItem(detailModel))
         dataItems.add(GoodsAttrItem(detailModel))
+        detailModel.gallery?.forEach {
+            dataItems.add(GalleryItem(it))
+        }
+        detailModel.similarGoods?.let {
+            dataItems.add(SimilarTitleItem())
+            it.forEach {
+                dataItems.add(GoodsItem(it, false))
+            }
+        }
         perAdapter.clearItems()
         perAdapter.addItems(dataItems, true)
 

@@ -4,22 +4,38 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import net.lishaoy.library.util.PerViewUtil
 
 fun ImageView.loadUrl(url: String) {
+    if (PerViewUtil.isActivityDestroyed(context)) return
     Glide.with(this).load(url).into(this)
 }
 
+fun ImageView.loadUrl(url: String, callback: (Drawable) -> Unit) {
+    if (PerViewUtil.isActivityDestroyed(context)) return
+    Glide.with(context).load(url).into(object : SimpleTarget<Drawable>() {
+        override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+            callback(resource)
+        }
+    })
+}
+
 fun ImageView.loadCircle(url: String) {
+    if (PerViewUtil.isActivityDestroyed(context)) return
     Glide.with(this).load(url).transform(CenterCrop()).into(this)
 }
 
 fun ImageView.loadCorner(url: String, corner: Int) {
+    if (PerViewUtil.isActivityDestroyed(context)) return
     Glide.with(this).load(url).transform(CenterCrop(), RoundedCorners(corner)).into(this)
 }
 
@@ -28,6 +44,7 @@ fun ImageView.loadCircleBorder(
     borderWidth: Float = 0f,
     borderColor: Int = Color.WHITE
 ) {
+    if (PerViewUtil.isActivityDestroyed(context)) return
     Glide.with(this).load(url).transform(CircleBorderTransform(borderWidth, borderColor)).into(this)
 }
 

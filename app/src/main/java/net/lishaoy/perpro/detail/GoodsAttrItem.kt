@@ -34,9 +34,9 @@ class GoodsAttrItem(val detailModel: DetailModel) :
                             attrContainer,
                             false
                         ) as InputItemLayout
+                    attrContainer.addView(view)
                     view
                 }
-                attrContainer.addView(attrItemView)
                 attrItemView.getEditText().hint = value
                 attrItemView.getEditText().isEnabled = false
                 attrItemView.getTitleView().text = key
