@@ -1,6 +1,7 @@
 package net.lishaoy.perpro.fragment.home
 
 import android.content.Context
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_home_goods_list_item_h.view.*
+import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.view.loadUrl
 import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.perpro.R
@@ -20,7 +22,7 @@ class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
     override fun onBindData(holder: RecyclerView.ViewHolder, position: Int) {
         val MAX_TAG_SIZE = 3
         val context = holder.itemView.context
-        holder.itemView.good_item_image.loadUrl(goods.sliderImage)
+        goods.sliderImage?.let { holder.itemView.good_item_image.loadUrl(it) }
         holder.itemView.good_item_title.text = goods.goodsName
         holder.itemView.good_item_price.text = goods.marketPrice
         holder.itemView.good_item_desc.text = goods.completedNumText
@@ -28,25 +30,27 @@ class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
         val labelContainer = holder.itemView.good_item_label_container
         if (!TextUtils.isEmpty(goods.tags)) {
             labelContainer.visibility = View.VISIBLE
-            val label = goods.tags.split(" ")
-            for (index in label.indices) {
-                val childCount = labelContainer.childCount
-                if (index > MAX_TAG_SIZE - 1) {
-                    for (index in childCount - 1 downTo MAX_TAG_SIZE) {
-                        labelContainer.removeViewAt(index)
+            val label = goods.tags?.split(" ")
+            if (label != null) {
+                for (index in label.indices) {
+                    val childCount = labelContainer.childCount
+                    if (index > MAX_TAG_SIZE - 1) {
+                        for (index in childCount - 1 downTo MAX_TAG_SIZE) {
+                            labelContainer.removeViewAt(index)
+                        }
+                        break
                     }
-                    break
-                }
-                val labelView: TextView =
-                    if (index > labelContainer.childCount - 1) {
-                        val view = createLabelView(context)
-                        view.text = label[index]
-                        labelContainer.addView(view)
-                        view
-                    } else {
-                        labelContainer.getChildAt(index) as TextView
-                    }
+                    val labelView: TextView =
+                        if (index > labelContainer.childCount - 1) {
+                            val view = createLabelView(context)
+                            view.text = label[index]
+                            labelContainer.addView(view)
+                            view
+                        } else {
+                            labelContainer.getChildAt(index) as TextView
+                        }
 
+                }
             }
         } else {
             labelContainer.visibility = View.GONE
@@ -64,6 +68,13 @@ class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
             }
 
             holder.itemView.layoutParams = params
+        }
+
+        holder.itemView.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putString("goodsId", goods.goodsId)
+            bundle.putParcelable("goodsModel", goods)
+            PerRoute.startActivity(context,bundle,PerRoute.Destination.DETAIL_MAIN)
         }
     }
 

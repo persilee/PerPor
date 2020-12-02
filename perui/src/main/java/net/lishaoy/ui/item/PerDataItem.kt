@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class PerDataItem<DATA, VH: RecyclerView.ViewHolder>(data: DATA) {
+abstract class PerDataItem<DATA, VH: RecyclerView.ViewHolder>(data: DATA? = null) {
 
     private var adapter: PerAdapter? = null
     var data: DATA ?= null

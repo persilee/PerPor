@@ -70,7 +70,7 @@ class PerAdapter(context: Context) : Adapter<ViewHolder>() {
         return dataSets.size
     }
 
-    fun addItem(index: Int, item: PerDataItem<*, ViewHolder>, notify: Boolean) {
+    fun addItem(index: Int, item: PerDataItem<*, out ViewHolder>, notify: Boolean) {
         if (index > 0) {
             dataSets.add(index, item)
         } else {

@@ -17,8 +17,10 @@ import net.lishaoy.library.util.PerStatusBar
 import net.lishaoy.perpro.R
 import net.lishaoy.perpro.model.DetailModel
 import net.lishaoy.perpro.model.GoodsModel
+import net.lishaoy.perpro.model.selectPrice
 import net.lishaoy.ui.empty.EmptyView
 import net.lishaoy.ui.item.PerAdapter
+import net.lishaoy.ui.item.PerDataItem
 
 @Route(path = "/detail/main")
 class DetailActivity : PerBaseActivity() {
@@ -49,14 +51,41 @@ class DetailActivity : PerBaseActivity() {
             if (it == null) {
                 showEmptyView()
             } else {
+                preBindData()
                 bindData(it)
             }
         })
 
     }
 
+    private fun preBindData() {
+        if (goodsModel == null) return
+        val perAdapter = detail_recycler_view.adapter as PerAdapter
+        perAdapter.addItem(0, HeaderItem(
+            goodsModel!!.sliderImages,
+            selectPrice(goodsModel!!.groupPrice, goodsModel!!.marketPrice),
+            goodsModel!!.completedNumText,
+            goodsModel!!.goodsName
+        ), false)
+    }
+
     private fun bindData(detailModel: DetailModel) {
 
+        detail_recycler_view.visibility = View.VISIBLE
+        emptyView?.visibility = View.GONE
+        val perAdapter = detail_recycler_view.adapter as PerAdapter
+        val dataItems = mutableListOf<PerDataItem<*, *>>()
+        dataItems.add(
+            HeaderItem(
+                detailModel.sliderImages,
+                selectPrice(detailModel.groupPrice, detailModel.marketPrice),
+                detailModel.completedNumText,
+                detailModel.goodsName
+            )
+        )
+
+        perAdapter.clearItems()
+        perAdapter.addItems(dataItems, true)
 
 
     }
@@ -66,7 +95,8 @@ class DetailActivity : PerBaseActivity() {
             emptyView = EmptyView(this)
             emptyView!!.setIcon(R.string.if_empty3)
             emptyView!!.setDesc(getString(R.string.list_empty_desc))
-            emptyView!!.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            emptyView!!.layoutParams =
+                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
             emptyView!!.setBackgroundColor(Color.WHITE)
             emptyView!!.setButton(getString(R.string.list_empty_action), View.OnClickListener {
                 viewModel.queryDetailData()

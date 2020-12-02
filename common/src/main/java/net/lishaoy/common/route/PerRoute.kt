@@ -20,8 +20,9 @@ object PerRoute {
         AppGlobals.get()?.startActivity(intent)
     }
 
-    enum class Destination(val path:String) {
-        GOODS_LIST("/goods/list")
+    enum class Destination(val desc:String, val path:String) {
+        GOODS_LIST("商品列表","/goods/list"),
+        DETAIL_MAIN("详情页","/detail/main")
     }
 
     fun startActivity(
