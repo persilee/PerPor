@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_10"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:background="@color/color_white">
+
+    <TextView
+        android:id="@+id/detail_comment_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_000"
+        android:layout_marginLeft="@dimen/dp_16"
+        tools:text="商品评价(666)"
+        android:layout_gravity="center_vertical"
+        android:layout_marginVertical="@dimen/dp_10"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/color_eee" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/detail_comment_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_6"
+        app:chipSpacingHorizontal="@dimen/dp_10"
+        app:singleLine="false" />
+
+    <LinearLayout
+        android:id="@+id/detail_comment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:orientation="vertical" />
+
+
+</LinearLayout>

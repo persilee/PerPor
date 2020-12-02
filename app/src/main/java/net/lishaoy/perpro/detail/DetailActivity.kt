@@ -83,7 +83,7 @@ class DetailActivity : PerBaseActivity() {
                 detailModel.goodsName
             )
         )
-
+        dataItems.add(CommentItem(detailModel))
         perAdapter.clearItems()
         perAdapter.addItems(dataItems, true)
 
