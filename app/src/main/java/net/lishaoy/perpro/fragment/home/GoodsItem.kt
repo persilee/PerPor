@@ -2,6 +2,7 @@ package net.lishaoy.perpro.fragment.home
 
 import android.content.Context
 import android.os.Bundle
+import android.renderscript.ScriptGroup
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
@@ -10,11 +11,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_home_goods_list_item_h.view.*
+import kotlinx.android.synthetic.main.layout_home_goods_list_item_v.*
 import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.view.loadUrl
 import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.perpro.R
 import net.lishaoy.perpro.model.GoodsModel
+import net.lishaoy.perpro.model.selectPrice
 import net.lishaoy.ui.item.PerDataItem
 import net.lishaoy.ui.item.PerViewHolder
 
@@ -23,12 +26,12 @@ open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
     override fun onBindData(holder: PerViewHolder, position: Int) {
         val MAX_TAG_SIZE = 3
         val context = holder.itemView.context
-        goods.sliderImage?.let { holder.itemView.good_item_image.loadUrl(it) }
-        holder.itemView.good_item_title.text = goods.goodsName
-        holder.itemView.good_item_price.text = goods.marketPrice
-        holder.itemView.good_item_desc.text = goods.completedNumText
+        goods.sliderImage?.let { holder.good_item_image?.loadUrl(it) }
+        holder.good_item_title?.text = goods.goodsName
+        holder.good_item_price?.text = selectPrice(goods.groupPrice, goods.marketPrice)
+        holder.good_item_desc?.text = goods.completedNumText
 
-        val labelContainer = holder.itemView.good_item_label_container
+        val labelContainer = holder.good_item_label_container
         if (labelContainer != null) {
             if (!TextUtils.isEmpty(goods.tags)) {
                 labelContainer.visibility = View.VISIBLE
@@ -77,14 +80,14 @@ open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
             var bundle = Bundle()
             bundle.putString("goodsId", goods.goodsId)
             bundle.putParcelable("goodsModel", goods)
-            PerRoute.startActivity(context,bundle,PerRoute.Destination.DETAIL_MAIN)
+            PerRoute.startActivity(context, bundle, PerRoute.Destination.DETAIL_MAIN)
         }
     }
 
     fun createLabelView(context: Context): TextView {
         val labelView = TextView(context)
         labelView.setTextColor(ContextCompat.getColor(context, R.color.color_e75))
-        labelView.background = ContextCompat.getDrawable(context,R.drawable.shape_goods_label)
+        labelView.background = ContextCompat.getDrawable(context, R.drawable.shape_goods_label)
         labelView.textSize = 10f
         labelView.gravity = Gravity.CENTER
         val params = LinearLayout.LayoutParams(
@@ -102,7 +105,7 @@ open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
     }
 
     override fun getSpanSize(): Int {
-        return if(hotTab) super.getSpanSize() else 1
+        return if (hotTab) super.getSpanSize() else 1
     }
 
 }

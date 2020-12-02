@@ -48,7 +48,7 @@ class ShopItem(val detailModel: DetailModel) : PerDataItem<DetailModel, PerViewH
                 tagContainer.visibility = View.VISIBLE
                 val tags = evaluation.split(" ")
                 var index = 0
-                for (tagIndex in 0..tags.size / 2) {
+                for (tagIndex in 0..(tags.size / 2 - 1)) {
                     val tagView = if (tagIndex < tagContainer.childCount) {
                         tagContainer.getChildAt(tagIndex) as TextView
                     } else {
@@ -60,17 +60,16 @@ class ShopItem(val detailModel: DetailModel) : PerDataItem<DetailModel, PerViewH
                         tagView.gravity = Gravity.CENTER
                         tagView.textSize = 14f
                         tagView.setTextColor(ContextCompat.getColor(context, R.color.color_666))
+                        tagContainer.addView(tagView)
                         tagView
                     }
 
-                    val name = tags[index]
+                    val name = if (index >= tags.size) continue else tags[index]
                     val tag = tags[index + 1]
                     index += 2
 
                     val spanTag = spanTag(context, name, tag)
                     tagView.text = spanTag
-
-                    tagContainer.addView(tagView)
                 }
             }
         }
@@ -86,8 +85,8 @@ class ShopItem(val detailModel: DetailModel) : PerDataItem<DetailModel, PerViewH
                 flowRecyclerView.adapter = PerAdapter(context)
             }
             val dataItems = mutableListOf<GoodsItem>()
-            it.forEach { goodsModel ->
-                dataItems.add(ShopGoodsItem(goodsModel))
+            it.forEach { it ->
+                dataItems.add(ShopGoodsItem(it))
             }
             val perAdapter = flowRecyclerView.adapter as PerAdapter
             perAdapter.clearItems()
@@ -106,7 +105,7 @@ class ShopItem(val detailModel: DetailModel) : PerDataItem<DetailModel, PerViewH
             val availableWidth =
                 viewParent.measuredWidth - viewParent.paddingLeft - viewParent.paddingRight
             val itemWidth = availableWidth / SHOP_GOODS_ITEM_COUNT
-            val itemImage = holder.detail_shop_good_item_image
+            val itemImage = holder.good_item_image
             val params = itemImage.layoutParams
             params.width = itemWidth
             params.height = itemWidth

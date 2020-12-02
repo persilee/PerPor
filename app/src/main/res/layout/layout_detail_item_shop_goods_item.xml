@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/detail_shop_good_item_image"
+        android:id="@+id/good_item_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_eee"
@@ -19,7 +19,7 @@
         tools:src="@color/colorPrimary" />
 
     <TextView
-        android:id="@+id/detail_shop_good_item_title"
+        android:id="@+id/good_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
@@ -34,7 +34,7 @@
         tools:text="@string/title" />
 
     <TextView
-        android:id="@+id/detail_shop_good_item_price"
+        android:id="@+id/good_item_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_10"
@@ -47,11 +47,11 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_shop_good_item_title"
+        app:layout_constraintTop_toBottomOf="@+id/good_item_title"
         tools:text="￥66" />
 
     <TextView
-        android:id="@+id/detail_shop_good_item_desc"
+        android:id="@+id/good_item_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
@@ -59,7 +59,7 @@
         android:textColor="@color/color_999"
         android:textSize="@dimen/sp_14"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_shop_good_item_title"
+        app:layout_constraintTop_toBottomOf="@+id/good_item_title"
         tools:text="商品还有 666 件" />
 
 
