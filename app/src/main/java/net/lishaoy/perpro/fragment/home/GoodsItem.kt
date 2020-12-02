@@ -16,10 +16,11 @@ import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.perpro.R
 import net.lishaoy.perpro.model.GoodsModel
 import net.lishaoy.ui.item.PerDataItem
+import net.lishaoy.ui.item.PerViewHolder
 
-class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
-    PerDataItem<GoodsModel, RecyclerView.ViewHolder>(goods) {
-    override fun onBindData(holder: RecyclerView.ViewHolder, position: Int) {
+open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
+    PerDataItem<GoodsModel, PerViewHolder>(goods) {
+    override fun onBindData(holder: PerViewHolder, position: Int) {
         val MAX_TAG_SIZE = 3
         val context = holder.itemView.context
         goods.sliderImage?.let { holder.itemView.good_item_image.loadUrl(it) }
@@ -28,32 +29,34 @@ class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
         holder.itemView.good_item_desc.text = goods.completedNumText
 
         val labelContainer = holder.itemView.good_item_label_container
-        if (!TextUtils.isEmpty(goods.tags)) {
-            labelContainer.visibility = View.VISIBLE
-            val label = goods.tags?.split(" ")
-            if (label != null) {
-                for (index in label.indices) {
-                    val childCount = labelContainer.childCount
-                    if (index > MAX_TAG_SIZE - 1) {
-                        for (index in childCount - 1 downTo MAX_TAG_SIZE) {
-                            labelContainer.removeViewAt(index)
+        if (labelContainer != null) {
+            if (!TextUtils.isEmpty(goods.tags)) {
+                labelContainer.visibility = View.VISIBLE
+                val label = goods.tags?.split(" ")
+                if (label != null) {
+                    for (index in label.indices) {
+                        val childCount = labelContainer.childCount
+                        if (index > MAX_TAG_SIZE - 1) {
+                            for (index in childCount - 1 downTo MAX_TAG_SIZE) {
+                                labelContainer.removeViewAt(index)
+                            }
+                            break
                         }
-                        break
-                    }
-                    val labelView: TextView =
-                        if (index > labelContainer.childCount - 1) {
-                            val view = createLabelView(context)
-                            view.text = label[index]
-                            labelContainer.addView(view)
-                            view
-                        } else {
-                            labelContainer.getChildAt(index) as TextView
-                        }
+                        val labelView: TextView =
+                            if (index > labelContainer.childCount - 1) {
+                                val view = createLabelView(context)
+                                view.text = label[index]
+                                labelContainer.addView(view)
+                                view
+                            } else {
+                                labelContainer.getChildAt(index) as TextView
+                            }
 
+                    }
                 }
+            } else {
+                labelContainer.visibility = View.GONE
             }
-        } else {
-            labelContainer.visibility = View.GONE
         }
 
         if (!hotTab) {

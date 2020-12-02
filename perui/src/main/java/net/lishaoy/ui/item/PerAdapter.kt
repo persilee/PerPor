@@ -183,7 +183,7 @@ class PerAdapter(context: Context) : Adapter<ViewHolder>() {
             }
         }
 
-        return object : ViewHolder(view!!) {}
+        return object : PerViewHolder(view!!) {}
     }
 
     override fun getItemCount(): Int {
@@ -199,6 +199,7 @@ class PerAdapter(context: Context) : Adapter<ViewHolder>() {
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
+        recyclerViewRef = WeakReference(recyclerView)
         val layoutManager = recyclerView.layoutManager
         if (layoutManager is GridLayoutManager) {
             val spanCount = layoutManager.spanCount
