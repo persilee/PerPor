@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -15,8 +16,10 @@ import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.util.PerStatusBar
 import net.lishaoy.perpro.R
+import net.lishaoy.perpro.account.AccountManager
 import net.lishaoy.perpro.fragment.home.GoodsItem
 import net.lishaoy.perpro.model.DetailModel
+import net.lishaoy.perpro.model.Favorite
 import net.lishaoy.perpro.model.GoodsModel
 import net.lishaoy.perpro.model.selectPrice
 import net.lishaoy.ui.empty.EmptyView
@@ -62,12 +65,14 @@ class DetailActivity : PerBaseActivity() {
     private fun preBindData() {
         if (goodsModel == null) return
         val perAdapter = detail_recycler_view.adapter as PerAdapter
-        perAdapter.addItem(0, HeaderItem(
-            goodsModel!!.sliderImages,
-            selectPrice(goodsModel!!.groupPrice, goodsModel!!.marketPrice),
-            goodsModel!!.completedNumText,
-            goodsModel!!.goodsName
-        ), false)
+        perAdapter.addItem(
+            0, HeaderItem(
+                goodsModel!!.sliderImages,
+                selectPrice(goodsModel!!.groupPrice, goodsModel!!.marketPrice),
+                goodsModel!!.completedNumText,
+                goodsModel!!.goodsName
+            ), false
+        )
     }
 
     private fun bindData(detailModel: DetailModel) {
@@ -99,7 +104,52 @@ class DetailActivity : PerBaseActivity() {
         perAdapter.clearItems()
         perAdapter.addItems(dataItems, true)
 
+        updateFavorite(detailModel.isFavorite)
+        updateOrder(detailModel)
+    }
 
+    private fun updateOrder(detailModel: DetailModel) {
+        detail_btn_order.text = selectPrice(
+            detailModel.groupPrice,
+            detailModel.marketPrice
+        ) + R.string.detail_order_text
+    }
+
+    private fun updateFavorite(favorite: Boolean) {
+        detail_btn_favorite.setOnClickListener {
+            toggleFavorite()
+        }
+        detail_btn_favorite.setTextColor(
+            ContextCompat.getColor(
+                this,
+                if (favorite) R.color.color_dd2 else R.color.color_999
+            )
+        )
+    }
+
+    private fun toggleFavorite() {
+        if (!AccountManager.isLogin()) {
+            AccountManager.login(this, Observer {
+                if (it) {
+                    toggleFavorite()
+                }
+            })
+        } else {
+            detail_btn_favorite.isClickable = false
+            viewModel.toggleFavorite().observe(this, Observer {
+                if (it != null) {
+                    updateFavorite(it)
+                    val message =
+                        if (it) getString(R.string.detail_favorite_success) else getString(
+                            R.string.detail_cancel_favorite_success
+                        )
+                    showToast(message)
+                } else {
+
+                }
+                detail_btn_favorite.isClickable = true
+            })
+        }
     }
 
     private fun showEmptyView() {
@@ -124,5 +174,8 @@ class DetailActivity : PerBaseActivity() {
 
         detail_recycler_view.layoutManager = GridLayoutManager(this, 2)
         detail_recycler_view.adapter = PerAdapter(this)
+        detail_recycler_view.addOnScrollListener(TitleScrollListener(callback = {
+            detail_title_bar.setBackgroundColor(it)
+        }))
     }
 }

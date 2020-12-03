@@ -41,4 +41,7 @@
     <string name="get_profile_failed">获取用户信息失败</string>
     <string name="detail_goods_num">商品数量：%s 已拼：%s</string>
     <string name="detail_similar_title">&#xe6d1; 相似商品</string>
+    <string name="detail_favorite_success">收藏成功</string>
+    <string name="detail_cancel_favorite_success">取消收藏成功</string>
+    <string name="detail_order_text">\n立即购买</string>
 </resources>

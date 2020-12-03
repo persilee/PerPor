@@ -7,7 +7,9 @@ import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.perpro.BuildConfig
 import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.DetailApi
+import net.lishaoy.perpro.http.api.FavoriteApi
 import net.lishaoy.perpro.model.DetailModel
+import net.lishaoy.perpro.model.Favorite
 
 class DetailViewModel(val goodsId: String?) : ViewModel() {
 
@@ -29,7 +31,9 @@ class DetailViewModel(val goodsId: String?) : ViewModel() {
         }
 
         fun get(goodsId: String?, viewModelStoreOwner: ViewModelStoreOwner): DetailViewModel {
-            return ViewModelProvider(viewModelStoreOwner, DetailViewModelFactory(goodsId)).get(DetailViewModel::class.java)
+            return ViewModelProvider(viewModelStoreOwner, DetailViewModelFactory(goodsId)).get(
+                DetailViewModel::class.java
+            )
         }
     }
 
@@ -57,6 +61,26 @@ class DetailViewModel(val goodsId: String?) : ViewModel() {
         }
 
         return pageData
+    }
+
+    fun toggleFavorite(): LiveData<Boolean?> {
+        val toggleFavoriteData = MutableLiveData<Boolean?>()
+        if (!TextUtils.isEmpty(goodsId)) {
+            ApiFactory.create(FavoriteApi::class.java).favorite(goodsId!!)
+                .enqueue(object : PerCallback<Favorite> {
+                    override fun onSuccess(response: PerResponse<Favorite>) {
+                        if (response.successful() && response.data != null) {
+                            toggleFavoriteData.postValue(response.data?.isFavorite)
+                        }
+                    }
+
+                    override fun onFailed(throwable: Throwable) {
+                        toggleFavoriteData.postValue(null)
+                    }
+
+                })
+        }
+        return toggleFavoriteData
     }
 
 }

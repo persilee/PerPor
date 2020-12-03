@@ -37,3 +37,8 @@ data class Shop(
     val logo: String,
     val name: String
 )
+
+data class Favorite(
+    val goodsId: String,
+    val isFavorite: Boolean
+)
