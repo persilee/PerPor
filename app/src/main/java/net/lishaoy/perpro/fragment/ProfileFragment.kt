@@ -16,6 +16,7 @@ import android.widget.ImageView
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.fragment_profile.*
+import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.ui.PerBaseFragment
 import net.lishaoy.common.view.loadCircle
 import net.lishaoy.common.view.loadCorner
@@ -43,6 +44,10 @@ class ProfileFragment : PerBaseFragment() {
         collection.setText(R.string.item_collection)
         address.setText(R.string.item_address)
         history.setText(R.string.item_history)
+
+        notice_container.setOnClickListener {
+            PerRoute.startActivity(context,destination = PerRoute.Destination.NOTICE_LIST)
+        }
 
         queryLoginUserData()
     }

@@ -101,6 +101,7 @@
         app:autoPlay="true"/>
 
     <LinearLayout
+        android:id="@+id/notice_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
         android:orientation="horizontal"

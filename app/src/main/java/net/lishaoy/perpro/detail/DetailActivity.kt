@@ -112,7 +112,7 @@ class DetailActivity : PerBaseActivity() {
         detail_btn_order.text = selectPrice(
             detailModel.groupPrice,
             detailModel.marketPrice
-        ) + R.string.detail_order_text
+        ) + getString(R.string.detail_order_text)
     }
 
     private fun updateFavorite(favorite: Boolean) {

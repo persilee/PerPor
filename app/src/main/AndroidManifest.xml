@@ -20,7 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".detail.DetailActivity"></activity>
+        <activity android:name=".notice.NoticeListActivity"></activity>
+        <activity android:name=".detail.DetailActivity" />
         <activity android:name=".goods.GoodsListActivity" />
         <activity android:name=".account.DegradeGlobalActivity" />
         <activity android:name=".account.RegistrationActivity" />

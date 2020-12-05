@@ -44,4 +44,5 @@
     <string name="detail_favorite_success">收藏成功</string>
     <string name="detail_cancel_favorite_success">取消收藏成功</string>
     <string name="detail_order_text">\n立即购买</string>
+    <string name="notice_title">公告</string>
 </resources>
