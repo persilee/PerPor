@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -34,9 +35,14 @@ fun ImageView.loadCircle(url: String) {
     Glide.with(this).load(url).transform(CenterCrop()).into(this)
 }
 
+@BindingAdapter(value = ["url", "corner"], requireAll = false)
 fun ImageView.loadCorner(url: String, corner: Int) {
     if (PerViewUtil.isActivityDestroyed(context)) return
-    Glide.with(this).load(url).transform(CenterCrop(), RoundedCorners(corner)).into(this)
+    var transform = Glide.with(this).load(url).transform(CenterCrop())
+    if (corner > 0) {
+        RoundedCorners(corner)
+    }
+    transform.into(this)
 }
 
 fun ImageView.loadCircleBorder(

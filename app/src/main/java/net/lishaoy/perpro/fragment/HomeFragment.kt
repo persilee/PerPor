@@ -7,15 +7,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.fragment_home.*
 import net.lishaoy.common.ui.PerBaseFragment
-import net.lishaoy.library.restful.PerCallback
-import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.perpro.R
-import net.lishaoy.perpro.http.ApiFactory
-import net.lishaoy.perpro.http.api.HomeApi
+import net.lishaoy.perpro.fragment.home.HomeViewModel
 import net.lishaoy.perpro.model.TabCategory
 import net.lishaoy.ui.tab.bottom.PerTabBottomLayout
 import net.lishaoy.ui.tab.common.IPerTabLayout
@@ -31,26 +30,12 @@ class HomeFragment : PerBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PerTabBottomLayout.clipBottomPadding(hone_view_pager)
-        queryTabList()
-    }
-
-    private fun queryTabList() {
-        ApiFactory.create(HomeApi::class.java).queryTabList()
-            .enqueue(object : PerCallback<List<TabCategory>> {
-                override fun onSuccess(response: PerResponse<List<TabCategory>>) {
-                    val data = response.data
-                    if (response.successful() && data != null) {
-                        updateUI(data)
-                    } else {
-                        showToast("")
-                    }
-                }
-
-                override fun onFailed(throwable: Throwable) {
-                    showToast("加载数据失败")
-                }
-
-            })
+        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(HomeViewModel::class.java)
+        viewModel.queryTabList().observe(viewLifecycleOwner, Observer {
+            it?.let {
+                updateUI(it)
+            }
+        })
     }
 
     private val onTabSelectedListener = IPerTabLayout.OnTabSelectedListener<PerTabTopInfo<*>> { index, _, _ ->

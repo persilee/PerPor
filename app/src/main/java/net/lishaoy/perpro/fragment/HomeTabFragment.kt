@@ -3,6 +3,8 @@ package net.lishaoy.perpro.fragment
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import net.lishaoy.common.ui.PerAbsListFragment
@@ -11,6 +13,7 @@ import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.perpro.fragment.home.BannerItem
 import net.lishaoy.perpro.fragment.home.GoodsItem
 import net.lishaoy.perpro.fragment.home.GridItem
+import net.lishaoy.perpro.fragment.home.HomeViewModel
 import net.lishaoy.perpro.http.ApiFactory
 import net.lishaoy.perpro.http.api.HomeApi
 import net.lishaoy.perpro.model.HomeModel
@@ -19,6 +22,7 @@ import org.devio.hi.library.restful.annotation.CacheStrategy
 
 class HomeTabFragment : PerAbsListFragment() {
 
+    private lateinit var viewModel: HomeViewModel
     private var categoryId: String? = null
     val DEFAULT_TAB_CATEGORY_ID = "1"
 
@@ -36,6 +40,8 @@ class HomeTabFragment : PerAbsListFragment() {
         categoryId = arguments?.getString("categoryId", DEFAULT_TAB_CATEGORY_ID)
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(HomeViewModel::class.java)
+
         queryTabCategoryList(CacheStrategy.CACHE_FIRST)
 
         enableLoadMore { queryTabCategoryList(CacheStrategy.NET_ONLY) }
@@ -47,21 +53,13 @@ class HomeTabFragment : PerAbsListFragment() {
     }
 
     private fun queryTabCategoryList(cacheStrategy: Int) {
-        ApiFactory.create(HomeApi::class.java).queryTabCategoryList(cacheStrategy, categoryId!!, pageIndex, 10)
-            .enqueue(object : PerCallback<HomeModel> {
-                override fun onSuccess(response: PerResponse<HomeModel>) {
-                    if (response.successful() && response.data != null) {
-                        updateUI(response.data!!)
-                    } else {
-                        finishRefresh(null)
-                    }
-                }
-
-                override fun onFailed(throwable: Throwable) {
-                    finishRefresh(null)
-                }
-
-            })
+        viewModel.queryTabCategoryList(categoryId, pageIndex, cacheStrategy).observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                updateUI(it)
+            } else {
+                finishRefresh(null)
+            }
+        })
     }
 
     private fun updateUI(data: HomeModel) {

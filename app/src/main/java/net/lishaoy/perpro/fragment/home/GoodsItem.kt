@@ -5,31 +5,35 @@ import android.os.Bundle
 import android.renderscript.ScriptGroup
 import android.text.TextUtils
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_home_goods_list_item_h.view.*
 import kotlinx.android.synthetic.main.layout_home_goods_list_item_v.*
 import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.view.loadUrl
 import net.lishaoy.library.util.PerDisplayUtil
+import net.lishaoy.perpro.BR
 import net.lishaoy.perpro.R
+import net.lishaoy.perpro.fragment.home.GoodsItem.*
 import net.lishaoy.perpro.model.GoodsModel
 import net.lishaoy.perpro.model.selectPrice
 import net.lishaoy.ui.item.PerDataItem
 import net.lishaoy.ui.item.PerViewHolder
 
 open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
-    PerDataItem<GoodsModel, PerViewHolder>(goods) {
-    override fun onBindData(holder: PerViewHolder, position: Int) {
+    PerDataItem<GoodsModel, GoodsItemHolder>(goods) {
+
+    override fun onBindData(holder: GoodsItemHolder, position: Int) {
         val MAX_TAG_SIZE = 3
         val context = holder.itemView.context
-        goods.sliderImage?.let { holder.good_item_image?.loadUrl(it) }
-        holder.good_item_title?.text = goods.goodsName
-        holder.good_item_price?.text = selectPrice(goods.groupPrice, goods.marketPrice)
-        holder.good_item_desc?.text = goods.completedNumText
+        holder.binding.setVariable(BR.goodsModel, goods)
 
         val labelContainer = holder.good_item_label_container
         if (labelContainer != null) {
@@ -100,6 +104,13 @@ open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
         return labelView
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup): GoodsItemHolder? {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(inflater, getItemLayoutRes(), parent, false)
+        return GoodsItemHolder(binding)
+    }
+
     override fun getItemLayoutRes(): Int {
         return if (hotTab) R.layout.layout_home_goods_list_item_h else R.layout.layout_home_goods_list_item_v
     }
@@ -107,5 +118,7 @@ open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
     override fun getSpanSize(): Int {
         return if (hotTab) super.getSpanSize() else 1
     }
+
+    inner class GoodsItemHolder(val binding: ViewDataBinding): PerViewHolder(binding.root) {}
 
 }

@@ -99,7 +99,7 @@ class ShopItem(val detailModel: DetailModel) : PerDataItem<DetailModel, PerViewH
             return R.layout.layout_detail_item_shop_goods_item
         }
 
-        override fun onViewAttachedToWindow(holder: PerViewHolder) {
+        override fun onViewAttachedToWindow(holder: GoodsItemHolder) {
             super.onViewAttachedToWindow(holder)
             val viewParent: ViewGroup = holder.itemView.parent as ViewGroup
             val availableWidth =
