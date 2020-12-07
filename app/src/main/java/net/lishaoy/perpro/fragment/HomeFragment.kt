@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
@@ -30,7 +31,7 @@ class HomeFragment : PerBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PerTabBottomLayout.clipBottomPadding(hone_view_pager)
-        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(HomeViewModel::class.java)
+        val viewModel = ViewModelProvider(this, SavedStateViewModelFactory(this.activity!!.application, this)).get(HomeViewModel::class.java)
         viewModel.queryTabList().observe(viewLifecycleOwner, Observer {
             it?.let {
                 updateUI(it)

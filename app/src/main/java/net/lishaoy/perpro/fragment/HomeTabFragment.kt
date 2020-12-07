@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +41,7 @@ class HomeTabFragment : PerAbsListFragment() {
         categoryId = arguments?.getString("categoryId", DEFAULT_TAB_CATEGORY_ID)
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, SavedStateViewModelFactory(this.activity!!.application, this)).get(HomeViewModel::class.java)
 
         queryTabCategoryList(CacheStrategy.CACHE_FIRST)
 
