@@ -94,7 +94,6 @@ class HomeFragment : PerBaseFragment() {
         }
 
         adapter.update(data)
-
     }
 
     inner class HomePagerAdapter(fm: FragmentManager, behavior: Int) :
