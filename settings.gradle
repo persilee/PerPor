@@ -3,3 +3,6 @@ include ':perui'
 include ':perlibrary'
 include ':app'
 rootProject.name = "PerPro"
+include ':biz_home'
+include ':biz_login'
+include ':biz_detail'
