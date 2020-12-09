@@ -6,3 +6,5 @@ rootProject.name = "PerPro"
 include ':biz_home'
 include ':biz_login'
 include ':biz_detail'
+include ':pub_mod'
+include ':service_login'
