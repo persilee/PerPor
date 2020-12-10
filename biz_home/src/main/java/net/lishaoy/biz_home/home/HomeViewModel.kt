@@ -10,6 +10,7 @@ import net.lishaoy.biz_home.model.TabCategory
 import net.lishaoy.common.http.ApiFactory
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
+import net.lishaoy.library.restful.annotation.CacheStrategy
 
 class HomeViewModel(var savedState: SavedStateHandle) : ViewModel() {
 
@@ -28,7 +29,7 @@ class HomeViewModel(var savedState: SavedStateHandle) : ViewModel() {
                 override fun onSuccess(response: PerResponse<List<TabCategory>>) {
                     val data = response.data
                     if (response.successful() && data != null) {
-                        liveData.postValue(data)
+                        liveData.value = data
                         savedState.set("categoryTabs", data)
                     }
                 }
@@ -51,7 +52,7 @@ class HomeViewModel(var savedState: SavedStateHandle) : ViewModel() {
         val liveData = MutableLiveData<HomeModel?>()
         val categoryList = savedState.get<HomeModel?>("categoryList")
 
-        if (categoryList != null) {
+        if (categoryList != null && pageIndex == 1 && cacheStrategy == CacheStrategy.CACHE_FIRST) {
             liveData.postValue(categoryList)
             return liveData
         }
@@ -61,8 +62,10 @@ class HomeViewModel(var savedState: SavedStateHandle) : ViewModel() {
             .enqueue(object : PerCallback<HomeModel> {
                 override fun onSuccess(response: PerResponse<HomeModel>) {
                     if (response.successful() && response.data != null) {
-                        liveData.postValue(response.data)
-                        savedState.set("categoryList", response.data)
+                        liveData.value = response.data
+                        if (cacheStrategy != CacheStrategy.NET_ONLY && response.code == PerResponse.SUCCESS) {
+                            savedState.set("categoryList", response.data)
+                        }
                     } else {
                         liveData.postValue(null)
                     }

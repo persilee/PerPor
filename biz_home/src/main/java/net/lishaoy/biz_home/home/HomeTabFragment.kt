@@ -36,9 +36,9 @@ class HomeTabFragment : PerAbsListFragment() {
 
         viewModel = ViewModelProvider(this, SavedStateViewModelFactory(this.activity!!.application, this)).get(HomeViewModel::class.java)
 
-        queryTabCategoryList(CacheStrategy.CACHE_FIRST)
-
         enableLoadMore { queryTabCategoryList(CacheStrategy.NET_ONLY) }
+
+        queryTabCategoryList(CacheStrategy.CACHE_FIRST)
     }
 
     override fun createLayoutManager(): RecyclerView.LayoutManager {
