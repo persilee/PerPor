@@ -23,19 +23,21 @@ import net.lishaoy.pub_mod.model.GoodsModel
 import net.lishaoy.ui.item.PerDataItem
 import net.lishaoy.ui.item.PerViewHolder
 
-open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
-    PerDataItem<GoodsModel, GoodsItemHolder>(goods) {
+open class GoodsItem(private val goodsModel: GoodsModel, private val hotTab: Boolean) :
+    PerDataItem<GoodsModel, GoodsItemHolder>(goodsModel) {
+
+    val MAX_TAG_SIZE = 3
 
     override fun onBindData(holder: GoodsItemHolder, position: Int) {
-        val MAX_TAG_SIZE = 3
+
         val context = holder.itemView.context
-        holder.binding.setVariable(BR.goodsModel, goods)
+        holder.binding.setVariable(BR.goodsModel, goodsModel)
 
         val labelContainer = holder.good_item_label_container
         if (labelContainer != null) {
-            if (!TextUtils.isEmpty(goods.tags)) {
+            if (!TextUtils.isEmpty(goodsModel.tags)) {
                 labelContainer.visibility = View.VISIBLE
-                val label = goods.tags?.split(" ")
+                val label = goodsModel.tags?.split(" ")
                 if (label != null) {
                     for (index in label.indices) {
                         val childCount = labelContainer.childCount
@@ -78,8 +80,8 @@ open class GoodsItem(val goods: GoodsModel, val hotTab: Boolean) :
 
         holder.itemView.setOnClickListener {
             var bundle = Bundle()
-            bundle.putString("goodsId", goods.goodsId)
-            bundle.putParcelable("goodsModel", goods)
+            bundle.putString("goodsId", goodsModel.goodsId)
+            bundle.putParcelable("goodsModel", goodsModel)
             PerRoute.startActivity(context, bundle, PerRoute.Destination.DETAIL_MAIN)
         }
     }

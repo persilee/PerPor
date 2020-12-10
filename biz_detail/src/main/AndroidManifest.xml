@@ -2,4 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.lishaoy.biz_detail">
 
+    <application>
+
+        <activity android:name=".DetailActivity" />
+
+    </application>
+
 </manifest>

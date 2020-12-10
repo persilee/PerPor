@@ -49,7 +49,7 @@ class HomeTabFragment : PerAbsListFragment() {
     private fun queryTabCategoryList(cacheStrategy: Int) {
         viewModel.queryTabCategoryList(categoryId, pageIndex, cacheStrategy).observe(viewLifecycleOwner, Observer {
             if (it != null) {
-                updateUI(it as HomeModel)
+                updateUI(it)
             } else {
                 finishRefresh(null)
             }

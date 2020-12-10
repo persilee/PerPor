@@ -2,8 +2,8 @@ package net.lishaoy.library.restful
 
 import net.lishaoy.library.cache.PerStorage
 import net.lishaoy.library.executor.PerExecutor
+import net.lishaoy.library.restful.annotation.CacheStrategy
 import net.lishaoy.library.util.MainHandler
-import org.devio.hi.library.restful.annotation.CacheStrategy
 
 class Scheduler(
     private val callFactory: PerCall.Factory,

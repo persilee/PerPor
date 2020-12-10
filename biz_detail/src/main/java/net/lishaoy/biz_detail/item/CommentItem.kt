@@ -5,12 +5,12 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
-import com.google.android.material.shape.ShapeAppearanceModel
 import kotlinx.android.synthetic.main.layout_detail_item_comment.*
 import kotlinx.android.synthetic.main.layout_detail_item_comment_item.view.*
 import net.lishaoy.biz_detail.R
 import net.lishaoy.biz_detail.model.DetailModel
 import net.lishaoy.common.view.loadUrl
+import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.ui.item.PerDataItem
 import net.lishaoy.ui.item.PerViewHolder
 import kotlin.math.min
@@ -28,7 +28,7 @@ class CommentItem(private val detailModel: DetailModel) : PerDataItem<DetailMode
                     chipGroup.getChildAt(tag) as Chip
                 } else {
                     val chip = Chip(context)
-                    chip.shapeAppearanceModel = ShapeAppearanceModel().withCornerSize(6f)
+                    chip.chipCornerRadius = PerDisplayUtil.dp2px(6f).toFloat()
                     chip.chipBackgroundColor = ColorStateList.valueOf(
                         ContextCompat.getColor(
                             context,

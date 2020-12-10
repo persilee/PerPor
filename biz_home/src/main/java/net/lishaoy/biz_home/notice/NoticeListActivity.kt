@@ -12,7 +12,7 @@ import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.library.util.PerStatusBar
-import net.lishaoy.pub_mod.model.CourseNotice
+import net.lishaoy.service_login.CourseNotice
 import net.lishaoy.ui.item.PerAdapter
 
 @Route(path = "/notice/list")

@@ -3,7 +3,6 @@ package net.lishaoy.service_login
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import net.lishaoy.pub_mod.model.UserProfile
 
 interface ILoginService {
 

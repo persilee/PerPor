@@ -20,25 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".notice.NoticeListActivity"></activity>
-        <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".goods.GoodsListActivity" />
-        <activity android:name=".account.DegradeGlobalActivity" />
-        <activity android:name=".account.RegistrationActivity" />
-        <activity android:name=".account.LoginActivity" />
-        <activity android:name=".demo.ApiTestActivity" />
         <activity android:name=".demo.PerBannerDemoActivity" />
         <activity android:name=".demo.PerRefreshDemoActivity" />
         <activity android:name=".demo.PerTopLayoutActivity" />
         <activity android:name=".demo.PerBottmLayoutDemoActivity" />
         <activity android:name=".demo.PerLogDemoActivity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

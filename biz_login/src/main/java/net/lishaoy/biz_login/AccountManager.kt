@@ -15,7 +15,7 @@ import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.library.util.AppGlobals
 import net.lishaoy.library.util.SPUtil
-import net.lishaoy.pub_mod.model.UserProfile
+import net.lishaoy.service_login.UserProfile
 import java.lang.IllegalStateException
 
 
@@ -77,7 +77,7 @@ object AccountManager {
     @Synchronized
     fun getUserProfile(
         lifecycleOwner: LifecycleOwner?,
-        observer: Observer<UserProfile?>,
+        observer: Observer<net.lishaoy.service_login.UserProfile?>,
         onlyCache: Boolean = true
     ) {
         if (lifecycleOwner == null) {

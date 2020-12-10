@@ -4,13 +4,17 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
 
+apply from: '../dependency.gradle'
+def ext =rootProject.ext
+def dependency =rootProject.ext.dependencies
+
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdkVersion ext.compileSdkVersion
+    buildToolsVersion ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdkVersion ext.minSdkVersion
+        targetSdkVersion ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -31,8 +35,17 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
     dataBinding {
         enabled = true
+    }
+
+    androidExtensions {
+        experimental = true
     }
 }
 
@@ -47,19 +60,19 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     // http
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    api 'com.google.code.gson:gson:2.8.6'
+    implementation dependency.retrofit
+    api dependency.gson
 
     // material
-    api 'com.google.android.material:material:1.2.1'
+    api dependency.material
 
     // glide
-    implementation 'com.github.bumptech.glide:glide:4.10.0'
-    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+    implementation dependency.glide
+    kapt dependency.glide_compiler
 
     // arouter
-    implementation 'com.alibaba:arouter-api:1.5.1'
-    kapt 'com.alibaba:arouter-compiler:1.5.1'
+    implementation dependency.arouter_api
+    kapt dependency.arouter_compiler
 
     // 本地依赖库
     api project(path: ':perui')

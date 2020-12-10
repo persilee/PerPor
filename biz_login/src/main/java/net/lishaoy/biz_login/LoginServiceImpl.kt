@@ -5,8 +5,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.template.IProvider
-import net.lishaoy.pub_mod.model.UserProfile
 import net.lishaoy.service_login.ILoginService
+import net.lishaoy.service_login.UserProfile
 
 @Route(path = "/login/service")
 class LoginServiceImpl: ILoginService, IProvider {

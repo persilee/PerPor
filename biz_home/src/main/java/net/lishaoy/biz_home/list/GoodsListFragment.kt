@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.launcher.ARouter
+import net.lishaoy.biz_home.api.GoodsApi
+import net.lishaoy.biz_home.model.GoodsList
+import net.lishaoy.common.http.ApiFactory
 import net.lishaoy.common.ui.PerAbsListFragment
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
-import net.lishaoy.perpro.fragment.home.GoodsItem
-import net.lishaoy.perpro.http.ApiFactory
-import net.lishaoy.perpro.http.api.GoodsApi
-import net.lishaoy.perpro.model.GoodsList
+import net.lishaoy.pub_mod.item.GoodsItem
 
 class GoodsListFragment: PerAbsListFragment() {
 

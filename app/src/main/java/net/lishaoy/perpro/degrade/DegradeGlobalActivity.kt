@@ -1,4 +1,4 @@
-package net.lishaoy.perpro.account
+package net.lishaoy.perpro.degrade
 
 import android.content.Intent
 import android.net.Uri

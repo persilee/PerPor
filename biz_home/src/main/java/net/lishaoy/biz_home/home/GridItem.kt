@@ -1,6 +1,5 @@
 package net.lishaoy.biz_home.home
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,17 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.layout_home_grid_item.*
-import kotlinx.android.synthetic.main.layout_home_grid_item.view.*
+import net.lishaoy.biz_home.databinding.LayoutHomeGridItemBinding
+import net.lishaoy.biz_home.model.Subcategory
 import net.lishaoy.common.route.PerRoute
-import net.lishaoy.common.route.PerRoute.Destination
 import net.lishaoy.common.route.PerRoute.Destination.*
-import net.lishaoy.common.view.loadUrl
 import net.lishaoy.library.util.PerDisplayUtil
-import net.lishaoy.perpro.R
-import net.lishaoy.perpro.databinding.LayoutHomeGridItemBinding
-import net.lishaoy.perpro.fragment.home.GridItem.*
-import net.lishaoy.perpro.model.Subcategory
 import net.lishaoy.ui.item.PerDataItem
 import net.lishaoy.ui.item.PerViewHolder
 

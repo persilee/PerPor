@@ -1,4 +1,4 @@
-package net.lishaoy.pub_mod.model
+package net.lishaoy.service_login
 
 import java.io.Serializable
 

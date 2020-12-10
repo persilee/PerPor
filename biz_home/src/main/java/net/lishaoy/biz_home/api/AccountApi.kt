@@ -4,8 +4,8 @@ import net.lishaoy.library.restful.PerCall
 import net.lishaoy.library.restful.annotation.Filed
 import net.lishaoy.library.restful.annotation.GET
 import net.lishaoy.library.restful.annotation.POST
-import net.lishaoy.pub_mod.model.CourseNotice
-import net.lishaoy.pub_mod.model.UserProfile
+import net.lishaoy.service_login.CourseNotice
+import net.lishaoy.service_login.UserProfile
 
 
 interface AccountApi {

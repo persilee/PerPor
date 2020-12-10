@@ -1,6 +1,6 @@
 package net.lishaoy.library.restful
 
-import org.devio.hi.library.restful.annotation.*
+import net.lishaoy.library.restful.annotation.*
 import java.lang.Exception
 import java.lang.IllegalStateException
 import java.lang.reflect.Method

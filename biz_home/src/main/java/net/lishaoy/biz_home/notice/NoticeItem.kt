@@ -6,7 +6,7 @@ import net.lishaoy.biz_home.R
 import net.lishaoy.common.route.PerRoute
 import net.lishaoy.common.utils.DateUtil
 import net.lishaoy.library.util.PerRes
-import net.lishaoy.pub_mod.model.Notice
+import net.lishaoy.service_login.Notice
 import net.lishaoy.ui.item.PerDataItem
 import net.lishaoy.ui.item.PerViewHolder
 

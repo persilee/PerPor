@@ -25,10 +25,9 @@ import net.lishaoy.common.view.loadCorner
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
 import net.lishaoy.library.util.PerDisplayUtil
-import net.lishaoy.pub_mod.model.CourseNotice
-import net.lishaoy.pub_mod.model.Notice
-import net.lishaoy.pub_mod.model.UserProfile
+import net.lishaoy.service_login.CourseNotice
 import net.lishaoy.service_login.LoginServiceProvider
+import net.lishaoy.service_login.UserProfile
 import net.lishaoy.ui.banner.IPerBanner
 import net.lishaoy.ui.banner.PerBannerAdapter
 import net.lishaoy.ui.banner.PerBannerMo
@@ -78,13 +77,13 @@ class ProfileFragment : PerBaseFragment() {
         }, onlyCache = false)
     }
 
-    private fun updateUI(userProfile: UserProfile) {
+    private fun updateUI(userProfile: UserProfile?) {
         user_name.text =
-            if (userProfile.isLogin) userProfile.userName else getString(R.string.user_name_not_login)
+            if (userProfile?.isLogin == true) userProfile.userName else getString(R.string.user_name_not_login)
         login_desc.text =
-            if (userProfile.isLogin) getString(R.string.login_desc_login) else getString(R.string.login_desc_no_login)
+            if (userProfile?.isLogin == true) getString(R.string.login_desc_login) else getString(R.string.login_desc_no_login)
 
-        if (userProfile.isLogin) {
+        if (userProfile?.isLogin == true) {
             user_avatar.loadCircle(userProfile.userIcon)
             queryCourseNotice()
         } else {
@@ -97,16 +96,16 @@ class ProfileFragment : PerBaseFragment() {
         }
 
         item_collection.text =
-            spannableItem(userProfile.favoriteCount, getString(R.string.profile_item_collection))
+            userProfile?.favoriteCount?.let { spannableItem(it, getString(R.string.profile_item_collection)) }
         item_history.text =
-            spannableItem(userProfile.browseCount, getString(R.string.profile_item_history))
+            userProfile?.browseCount?.let { spannableItem(it, getString(R.string.profile_item_history)) }
         item_learn.text =
-            spannableItem(userProfile.learnMinutes, getString(R.string.profile_item_learn))
+            userProfile?.learnMinutes?.let { spannableItem(it, getString(R.string.profile_item_learn)) }
 
-        updateBanner(userProfile.bannerNoticeList)
+        updateBanner(userProfile?.bannerNoticeList)
     }
 
-    private fun updateBanner(bannerNoticeList: List<Notice>?) {
+    private fun updateBanner(bannerNoticeList: List<net.lishaoy.service_login.Notice>?) {
         if (bannerNoticeList == null || bannerNoticeList.isEmpty()) return
         var bannerList = mutableListOf<PerBannerMo>()
         bannerNoticeList.forEach{

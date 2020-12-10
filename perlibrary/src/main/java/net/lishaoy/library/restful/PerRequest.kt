@@ -2,9 +2,7 @@ package net.lishaoy.library.restful
 
 import android.text.TextUtils
 import androidx.annotation.IntDef
-import org.devio.hi.library.restful.annotation.CacheStrategy
-import org.devio.hi.library.restful.annotation.DELETE
-import org.devio.hi.library.restful.annotation.PUT
+import net.lishaoy.library.restful.annotation.CacheStrategy
 import java.lang.Exception
 import java.lang.IllegalStateException
 import java.lang.reflect.Type

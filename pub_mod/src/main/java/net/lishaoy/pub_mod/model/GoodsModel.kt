@@ -1,6 +1,7 @@
 package net.lishaoy.pub_mod.model
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
@@ -34,6 +35,7 @@ import java.io.Serializable
 }
  */
 @Parcelize
+@Keep
 data class GoodsModel(
     val categoryId: String?,
     val completedNumText: String?,
@@ -50,6 +52,7 @@ data class GoodsModel(
 ) : Serializable, Parcelable
 
 @Parcelize
+@Keep
 data class SliderImage(
     val type: Int,
     val url: String

@@ -35,8 +35,10 @@ class HomeFragment : PerBaseFragment() {
             SavedStateViewModelFactory(this.activity!!.application, this)
         ).get(HomeViewModel::class.java)
         viewModel.queryTabList()
-            .observe(viewLifecycleOwner, Observer { tabCategory: List<TabCategory> ->
-                updateUI(tabCategory)
+            .observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    updateUI(it)
+                }
             })
     }
 

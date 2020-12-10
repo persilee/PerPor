@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
-import net.lishaoy.pub_mod.model.UserProfile
 
 object LoginServiceProvider {
 
