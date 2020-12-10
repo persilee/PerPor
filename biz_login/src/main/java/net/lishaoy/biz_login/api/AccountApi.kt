@@ -1,10 +1,10 @@
 package net.lishaoy.biz_login.api
 
 import net.lishaoy.library.restful.PerCall
+import net.lishaoy.library.restful.annotation.Filed
+import net.lishaoy.library.restful.annotation.GET
+import net.lishaoy.library.restful.annotation.POST
 import net.lishaoy.pub_mod.model.UserProfile
-import org.devio.hi.library.restful.annotation.Filed
-import org.devio.hi.library.restful.annotation.GET
-import org.devio.hi.library.restful.annotation.POST
 
 interface AccountApi {
 

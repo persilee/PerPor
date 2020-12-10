@@ -1,4 +1,4 @@
-package org.devio.hi.library.restful.annotation
+package net.lishaoy.library.restful.annotation
 
 /**
  * @Headers({"connection:keep-alive","auth-token:token"})

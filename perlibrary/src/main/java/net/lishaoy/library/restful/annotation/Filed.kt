@@ -1,4 +1,4 @@
-package org.devio.hi.library.restful.annotation
+package net.lishaoy.library.restful.annotation
 
 /**
  * @BaseUrl("https://api.devio.org/as/")
