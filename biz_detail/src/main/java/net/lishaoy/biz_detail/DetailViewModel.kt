@@ -18,9 +18,11 @@ class DetailViewModel(private val goodsId: String?) : ViewModel() {
             ViewModelProvider.NewInstanceFactory() {
 
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                val constructor = modelClass.getConstructor(String::class.java)
                 try {
-                    return constructor.newInstance(goodsId)
+                    val constructor = modelClass.getConstructor(String::class.java)
+                    if(constructor != null) {
+                        return constructor.newInstance(goodsId)
+                    }
                 } catch (e: Exception) {
                 }
                 return super.create(modelClass)
@@ -42,14 +44,14 @@ class DetailViewModel(private val goodsId: String?) : ViewModel() {
                 .enqueue(object : PerCallback<DetailModel> {
                     override fun onSuccess(response: PerResponse<DetailModel>) {
                         if (response.successful() && response.data != null) {
-                            pageData.postValue(response.data)
+                            pageData.value = response.data
                         } else {
-                            pageData.postValue(null)
+                            pageData.value = null
                         }
                     }
 
                     override fun onFailed(throwable: Throwable) {
-                        pageData.postValue(null)
+                        pageData.value = null
                         if (BuildConfig.DEBUG) {
                             throwable.printStackTrace()
                         }

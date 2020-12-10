@@ -56,12 +56,15 @@ class CommentItem(private val detailModel: DetailModel) : PerDataItem<DetailMode
                 val itemView = if (index < commentContainer.childCount) {
                     commentContainer.getChildAt(index)
                 } else {
-                    LayoutInflater.from(context).inflate(R.layout.layout_detail_item_comment_item, commentContainer, false)
+                    val view = LayoutInflater.from(context)
+                        .inflate(R.layout.layout_detail_item_comment_item, commentContainer, false)
+                    commentContainer.addView(view)
+                    view
                 }
                 itemView.detail_comment_user_avatar.loadUrl(comment.avatar)
                 itemView.detail_comment_user_name.text = comment.nickName
                 itemView.detail_comment_content.text = comment.content
-                commentContainer.addView(itemView)
+
             }
         }
     }
