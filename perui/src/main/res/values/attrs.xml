@@ -59,4 +59,48 @@
     </declare-styleable>
     <!-- slider  -->
 
+    <!-- NavigationBar  -->
+    <declare-styleable name="PerNavigationBar">
+        <attr name="text_btn_text_size" format="dimension" />
+        <attr name="text_btn_text_color" format="color" />
+
+        <attr name="title_text_size" format="dimension" />
+        <attr name="title_text_size_with_subTitle" format="dimension" />
+        <attr name="title_text_color" format="color" />
+
+        <attr name="subTitle_text_size" format="dimension" />
+        <attr name="subTitle_text_color" format="color" />
+
+        <attr name="nav_icon_size" format="dimension" />
+        <attr name="nav_icon_color" format="color"></attr>
+        <attr name="nav_icon" format="string" />
+        <attr name="nav_title" format="string" />
+        <attr name="nav_subtitle" format="string" />
+
+        <attr name="hor_padding" format="dimension" />
+        <attr name="nav_line_color" format="color" />
+        <attr name="nav_line_height" format="dimension" />
+    </declare-styleable>
+
+    <attr name="perNavigationStyle" format="reference" />
+
+    <style name="navigationStyle">
+        <item name="nav_icon_size">20sp</item>
+        <item name="nav_icon_color">#000000</item>
+        <item name="hor_padding">8dp</item>
+
+        <item name="nav_line_color">#eeeeee</item>
+        <item name="nav_line_height">2px</item>
+
+        <item name="nav_icon">&#xe615;</item>
+        <item name="text_btn_text_size">16sp</item>
+        <item name="text_btn_text_color">#333333</item>
+        <item name="title_text_size">18sp</item>
+        <item name="title_text_color">#000000</item>
+        <item name="subTitle_text_size">@dimen/sp_14</item>
+        <item name="title_text_size_with_subTitle">16sp</item>
+        <item name="subTitle_text_color">#717882</item>
+    </style>
+    <!-- NavigationBar  -->
+
 </resources>
