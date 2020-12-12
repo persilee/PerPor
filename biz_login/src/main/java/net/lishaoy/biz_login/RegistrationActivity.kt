@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import kotlinx.android.synthetic.main.activity_registration.*
@@ -12,6 +13,7 @@ import net.lishaoy.common.http.ApiFactory
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
+import net.lishaoy.library.util.PerRes
 import net.lishaoy.library.util.PerStatusBar
 
 @Route(path = "/account/register")
@@ -20,9 +22,11 @@ class RegistrationActivity : PerBaseActivity() {
         super.onCreate(savedInstanceState)
         PerStatusBar.setStatusBar(this,true, ContextCompat.getColor(baseContext,R.color.color_background),false)
         setContentView(R.layout.activity_registration)
-        btn_back.setOnClickListener {
+
+        nav_bar.setTitle(PerRes.getSting(R.string.register))
+        nav_bar.setNavListener(View.OnClickListener {
             onBackPressed()
-        }
+        })
 
         btn_submit.setOnClickListener {
             submit()

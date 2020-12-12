@@ -3,18 +3,23 @@ package net.lishaoy.ui.titlebar
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.*
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.library.util.PerRes
 import net.lishaoy.ui.R
 import net.lishaoy.ui.iconfont.IconFontButton
+import net.lishaoy.ui.iconfont.IconFontTextView
 import java.lang.IllegalStateException
 
 class PerNavigationBar @JvmOverloads constructor(
@@ -24,11 +29,33 @@ class PerNavigationBar @JvmOverloads constructor(
     private var navAttr: Attrs
     private val leftViewList = ArrayList<View>()
     private val rightViewList = ArrayList<View>()
-    private val leftViewId = View.NO_ID
-    private val rightViewId = View.NO_ID
+    private var leftViewId = View.NO_ID
+    private var rightViewId = View.NO_ID
+    private var titleView: IconFontTextView? = null
+    private var subTitleView: IconFontTextView? = null
+    private var titleContainer: LinearLayout? = null
 
     init {
         navAttr = parseNavAttrs(context, attrs, defStyleAttr)
+        if (!TextUtils.isEmpty(navAttr.navTitle)) {
+            setTitle(navAttr.navTitle!!)
+        }
+        if (!TextUtils.isEmpty(navAttr.navSubtitle)) {
+            setSubTitle(navAttr.navSubtitle!!)
+        }
+        if (navAttr.lineHeight > 0) {
+            addLineView()
+        }
+    }
+
+    fun setNavListener(listener: OnClickListener) {
+        if (!TextUtils.isEmpty(navAttr.navIconStr)) {
+            val navBackView =
+                addLeftTextButton(navAttr.navIconStr!!, R.id.id_nav_left_back_view)
+            navBackView.setTextSize(TypedValue.COMPLEX_UNIT_PX, navAttr.navIconSize)
+            navBackView.setTextColor(navAttr.navIconColor)
+            navBackView.setOnClickListener(listener)
+        }
     }
 
     fun addLeftTextButton(@StringRes stringRes: Int, viewId: Int): Button {
@@ -39,11 +66,7 @@ class PerNavigationBar @JvmOverloads constructor(
         val button = generateTextButton()
         button.text = buttonText
         button.id = viewId
-        if (leftViewList.isEmpty()) {
-            button.setPadding(navAttr.horPadding * 2, 0, navAttr.horPadding, 0)
-        } else {
-            button.setPadding(navAttr.horPadding, 0, navAttr.horPadding, 0)
-        }
+        button.setPadding(navAttr.horPadding, 0, navAttr.horPadding, 0)
 
         addLeftView(button, generateTextButtonLayoutParams())
 
@@ -60,6 +83,123 @@ class PerNavigationBar @JvmOverloads constructor(
         } else {
             params.addRule(RIGHT_OF, leftViewId)
         }
+        leftViewId = viewId
+        params.alignWithParent = true
+        leftViewList.add(view)
+        addView(view, params)
+    }
+
+    fun addRightTextButton(@StringRes stringRes: Int, viewId: Int): Button {
+        return addRightTextButton(PerRes.getSting(stringRes), viewId)
+    }
+
+    fun addRightTextButton(buttonText: String, viewId: Int): Button {
+        val button = generateTextButton()
+        button.text = buttonText
+        button.id = viewId
+        button.setPadding(navAttr.horPadding, 0, navAttr.horPadding, 0)
+
+        addRightView(button, generateTextButtonLayoutParams())
+
+        return button
+    }
+
+    fun addRightView(view: View, params: LayoutParams) {
+        val viewId = view.id
+        if (viewId == View.NO_ID) {
+            throw IllegalStateException("right view must has an id.")
+        }
+        if (rightViewId == View.NO_ID) {
+            params.addRule(ALIGN_PARENT_RIGHT, viewId)
+        } else {
+            params.addRule(LEFT_OF, leftViewId)
+        }
+        rightViewId = viewId
+        params.alignWithParent = true
+        rightViewList.add(view)
+        addView(view, params)
+    }
+
+    fun setTitle(title: String) {
+        ensureTitleView()
+        titleView?.text = title
+        titleView?.visibility = if (TextUtils.isEmpty((title))) View.GONE else View.VISIBLE
+    }
+
+    fun setSubTitle(title: String) {
+        ensureSubTitleView()
+        updateTitleViewStyle()
+        subTitleView?.text = title
+        subTitleView?.visibility = if (TextUtils.isEmpty((title))) View.GONE else View.VISIBLE
+    }
+
+    private fun ensureTitleView() {
+        if (titleView == null) {
+            titleView = IconFontTextView(context, null)
+            titleView?.apply {
+                gravity = Gravity.CENTER
+                isSingleLine = true
+                ellipsize = TextUtils.TruncateAt.END
+                setTextColor(navAttr.titleTextColor)
+
+                updateTitleViewStyle()
+                ensureTitleContainer()
+                titleContainer?.addView(titleView, 0)
+            }
+        }
+    }
+
+    private fun ensureTitleContainer() {
+        if (titleContainer == null) {
+            titleContainer = LinearLayout(context)
+            titleContainer?.apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER
+
+                val params = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
+                params.addRule(RelativeLayout.CENTER_IN_PARENT)
+                this@PerNavigationBar.addView(titleContainer, params)
+            }
+        }
+    }
+
+    private fun updateTitleViewStyle() {
+        if (titleView != null) {
+            if (subTitleView == null || TextUtils.isEmpty(subTitleView!!.text)) {
+                titleView?.setTextSize(TypedValue.COMPLEX_UNIT_PX, navAttr.titleTextSize)
+                titleView?.typeface = Typeface.DEFAULT_BOLD
+            } else {
+                titleView?.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    navAttr.titleTextSizeWithSubTitle
+                )
+                titleView?.typeface = Typeface.DEFAULT
+            }
+        }
+    }
+
+    private fun ensureSubTitleView() {
+        if (subTitleView == null) {
+            subTitleView = IconFontTextView(context, null)
+            subTitleView?.apply {
+                gravity = Gravity.CENTER
+                isSingleLine = true
+                ellipsize = TextUtils.TruncateAt.END
+                setTextColor(navAttr.subTitleTextColor)
+                textSize = navAttr.subTitleSize
+                ensureTitleContainer()
+                titleContainer?.addView(titleView)
+            }
+        }
+    }
+
+    private fun addLineView() {
+        val view = View(context)
+        val params = LayoutParams(LayoutParams.MATCH_PARENT, navAttr.lineHeight)
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+        view.layoutParams = params
+        view.setBackgroundColor(navAttr.lineColor)
+        addView(view)
     }
 
     private fun generateTextButtonLayoutParams(): LayoutParams {
@@ -74,16 +214,21 @@ class PerNavigationBar @JvmOverloads constructor(
         button.minWidth = 0
         button.minimumWidth = 0
         button.setTextSize(TypedValue.COMPLEX_UNIT_PX, navAttr.btnTextSize)
+        button.setTextColor(navAttr.btnTextColor)
         button.gravity = Gravity.CENTER
+        button.includeFontPadding = false
         return button
     }
 
     private fun parseNavAttrs(context: Context, attrs: AttributeSet?, defStyleAttr: Int): Attrs {
+        val value = TypedValue()
+        context.theme.resolveAttribute(R.attr.perNavigationStyle, value, true)
+        val defStyleRes = if (value.resourceId != 0) value.resourceId else R.style.navigationStyle
         val array = context.obtainStyledAttributes(
             attrs,
             R.styleable.PerNavigationBar,
             defStyleAttr,
-            R.style.navigationStyle
+            defStyleRes
         )
         val icon = array.getString(R.styleable.PerNavigationBar_nav_icon)
         val iconColor = array.getColor(R.styleable.PerNavigationBar_nav_icon_color, Color.BLACK)
@@ -91,7 +236,7 @@ class PerNavigationBar @JvmOverloads constructor(
             R.styleable.PerNavigationBar_nav_icon_size,
             PerDisplayUtil.dp2px(18f)
         )
-        val title = array.getString(R.styleable.PerNavigationBar_nav_subtitle)
+        val title = array.getString(R.styleable.PerNavigationBar_nav_title)
         val subTitle = array.getString(R.styleable.PerNavigationBar_nav_subtitle)
         val horPadding = array.getDimensionPixelSize(R.styleable.PerNavigationBar_hor_padding, 0)
         val btnTextSize = array.getDimensionPixelSize(
@@ -109,7 +254,7 @@ class PerNavigationBar @JvmOverloads constructor(
         )
         val titleTextColor = array.getColor(
             R.styleable.PerNavigationBar_title_text_color,
-            PerRes.getColor(R.color.tap_selected_color)
+            PerRes.getColor(R.color.normal_color)
         )
         val subTitleTextSize = array.getDimensionPixelSize(
             R.styleable.PerNavigationBar_subTitle_text_size,
@@ -117,7 +262,7 @@ class PerNavigationBar @JvmOverloads constructor(
         )
         val subTitleTextColor = array.getColor(
             R.styleable.PerNavigationBar_subTitle_text_color,
-            PerRes.getColor(R.color.tap_selected_color)
+            PerRes.getColor(R.color.normal_color)
         )
         val lineColor = array.getColor(
             R.styleable.PerNavigationBar_nav_line_color,
@@ -164,5 +309,29 @@ class PerNavigationBar @JvmOverloads constructor(
         val lineColor: Int,
         val lineHeight: Int
     )
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        if (titleContainer != null) {
+            var leftUseSpace = paddingLeft
+            for (view in leftViewList) {
+                leftUseSpace += view.measuredWidth
+            }
+
+            var rightUseSpace = paddingRight
+            for (view in rightViewList) {
+                rightUseSpace += view.measuredWidth
+            }
+
+            val titleContainerWidth = titleContainer!!.measuredWidth
+            val remainingSpace = measuredWidth - Math.max(leftUseSpace, rightUseSpace) * 2
+            if (remainingSpace < titleContainerWidth) {
+                val size =
+                    MeasureSpec.makeMeasureSpec(remainingSpace, MeasureSpec.EXACTLY)
+                titleContainer!!.measure(size, heightMeasureSpec)
+            }
+        }
+    }
 
 }

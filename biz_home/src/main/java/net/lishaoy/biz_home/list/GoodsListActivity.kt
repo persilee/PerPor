@@ -1,6 +1,7 @@
 package net.lishaoy.biz_home.list
 
 import android.os.Bundle
+import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import kotlinx.android.synthetic.main.activity_goods_list.*
@@ -33,11 +34,10 @@ class GoodsListActivity : PerBaseActivity() {
         setContentView(R.layout.activity_goods_list)
         PerRoute.inject(this)
 
-        top_bar_btn_back.setOnClickListener {
+        nav_bar.setNavListener(View.OnClickListener {
             onBackPressed()
-        }
-
-        top_bar_title.text = categoryTitle
+        })
+        nav_bar.setTitle(categoryTitle)
 
         var fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)
         if (fragment == null) {
