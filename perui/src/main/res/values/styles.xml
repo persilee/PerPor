@@ -19,4 +19,27 @@
         <item name="subTitle_text_color">#717882</item>
     </style>
 
+
+    <style name="searchViewStyle">
+        <item name="search_background">@drawable/shape_search_view</item>
+        <item name="icon_padding">10dp</item>
+        <item name="search_icon">&#xe987;</item>
+        <item name="search_icon_size">16sp</item>
+        <item name="clear_icon">&#xe60b;</item>
+        <item name="clear_icon_size">16sp</item>
+        <item name="hint_text_color">#888888</item>
+        <item name="hint_text_size">16sp</item>
+        <item name="hint_gravity">hint_left</item>
+
+        <item name="search_text_size">16sp</item>
+        <item name="search_text_color">#000000</item>
+
+        <item name="key_word_icon">&#xe611;</item>
+        <item name="key_word_color">#ffffff</item>
+        <item name="key_word_background">@drawable/shape_key_word</item>
+        <item name="key_word_size">14sp</item>
+        <item name="key_word_max_length">10</item>
+        <item name="key_word_padding">4dp</item>
+    </style>
+
 </resources>

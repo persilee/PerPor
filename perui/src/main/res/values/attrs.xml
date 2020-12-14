@@ -85,4 +85,38 @@
     <attr name="perNavigationStyle" format="reference" />
     <!-- NavigationBar  -->
 
+
+    <!-- SearchView  -->
+    <declare-styleable name="PerSearchView">
+        <attr name="search_background" format="reference" />
+        <attr name="search_icon" format="string|reference" />
+        <attr name="search_icon_size" format="dimension" />
+        <attr name="icon_padding" format="dimension" />
+
+        <attr name="clear_icon" format="string" />
+        <attr name="clear_icon_size" format="dimension" />
+
+        <attr name="hint_text" format="string" />
+        <attr name="hint_text_size" format="dimension" />
+        <attr name="hint_text_color" format="color" />
+        <attr name="hint_gravity" format="enum">
+            <enum name="hint_center" value="0" />
+            <enum name="hint_left" value="1" />
+        </attr>
+
+        <attr name="search_text_size" format="dimension" />
+        <attr name="search_text_color" format="color" />
+
+
+        <attr name="key_word_size" format="dimension" />
+        <attr name="key_word_color" format="color" />
+        <attr name="key_word_background" format="reference" />
+        <attr name="key_word_icon" format="string" />
+        <attr name="key_word_max_length" format="integer" />
+        <attr name="key_word_padding" format="dimension" />
+    </declare-styleable>
+
+    <attr name="perSearchViewStyle" format="reference" />
+    <!-- SearchView  -->
+
 </resources>
