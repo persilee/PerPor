@@ -9,7 +9,7 @@ import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.library.util.PerRes
 import net.lishaoy.ui.R
 
-internal object AttrsParse {
+object AttrsParse {
 
     fun parseSearchViewAttrs(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : Attrs {
         val value = TypedValue()
