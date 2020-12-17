@@ -48,6 +48,21 @@ class PerNavigationBar @JvmOverloads constructor(
         }
     }
 
+    fun setCenterView(view: View) {
+        var params = view.layoutParams
+        if (params == null) {
+            params = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        } else if (params !is LayoutParams) {
+            params = LayoutParams(params)
+        }
+
+        val centerViewParams = params as LayoutParams
+        centerViewParams.addRule(RIGHT_OF, leftViewId)
+        centerViewParams.addRule(LEFT_OF, rightViewId)
+        params.addRule(CENTER_VERTICAL)
+        addView(view, centerViewParams)
+    }
+
     fun setNavListener(listener: OnClickListener) {
         if (!TextUtils.isEmpty(navAttr.navIconStr)) {
             val navBackView =
