@@ -15,6 +15,8 @@ import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.fragment_home.*
 import net.lishaoy.biz_home.R
 import net.lishaoy.biz_home.model.TabCategory
+import net.lishaoy.common.route.PerRoute
+import net.lishaoy.common.route.PerRoute.Destination.*
 import net.lishaoy.common.ui.PerBaseFragment
 import net.lishaoy.ui.tab.bottom.PerTabBottomLayout
 import net.lishaoy.ui.tab.common.IPerTabLayout
@@ -40,6 +42,10 @@ class HomeFragment : PerBaseFragment() {
                     updateUI(it)
                 }
             })
+
+        search_bar.setOnClickListener {
+            PerRoute.startActivity(context, null, SEARCH_MAIN)
+        }
     }
 
     private val onTabSelectedListener =

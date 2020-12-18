@@ -23,7 +23,8 @@ object PerRoute {
     enum class Destination(val desc:String, val path:String) {
         GOODS_LIST("商品列表","/goods/list"),
         DETAIL_MAIN("详情页","/detail/main"),
-        NOTICE_LIST("通知公告","/notice/list")
+        NOTICE_LIST("通知公告","/notice/list"),
+        SEARCH_MAIN("搜索页","/search/main")
     }
 
     fun startActivity(

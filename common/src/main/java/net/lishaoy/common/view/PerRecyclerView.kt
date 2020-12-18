@@ -11,7 +11,7 @@ import net.lishaoy.common.R
 import net.lishaoy.library.log.PerLog
 import net.lishaoy.ui.item.PerAdapter
 
-class PerRecyclerView @JvmOverloads constructor(
+open class PerRecyclerView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -30,8 +30,9 @@ class PerRecyclerView @JvmOverloads constructor(
             if (totalItemCount <= 0) return
             val canScrollVertically = recyclerView.canScrollVertically(1)
             val lastVisibleItem = findLastVisibleItem(recyclerView)
+            val firstVisibleItem = findFirstVisibleItem(recyclerView)
             if (lastVisibleItem <= 0) return
-            val arriveBottom = lastVisibleItem >= totalItemCount - 1
+            val arriveBottom = lastVisibleItem >= totalItemCount - 1 && firstVisibleItem > 0
             if (newState == RecyclerView.SCROLL_STATE_DRAGGING && (canScrollVertically || arriveBottom)) {
                 addFooterView()
             }
@@ -75,6 +76,18 @@ class PerRecyclerView @JvmOverloads constructor(
             }
             is StaggeredGridLayoutManager -> {
                 layoutManager.findLastVisibleItemPositions(null)[0]
+            }
+            else -> -1
+        }
+    }
+
+    private fun findFirstVisibleItem(recyclerView: RecyclerView): Int {
+        return when (val layoutManager = recyclerView.layoutManager) {
+            is LinearLayoutManager -> {
+                return layoutManager.findFirstVisibleItemPosition()
+            }
+            is StaggeredGridLayoutManager -> {
+                return  layoutManager.findFirstVisibleItemPositions(null)[0]
             }
             else -> -1
         }

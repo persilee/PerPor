@@ -18,9 +18,9 @@ class HomeTabFragment : PerAbsListFragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var categoryId: String? = null
-    val DEFAULT_TAB_CATEGORY_ID = "1"
 
     companion object {
+        const val DEFAULT_TAB_CATEGORY_ID = "1"
         fun newInstance(categoryId: String): HomeTabFragment {
             val args = Bundle()
             args.putString("categoryId", categoryId)

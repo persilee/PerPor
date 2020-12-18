@@ -1,6 +1,7 @@
 package net.lishaoy.library.util
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -19,6 +20,10 @@ object PerRes {
 
     fun getColor(@ColorRes id: Int): Int {
         return ContextCompat.getColor(context(), id)
+    }
+
+    fun getColorStateList(@ColorRes id: Int): ColorStateList? {
+        return ContextCompat.getColorStateList(context(), id)
     }
 
     fun getDrawable(@DrawableRes id: Int): Drawable? {

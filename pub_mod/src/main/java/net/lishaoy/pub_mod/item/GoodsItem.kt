@@ -15,6 +15,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.layout_home_goods_list_item_h.*
 import net.lishaoy.common.route.PerRoute
+import net.lishaoy.common.route.PerRoute.Destination.*
 import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.pub_mod.R
 import net.lishaoy.pub_mod.BR
@@ -26,7 +27,9 @@ import net.lishaoy.ui.item.PerViewHolder
 open class GoodsItem(private val goodsModel: GoodsModel, private val hotTab: Boolean) :
     PerDataItem<GoodsModel, GoodsItemHolder>(goodsModel) {
 
-    val MAX_TAG_SIZE = 3
+    companion object {
+        const val MAX_TAG_SIZE = 3
+    }
 
     override fun onBindData(holder: GoodsItemHolder, position: Int) {
 
@@ -79,10 +82,10 @@ open class GoodsItem(private val goodsModel: GoodsModel, private val hotTab: Boo
         }
 
         holder.itemView.setOnClickListener {
-            var bundle = Bundle()
+            val bundle = Bundle()
             bundle.putString("goodsId", goodsModel.goodsId)
             bundle.putParcelable("goodsModel", goodsModel)
-            PerRoute.startActivity(context, bundle, PerRoute.Destination.DETAIL_MAIN)
+            PerRoute.startActivity(context, bundle, DETAIL_MAIN)
         }
     }
 

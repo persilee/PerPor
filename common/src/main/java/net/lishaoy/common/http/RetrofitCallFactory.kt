@@ -73,7 +73,7 @@ class RetrofitCallFactory(private val baseUrl: String) : PerCall.Factory {
                     requestBody = builder.build()
                 } else {
                     requestBody = RequestBody.create(
-                        MediaType.parse("application/json;utf-8"),
+                        MediaType.parse("application/json;charset=utf-8"),
                         jsonObject.toString()
                     )
                 }

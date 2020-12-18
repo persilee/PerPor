@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.setPadding
+import net.lishaoy.library.util.MainHandler
 import net.lishaoy.ui.R
 import net.lishaoy.ui.iconfont.IconFontTextView
 import org.w3c.dom.Text
@@ -30,11 +31,12 @@ class PerSearchView @JvmOverloads constructor(
         const val DEBOUNCE_TRIGGER_DURATION = 200L
     }
 
-    private var editText: EditText? = null
+    private var simpleTextWatcher: SimpleTextWatcher? = null
+    public var editText: EditText? = null
     private var searchIcon: IconFontTextView? = null
     private var hintTv: TextView? = null
     private var searchIconHintContainer: LinearLayout? = null
-    private val clearIcon: IconFontTextView? = null
+    private var clearIcon: IconFontTextView? = null
     private var keywordContainer: LinearLayout? = null
     private var keywordTv: TextView? = null
     private var keywordClearIcon: IconFontTextView? = null
@@ -53,9 +55,23 @@ class PerSearchView @JvmOverloads constructor(
                 val hasContent = s?.length ?: 0 > 0
                 clearIcon?.visibility = if (hasContent) View.VISIBLE else View.GONE
                 searchIconHintContainer?.visibility = if (hasContent) View.GONE else View.VISIBLE
+
+                if (simpleTextWatcher != null) {
+                    MainHandler.remove(debounceRunnable)
+                    MainHandler.postDelay(DEBOUNCE_TRIGGER_DURATION, debounceRunnable)
+                }
             }
         })
+    }
 
+    private val debounceRunnable = Runnable {
+        if (simpleTextWatcher != null) {
+            simpleTextWatcher!!.afterTextChanged(editText?.text)
+        }
+    }
+
+    fun setDebounceTextChangedListener(simpleTextWatcher: SimpleTextWatcher) {
+        this.simpleTextWatcher = simpleTextWatcher
     }
 
     fun setKeyword(keyword: String?, listener: OnClickListener) {
@@ -81,6 +97,10 @@ class PerSearchView @JvmOverloads constructor(
 
     fun setHintText(hintText: String) {
         hintTv?.text = hintText
+    }
+
+    fun getKeyword(): String? {
+        return keywordTv?.text.toString()
     }
 
     private fun toggleSearchViewVisibility(b: Boolean) {
@@ -174,6 +194,7 @@ class PerSearchView @JvmOverloads constructor(
 
     private fun initClearIcon() {
         if (TextUtils.isEmpty(viewAttrs.clearIcon)) return
+        clearIcon = IconFontTextView(context, null)
         clearIcon?.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewAttrs.clearIconSize)
         clearIcon?.text = viewAttrs.clearIcon
         clearIcon?.setTextColor(viewAttrs.searchTextColor)
@@ -199,6 +220,11 @@ class PerSearchView @JvmOverloads constructor(
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         params.addRule(CENTER_VERTICAL)
         addView(editText, params)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        MainHandler.remove(debounceRunnable)
     }
 
 }

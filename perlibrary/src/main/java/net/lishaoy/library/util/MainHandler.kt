@@ -13,6 +13,10 @@ object MainHandler {
         handler.post(runnable)
     }
 
+    fun remove(runnable: Runnable) {
+        handler.removeCallbacks(runnable)
+    }
+
     fun postDelay(delayMillis: Long, runnable: Runnable) {
         handler.postDelayed(runnable, delayMillis)
     }
