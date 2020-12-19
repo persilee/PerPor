@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 import net.lishaoy.biz_search.view.GoodsSearchView
 import net.lishaoy.biz_search.view.QuickSearchView
 import net.lishaoy.common.route.PerRoute
+import net.lishaoy.library.log.PerLog
 import net.lishaoy.library.util.PerDisplayUtil
 import net.lishaoy.library.util.PerRes
 import net.lishaoy.library.util.PerStatusBar
@@ -122,6 +123,7 @@ class SearchActivity : AppCompatActivity() {
 
     private val debounceTextWatcher = object : SimpleTextWatcher() {
         override fun afterTextChanged(s: Editable?) {
+            PerLog.i(s.toString())
             val hasContent = s != null && s.trim().isNotEmpty()
             searchButton.isEnabled = hasContent
             if (hasContent) {
@@ -129,7 +131,7 @@ class SearchActivity : AppCompatActivity() {
                     if (it.isNullOrEmpty()) {
                         updateViewStatus(STATUS_EMPTY)
                     } else {
-                        updateViewStatus(STATUS_GOODS_SEARCH)
+                        updateViewStatus(STATUS_QUICK_SEARCH)
                         quickSearView?.bindData(it) { keyWord ->
                             doKeywordSearch(keyWord)
                         }
@@ -144,7 +146,7 @@ class SearchActivity : AppCompatActivity() {
     private fun doKeywordSearch(keyWord: KeyWord) {
         searchView.setKeyword(keyWord.keyWord, updateHistoryListener)
         searchViewModel.saveHistory(keyWord)
-        val clearIcon = searchView.findViewById<View>(R.id.id_nav_item_search)
+        val clearIcon = searchView.findViewById<View>(R.id.id_search_clear_icon)
         clearIcon.isEnabled = false
         searchViewModel.goodsSearch(keyWord.keyWord, true)
         searchViewModel.goodsSearchLiveDate.observe(this, Observer {

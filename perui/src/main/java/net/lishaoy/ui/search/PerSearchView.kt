@@ -92,6 +92,8 @@ class PerSearchView @JvmOverloads constructor(
             searchIcon?.visibility = View.VISIBLE
             hintTv?.visibility = View.VISIBLE
             searchIconHintContainer?.visibility = View.VISIBLE
+
+            listener.onClick(it)
         }
     }
 
@@ -115,7 +117,8 @@ class PerSearchView @JvmOverloads constructor(
     private fun ensureKeywordContainer() {
         if (keywordContainer != null) return
 
-        if (keywordClearIcon != null) {
+        if (!TextUtils.isEmpty(viewAttrs.keywordClearIcon)) {
+            keywordClearIcon = IconFontTextView(context, null)
             keywordClearIcon?.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewAttrs.keywordSize)
             keywordClearIcon?.setTextColor(viewAttrs.keywordColor)
             keywordClearIcon?.text = viewAttrs.keywordClearIcon
@@ -173,7 +176,7 @@ class PerSearchView @JvmOverloads constructor(
         searchIcon?.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewAttrs.searchIconSize)
         searchIcon?.setTextColor(viewAttrs.hintTextColor)
         searchIcon?.text = viewAttrs.searchIcon
-        searchIcon?.setPadding(0, 0, viewAttrs.iconPadding / 2, 0)
+        searchIcon?.setPadding(viewAttrs.iconPadding, 0, viewAttrs.iconPadding / 2, 0)
 
         searchIconHintContainer = LinearLayout(context)
         searchIconHintContainer?.orientation = LinearLayout.HORIZONTAL
@@ -214,6 +217,7 @@ class PerSearchView @JvmOverloads constructor(
         editText?.setTextColor(viewAttrs.searchTextColor)
         editText?.setBackgroundColor(Color.TRANSPARENT)
         editText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewAttrs.searchTextSize)
+        editText?.maxLines = 1
         editText?.setPadding(viewAttrs.iconPadding, 0, viewAttrs.iconPadding, 0)
         editText?.id = R.id.id_search_edit_view
 

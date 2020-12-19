@@ -9,7 +9,7 @@ import net.lishaoy.library.restful.annotation.POST
 interface SearchApi {
 
     @GET("goods/search/quick")
-    fun quickSearch(@Filed("key") key: String): PerCall<SearchModel>
+    fun quickSearch(@Filed("keyWord") keyWord: String): PerCall<SearchModel>
 
     @POST("goods/search", formPost = false)
     fun goodsSearch(

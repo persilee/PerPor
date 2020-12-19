@@ -15,37 +15,40 @@ import net.lishaoy.ui.item.PerDataItem
 import net.lishaoy.ui.item.PerViewHolder
 import kotlin.math.min
 
-class CommentItem(private val detailModel: DetailModel) : PerDataItem<DetailModel, PerViewHolder>() {
+class CommentItem(private val detailModel: DetailModel) :
+    PerDataItem<DetailModel, PerViewHolder>() {
     override fun onBindData(holder: PerViewHolder, position: Int) {
         val context = holder.itemView.context ?: return
         holder.detail_comment_title.text = detailModel.commentCountTitle
-        val commentTag = detailModel.commentTags
-        val tags = commentTag.split(" ")
-        if (tags.isNotEmpty()) {
-            for (tag in tags.indices) {
-                val chipGroup = holder.detail_comment_chip_group
-                val chip = if (tag < chipGroup.childCount) {
-                    chipGroup.getChildAt(tag) as Chip
-                } else {
-                    val chip = Chip(context)
-                    chip.chipCornerRadius = PerDisplayUtil.dp2px(6f).toFloat()
-                    chip.chipBackgroundColor = ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.color_faf0
+        val commentTag: String? = detailModel.commentTags
+        if (commentTag != null) {
+            val tags = commentTag.split(" ")
+            if (tags != null && tags.isNullOrEmpty()) {
+                for (tag in tags.indices) {
+                    val chipGroup = holder.detail_comment_chip_group
+                    val chip = if (tag < chipGroup.childCount) {
+                        chipGroup.getChildAt(tag) as Chip
+                    } else {
+                        val chip = Chip(context)
+                        chip.chipCornerRadius = PerDisplayUtil.dp2px(6f).toFloat()
+                        chip.chipBackgroundColor = ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.color_faf0
+                            )
                         )
-                    )
-                    chip.setTextColor(ContextCompat.getColor(context, R.color.color_999))
-                    chip.textSize = 14f
-                    chip.gravity = Gravity.CENTER
-                    chip.isCheckedIconVisible = false
-                    chip.isChecked = false
-                    chip.isChipIconVisible = false
-                    chip.isCheckable = false
-                    holder.detail_comment_chip_group.addView(chip)
-                    chip
+                        chip.setTextColor(ContextCompat.getColor(context, R.color.color_999))
+                        chip.textSize = 14f
+                        chip.gravity = Gravity.CENTER
+                        chip.isCheckedIconVisible = false
+                        chip.isChecked = false
+                        chip.isChipIconVisible = false
+                        chip.isCheckable = false
+                        holder.detail_comment_chip_group.addView(chip)
+                        chip
+                    }
+                    chip.text = tags[tag]
                 }
-                chip.text = tags[tag]
             }
         }
 
