@@ -18,12 +18,13 @@ class GoodsSearchView @JvmOverloads constructor(
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
     }
 
-    fun bindData(list: List<GoodsModel>) {
+    fun bindData(list: List<GoodsModel>, loadInit: Boolean) {
         val dataItems = mutableListOf<GoodsItem>()
         for (goodsModel in list) {
             dataItems.add(GoodsItem(goodsModel, true))
         }
         val perAdapter = adapter as PerAdapter
+        if (loadInit) perAdapter.clearItems()
         perAdapter.addItems(dataItems, true)
     }
 }

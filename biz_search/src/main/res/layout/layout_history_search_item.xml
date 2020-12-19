@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_history_item"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/dp_25"
+    android:layout_gravity="center_vertical"
+    android:ellipsize="end"
+    android:maxLength="10"
+    android:singleLine="true"
+    android:textColor="@color/color_white"
+    app:chipBackgroundColor="@color/color_929"
+    app:chipCornerRadius="@dimen/dp_12"
+    app:closeIconVisible="false">
+
+</com.google.android.material.chip.Chip>

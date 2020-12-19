@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
 import kotlinx.android.synthetic.main.activity_search.*
 import net.lishaoy.biz_search.view.GoodsSearchView
+import net.lishaoy.biz_search.view.HistorySearchView
 import net.lishaoy.biz_search.view.QuickSearchView
 import net.lishaoy.common.route.PerRoute
 import net.lishaoy.library.log.PerLog
@@ -24,6 +25,7 @@ import net.lishaoy.ui.search.SimpleTextWatcher
 
 @Route(path = "/search/main")
 class SearchActivity : AppCompatActivity() {
+    private var historySearchView: HistorySearchView? = null
     private var goodsSearchView: GoodsSearchView? = null
     private var quickSearView: QuickSearchView? = null
     private var emptyView: EmptyView? = null
@@ -49,6 +51,18 @@ class SearchActivity : AppCompatActivity() {
         searchViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[SearchViewModel::class.java]
         initTopBar()
         updateViewStatus(STATUS_EMPTY)
+        queryLocalHistory()
+    }
+
+    private fun queryLocalHistory() {
+        searchViewModel.queryLocalHistory().observe(this, Observer {
+            if (it != null) {
+                updateViewStatus(STATUS_HISTORY)
+                historySearchView?.bindData(it)
+            } else {
+                searchView.editText?.requestFocus()
+            }
+        })
     }
 
     private fun updateViewStatus(newStatus: Int) {
@@ -79,6 +93,19 @@ class SearchActivity : AppCompatActivity() {
                     }, 6)
                 }
                 showView = goodsSearchView
+            }
+            STATUS_HISTORY -> {
+                if (historySearchView == null) {
+                    historySearchView = HistorySearchView(this)
+                    historySearchView!!.setOnCheckedChangedListener {
+                        doKeywordSearch(it)
+                    }
+                    historySearchView!!.setOnHistoryClearListener {
+                        searchViewModel.clearHistory()
+                        updateViewStatus(STATUS_EMPTY)
+                    }
+                }
+                showView = historySearchView
             }
         }
         if (showView != null) {
@@ -118,7 +145,12 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private val updateHistoryListener = View.OnClickListener {
-        updateViewStatus(STATUS_EMPTY)
+        if (searchViewModel.cache.isNullOrEmpty()) {
+            updateViewStatus(STATUS_EMPTY)
+        } else {
+            updateViewStatus(STATUS_HISTORY)
+            historySearchView?.bindData(searchViewModel.cache!!)
+        }
     }
 
     private val debounceTextWatcher = object : SimpleTextWatcher() {
@@ -151,13 +183,15 @@ class SearchActivity : AppCompatActivity() {
         searchViewModel.goodsSearch(keyWord.keyWord, true)
         searchViewModel.goodsSearchLiveDate.observe(this, Observer {
             clearIcon.isEnabled = true
+            goodsSearchView?.loadFinished(!it.isNullOrEmpty())
+            val loadInit = searchViewModel.pageIndex == SearchViewModel.PAGE_INIT_INDEX
             if (it == null) {
-                if (searchViewModel.pageIndex == 1) {
+                if (loadInit) {
                     updateViewStatus(STATUS_EMPTY)
                 }
             } else {
                 updateViewStatus(STATUS_GOODS_SEARCH)
-                goodsSearchView?.bindData(it)
+                goodsSearchView?.bindData(it, loadInit)
             }
         })
     }
