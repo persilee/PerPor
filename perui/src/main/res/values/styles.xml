@@ -42,4 +42,20 @@
         <item name="key_word_padding">4dp</item>
     </style>
 
+    <style name="amountStyle">
+        <item name="btn_text_size">14sp</item>
+        <item name="btn_color">#999999</item>
+        <item name="btn_size">25dp</item>
+        <item name="btn_background">#eeeeee</item>
+        <item name="btn_margin">5dp</item>
+
+        <item name="amount_text_size">16sp</item>
+        <item name="amount_color">#000000</item>
+        <item name="amount_size">30dp</item>
+        <item name="amount_background">@android:color/white</item>
+
+        <item name="value">1</item>
+        <item name="min_value">1</item>
+    </style>
+
 </resources>

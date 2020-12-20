@@ -119,4 +119,23 @@
     <attr name="perSearchViewStyle" format="reference" />
     <!-- SearchView  -->
 
+    <!-- AmountView  -->
+    <declare-styleable name="AmountView">
+        <attr name="btn_text_size" format="dimension" />
+        <attr name="btn_color" format="color" />
+        <attr name="btn_size" format="dimension" />
+        <attr name="btn_margin" format="dimension" />
+        <attr name="btn_background" format="color" />
+
+        <attr name="amount_text_size" format="dimension" />
+        <attr name="amount_color" format="color" />
+        <attr name="amount_size" format="dimension" />
+        <attr name="amount_background" format="color" />
+
+        <attr name="value" format="integer" />
+        <attr name="max_value" format="integer" />
+        <attr name="min_value" format="integer" />
+    </declare-styleable>
+    <!-- AmountView  -->
+
 </resources>
