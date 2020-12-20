@@ -1,9 +1,11 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.alibaba.arouter'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
 
+apply from: '../dependency.gradle'
 def ext = rootProject.ext
 def dependency = rootProject.ext.dependencies
 
@@ -12,7 +14,6 @@ android {
     buildToolsVersion ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "net.lishaoy.perpro"
         minSdkVersion ext.minSdkVersion
         targetSdkVersion ext.targetSdkVersion
         versionCode 1
@@ -25,6 +26,7 @@ android {
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -33,43 +35,29 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    dataBinding {
-        enabled = true
-    }
-
-    androidExtensions {
-        experimental = true
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.1'
-    implementation dependency.appcompat
 
-    testImplementation 'junit:junit:4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation dependency.appcompat
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    // arouter
+    implementation project(path: ':common')
+
     implementation dependency.arouter_api
     kapt dependency.arouter_compiler
-
-    // 本地库
-    implementation project(path: ':perlibrary')
-    implementation project(path: ':perui')
-    implementation project(path: ':common')
-    implementation project(path: ':biz_detail')
-    implementation project(path: ':biz_login')
-    implementation project(path: ':biz_home')
-    implementation project(path: ':biz_search')
-    implementation project(path: ':biz_order')
-
 }
