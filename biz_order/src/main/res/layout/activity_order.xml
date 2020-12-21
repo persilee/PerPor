@@ -230,7 +230,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_16"
         android:paddingRight="@dimen/dp_16"
-        android:text="@string/channel_wx_pay"
+        android:text="@string/channel_ali_pay"
         android:textColor="@color/color_333"
         android:textSize="@dimen/sp_12" />
 

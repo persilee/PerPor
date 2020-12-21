@@ -3,6 +3,7 @@
     <string name="add_order_address">手动添加收货地址</string>
     <string name="amount_of_order">购买数量</string>
     <string name="channel_wx_pay">微信支付</string>
+    <string name="channel_ali_pay">支付宝支付</string>
     <string name="total_pay">实付款:</string>
     <string name="pay_now">立即支付</string>
     <string name="free_transport">¥ %s  免运费</string>

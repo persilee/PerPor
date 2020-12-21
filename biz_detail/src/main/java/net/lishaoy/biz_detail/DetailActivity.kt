@@ -111,6 +111,20 @@ class DetailActivity : PerBaseActivity() {
             detailModel.groupPrice,
             detailModel.marketPrice
         ) + getString(R.string.detail_order_text)
+
+        detail_btn_order.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("shopName", detailModel.shop.name)
+            bundle.putString("shopLogo", detailModel.shop.logo)
+            bundle.putString("goodsId", detailModel.goodsId)
+            bundle.putString("goodsImage", detailModel.sliderImage)
+            bundle.putString("goodsName", detailModel.goodsName)
+            bundle.putString(
+                "goodsPrice",
+                selectPrice(detailModel.groupPrice, detailModel.marketPrice)
+            )
+            PerRoute.startActivity(this, bundle, PerRoute.Destination.ORDER_MAIN)
+        }
     }
 
     private fun updateFavorite(favorite: Boolean) {
