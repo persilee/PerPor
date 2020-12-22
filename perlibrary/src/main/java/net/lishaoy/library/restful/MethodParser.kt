@@ -100,6 +100,13 @@ class MethodParser(private val baseUrl: String, method: Method) {
                 relativeUrl = annotation.value
                 httpMethod = PerRequest.METHOD.POST
                 formPost = annotation.formPost
+            } else if (annotation is PUT) {
+                formPost = annotation.formPost
+                httpMethod = PerRequest.METHOD.PUT
+                relativeUrl = annotation.value
+            } else if (annotation is DELETE) {
+                httpMethod = PerRequest.METHOD.DELETE
+                relativeUrl = annotation.value
             } else if (annotation is Headers) {
                 val headerArray = annotation.value
                 for (header in headerArray) {

@@ -55,31 +55,24 @@ class RetrofitCallFactory(private val baseUrl: String) : PerCall.Factory {
         }
 
         private fun createRealCall(request: PerRequest): Call<ResponseBody> {
-            if (request.httpMethod == PerRequest.METHOD.GET) {
-                return apiService.get(request.headers, request.endPointUrl(), request.parameters)
-            } else if (request.httpMethod == PerRequest.METHOD.POST) {
-                val parameters = request.parameters
-                var builder = FormBody.Builder()
-                var requestBody: RequestBody? = null
-                var jsonObject = JSONObject()
-                for ((key, value) in parameters!!) {
-                    if (request.formPost) {
-                        builder.add(key, value)
-                    } else {
-                        jsonObject.put(key, value)
-                    }
+            return when (request.httpMethod) {
+                PerRequest.METHOD.GET -> {
+                    apiService.get(request.headers, request.endPointUrl(), request.parameters)
                 }
-                if (request.formPost) {
-                    requestBody = builder.build()
-                } else {
-                    requestBody = RequestBody.create(
-                        MediaType.parse("application/json;charset=utf-8"),
-                        jsonObject.toString()
-                    )
+                PerRequest.METHOD.POST -> {
+                    var requestBody: RequestBody? = buildRequestBody(request)
+                    apiService.post(request.headers, request.endPointUrl(), requestBody)
                 }
-                return apiService.post(request.headers, request.endPointUrl(), requestBody)
-            } else {
-                throw IllegalStateException("restful only support GET POST for now, url = ${request.endPointUrl()}")
+                PerRequest.METHOD.PUT -> {
+                    var requestBody: RequestBody? = buildRequestBody(request)
+                    apiService.put(request.headers, request.endPointUrl(), requestBody)
+                }
+                PerRequest.METHOD.DELETE -> {
+                    apiService.delete(request.headers, request.endPointUrl())
+                }
+                else -> {
+                    throw IllegalStateException("restful only support GET POST for now, url = ${request.endPointUrl()}")
+                }
             }
         }
 
@@ -103,6 +96,29 @@ class RetrofitCallFactory(private val baseUrl: String) : PerCall.Factory {
 
     }
 
+    private fun buildRequestBody(request: PerRequest): RequestBody? {
+        val parameters = request.parameters
+        var builder = FormBody.Builder()
+        var requestBody: RequestBody? = null
+        var jsonObject = JSONObject()
+        for ((key, value) in parameters!!) {
+            if (request.formPost) {
+                builder.add(key, value)
+            } else {
+                jsonObject.put(key, value)
+            }
+        }
+        requestBody = if (request.formPost) {
+            builder.build()
+        } else {
+            RequestBody.create(
+                MediaType.parse("application/json;charset=utf-8"),
+                jsonObject.toString()
+            )
+        }
+        return requestBody
+    }
+
     interface ApiService {
         @GET
         fun get(
@@ -116,6 +132,19 @@ class RetrofitCallFactory(private val baseUrl: String) : PerCall.Factory {
             @HeaderMap headers: MutableMap<String, String>?,
             @Url url: String,
             @Body body: RequestBody?
+        ): Call<ResponseBody>
+
+        @PUT
+        fun put(
+            @HeaderMap headers: MutableMap<String, String>?,
+            @Url url: String,
+            @Body body: RequestBody?
+        ): Call<ResponseBody>
+
+        @DELETE
+        fun delete(
+            @HeaderMap headers: MutableMap<String, String>?,
+            @Url url: String
         ): Call<ResponseBody>
     }
 }

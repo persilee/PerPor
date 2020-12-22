@@ -65,6 +65,7 @@ dependencies {
 
     // material
     api dependency.material
+    api dependency.fragment_ktx
 
     // glide
     implementation dependency.glide
