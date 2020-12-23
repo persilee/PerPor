@@ -30,7 +30,7 @@ class SelectorDialogFragment : AppCompatDialogFragment() {
     private lateinit var province: Province
     private val defaultColor = PerRes.getColor(R.color.color_333)
     private val selectColor = PerRes.getColor(R.color.color_dd2)
-    private val pleasePickStr = getString(R.string.city_selector_tab_hint)
+    private val pleasePickStr = PerRes.getSting(R.string.city_selector_tab_hint)
 
     companion object {
 
@@ -172,7 +172,7 @@ class SelectorDialogFragment : AppCompatDialogFragment() {
                 itemClickCallback(position, it)
             }
 
-            if (view.parent != null) container.addView(view)
+            if (view.parent == null) container.addView(view)
 
             return view
         }

@@ -11,13 +11,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.dialog_add_address.*
 import net.lishaoy.biz_order.R
+import net.lishaoy.common.city.CityMgr
+import net.lishaoy.common.ext.showToast
 import net.lishaoy.library.util.PerRes
+import net.lishaoy.ui.selector.Province
+import net.lishaoy.ui.selector.SelectorDialogFragment
 
 class AddEditingDialogFragment : AppCompatDialogFragment() {
 
     private var address: Address? = null
     private val viewModel by viewModels<AddressViewModel>()
     private var savedAddressListener: OnSavedAddressListener? = null
+    private var selectProvince: Province? = null
 
     companion object {
         const val KEY_ADDRESS_PARAMS = "key_address"
@@ -62,7 +67,24 @@ class AddEditingDialogFragment : AppCompatDialogFragment() {
             .setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right_arrow, 0)
         add_address_pick.getEditText().isFocusable = false
         add_address_pick.isFocusableInTouchMode = false
-        add_address_pick.getEditText().setOnClickListener { }
+        add_address_pick.getEditText().setOnClickListener {
+            val liveData = CityMgr.getCityData()
+            liveData.removeObservers(viewLifecycleOwner)
+            liveData.observe(viewLifecycleOwner, Observer {
+                if (it != null) {
+                    val citySelector = SelectorDialogFragment.newInstance(selectProvince, it)
+                    citySelector.setCitySelectListener(object :
+                        SelectorDialogFragment.OnCitySelectListener {
+                        override fun onCitySelect(province: Province) {
+                            updateAddressPick(province)
+                        }
+                    })
+                    citySelector.show(childFragmentManager, "city_selector")
+                } else {
+                    showToast(getString(R.string.city_data_set_empty))
+                }
+            })
+        }
 
         add_address_detail.getTitleView().gravity = Gravity.TOP
         add_address_detail.getEditText().gravity = Gravity.TOP
@@ -81,6 +103,12 @@ class AddEditingDialogFragment : AppCompatDialogFragment() {
         }
     }
 
+    private fun updateAddressPick(province: Province) {
+        selectProvince = province
+        add_address_pick.getEditText()
+            .setText("${province.districtName} ${province.selectCity?.districtName} ${province.selectDistrict?.districtName}")
+    }
+
     private fun saveAddress() {
         val phone = add_address_phone.getEditText().text.toString().trim()
         val receiver = add_address_name.getEditText().text.toString().trim()
@@ -89,17 +117,16 @@ class AddEditingDialogFragment : AppCompatDialogFragment() {
 
         if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(receiver) || TextUtils.isEmpty(detail) || TextUtils.isEmpty(
                 area
-            )
+            ) || selectProvince == null || selectProvince?.selectCity == null || selectProvince?.selectDistrict == null
         ) {
-            Toast.makeText(
-                context,
-                PerRes.getSting(R.string.address_info_too_simple),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToast(PerRes.getSting(R.string.address_info_too_simple))
             return
         }
+        val province = selectProvince!!.districtName
+        val city = selectProvince!!.selectCity!!.districtName
+        val district = selectProvince!!.selectDistrict!!.districtName
         if (address == null) {
-            viewModel.saveAddress("", "", "", detail, receiver, phone)
+            viewModel.saveAddress(province!!, city!!, district!!, detail, receiver, phone)
                 .observe(viewLifecycleOwner, observer)
         } else {
             viewModel.updateAddress(address!!.id, "", "", "", detail, receiver, phone)
