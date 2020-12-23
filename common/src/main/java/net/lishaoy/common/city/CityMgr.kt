@@ -9,7 +9,7 @@ import net.lishaoy.library.executor.PerExecutor
 import net.lishaoy.library.log.PerLog
 import net.lishaoy.library.restful.PerCallback
 import net.lishaoy.library.restful.PerResponse
-import net.lishaoy.ui.titlebar.*
+import net.lishaoy.ui.selector.*
 import java.util.concurrent.atomic.AtomicBoolean
 
 object CityMgr {

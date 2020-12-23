@@ -1,4 +1,4 @@
-package net.lishaoy.ui.titlebar
+package net.lishaoy.ui.selector
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
