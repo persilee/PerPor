@@ -11,7 +11,7 @@ interface AddressApi {
         @Filed("pageSize") pageSize: Int
     ): PerCall<AddressModel>
 
-    @PUT("address", formPost = false)
+    @POST("address", formPost = false)
     fun addAddress(
         @Filed("area") area: String,
         @Filed("city") city: String,

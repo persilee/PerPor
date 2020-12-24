@@ -1,5 +1,7 @@
 package net.lishaoy.biz_order
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -45,6 +47,10 @@ class OrderActivity : PerBaseActivity() {
 
     private val viewModel by viewModels<OrderViewModel>()
 
+    companion object {
+        const val REQUEST_CODE_ADDRESS_LIST = 10000
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         PerStatusBar.setStatusBar(this, true, translucent = false)
@@ -68,7 +74,7 @@ class OrderActivity : PerBaseActivity() {
             user_phone.text = address!!.phoneNum
             user_address.text = "${address.province} ${address.city} ${address.area}"
             main_address.setOnClickListener {
-                showToast("to address list page")
+                PerRoute.startActivity(this, null, PerRoute.Destination.ADDRESS_LIST, REQUEST_CODE_ADDRESS_LIST)
             }
         } else {
             add_address.setOnClickListener {
@@ -113,5 +119,15 @@ class OrderActivity : PerBaseActivity() {
         val aliPayChecked = it.id == channel_ali_pay.id
         channel_ali_pay.isChecked = aliPayChecked
         channel_wx_pay.isChecked = !aliPayChecked
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null && requestCode == REQUEST_CODE_ADDRESS_LIST && requestCode == Activity.RESULT_OK) {
+            val address = data.getParcelableExtra<Address>("result")
+            if (address != null) {
+                updateAddress(address)
+            }
+        }
     }
 }

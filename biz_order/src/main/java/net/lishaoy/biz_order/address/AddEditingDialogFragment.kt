@@ -115,21 +115,22 @@ class AddEditingDialogFragment : AppCompatDialogFragment() {
         val detail = add_address_detail.getEditText().text.toString().trim()
         val area = add_address_pick.getEditText().text.toString().trim()
 
-        if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(receiver) || TextUtils.isEmpty(detail) || TextUtils.isEmpty(
-                area
-            ) || selectProvince == null || selectProvince?.selectCity == null || selectProvince?.selectDistrict == null
-        ) {
+        if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(receiver) || TextUtils.isEmpty(detail) || TextUtils.isEmpty(area)) {
             showToast(PerRes.getSting(R.string.address_info_too_simple))
             return
         }
-        val province = selectProvince!!.districtName
-        val city = selectProvince!!.selectCity!!.districtName
-        val district = selectProvince!!.selectDistrict!!.districtName
+        val province = selectProvince?.districtName ?: address?.province
+        val city = selectProvince?.selectCity?.districtName ?: address?.city
+        val district = selectProvince?.selectDistrict?.districtName ?: address?.area
+        if (TextUtils.isEmpty(province) || TextUtils.isEmpty(city) || TextUtils.isEmpty(district)) {
+            showToast(PerRes.getSting(R.string.address_info_too_simple))
+            return
+        }
         if (address == null) {
             viewModel.saveAddress(province!!, city!!, district!!, detail, receiver, phone)
                 .observe(viewLifecycleOwner, observer)
         } else {
-            viewModel.updateAddress(address!!.id, "", "", "", detail, receiver, phone)
+            viewModel.updateAddress(address!!.id, province!!, city!!, area!!, detail, receiver, phone)
                 .observe(viewLifecycleOwner, observer)
         }
     }

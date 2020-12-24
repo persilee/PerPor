@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.alibaba.arouter'
+apply plugin: 'dagger.hilt.android.plugin'
 
 def ext = rootProject.ext
 def dependency = rootProject.ext.dependencies
@@ -18,11 +19,14 @@ android {
         versionCode 1
         versionName "1.0"
 
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+
+        //开启拆分包
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -58,9 +62,17 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //添加multidex
+    implementation dependency.multidex
+
     // arouter
     implementation dependency.arouter_api
     kapt dependency.arouter_compiler
+
+    //hilt
+    implementation dependency.hilt_android
+    kapt dependency.hilt_android_compiler
+    kapt dependency.hilt_compiler
 
     // 本地库
     implementation project(path: ':perlibrary')
