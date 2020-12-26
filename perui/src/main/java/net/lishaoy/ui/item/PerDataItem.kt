@@ -31,11 +31,11 @@ abstract class PerDataItem<DATA, VH: RecyclerView.ViewHolder>(data: DATA? = null
     }
 
     fun refreshItem() {
-        adapter?.refreshItem(this)
+        if (adapter != null) adapter!!.refreshItem(this)
     }
 
     fun removeItem() {
-        adapter?.removeItem(this)
+        if (adapter != null) adapter!!.removeItem(this)
     }
 
     open fun getSpanSize() : Int {

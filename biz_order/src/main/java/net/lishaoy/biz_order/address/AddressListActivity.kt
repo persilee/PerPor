@@ -54,8 +54,8 @@ class AddressListActivity : PerBaseActivity() {
     }
 
     private fun newAddressItem(address: Address): AddressItem {
-        return AddressItem(address, supportFragmentManager, removeItemCallback = {address, addressItem ->
-            viewModel.deleteAddress(address.id).observe(this, Observer {
+        val item =  AddressItem(address, supportFragmentManager, removeItemCallback = {address, addressItem ->
+            viewModel.deleteAddress(address.id).observe(this@AddressListActivity, Observer {
                 if (it) {
                     addressItem.removeItem()
                 }
@@ -66,6 +66,9 @@ class AddressListActivity : PerBaseActivity() {
             setResult(Activity.RESULT_OK, intent)
             finish()
         }, viewModel = viewModel)
+        val adapter = recycler_view.adapter as PerAdapter
+        item.setAdapter(adapter)
+        return item
     }
 
     private fun initView() {
@@ -96,7 +99,7 @@ class AddressListActivity : PerBaseActivity() {
         val addressDialog = AddEditingDialogFragment.newInstance(null)
         addressDialog.setSavedAddressListener(object : AddEditingDialogFragment.OnSavedAddressListener {
             override fun onSaveAddress(address: Address?) {
-                val adapter: PerAdapter = recycler_view.adapter as PerAdapter
+                val adapter: PerAdapter? = recycler_view.adapter as PerAdapter?
                 adapter?.addItem(0, newAddressItem(address!!), true)
             }
 

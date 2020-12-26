@@ -59,7 +59,7 @@ data class SliderImage(
 ) : Serializable, Parcelable
 
 fun selectPrice(groupPrice: String?, marketPrice: String?): String? {
-    var price: String? = marketPrice ?: groupPrice
+    var price: String? =  if (marketPrice != "" && marketPrice != null) marketPrice else if (groupPrice != "" && groupPrice != null) groupPrice else "0.0"
     if (price?.startsWith("¥") != true){
         price = "¥".plus(price)
     }

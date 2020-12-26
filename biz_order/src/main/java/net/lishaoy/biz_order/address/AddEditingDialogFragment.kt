@@ -130,7 +130,7 @@ class AddEditingDialogFragment : AppCompatDialogFragment() {
             viewModel.saveAddress(province!!, city!!, district!!, detail, receiver, phone)
                 .observe(viewLifecycleOwner, observer)
         } else {
-            viewModel.updateAddress(address!!.id, province!!, city!!, area!!, detail, receiver, phone)
+            viewModel.updateAddress(address!!.id, province!!, city!!, district!!, detail, receiver, phone)
                 .observe(viewLifecycleOwner, observer)
         }
     }

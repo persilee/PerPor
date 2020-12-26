@@ -33,7 +33,7 @@ class AddressItem(
             })
             dialog.show(supportFragmentManager, "edit_address")
         }
-        holder.default_address.setOnClickListener {
+        holder.delete.setOnClickListener {
             AlertDialog.Builder(context)
                 .setMessage(PerRes.getSting(R.string.address_delete_title))
                 .setNegativeButton(R.string.address_delete_cancel, null)
@@ -41,6 +41,7 @@ class AddressItem(
                     dialog.dismiss()
                     removeItemCallback(addressItem, this)
                 }
+                .show()
 
         }
         holder.itemView.setOnClickListener {
@@ -53,7 +54,8 @@ class AddressItem(
             refreshItem()
         }
         val select = viewModel.checkedAddressItem == this && viewModel.checkPosition == position
-        holder.default_address.text = PerRes.getSting(if (select) R.string.address_default else R.string.set_default_address)
+        holder.default_address.text =
+            PerRes.getSting(if (select) R.string.address_default else R.string.set_default_address)
         holder.default_address.setTextColor(PerRes.getColor(if (select) R.color.color_dd2 else R.color.color_999))
         holder.default_address.setCompoundDrawablesWithIntrinsicBounds(
             if (select) R.drawable.ic_checked_red else 0, 0, 0, 0
@@ -64,4 +66,5 @@ class AddressItem(
     override fun getItemLayoutRes(): Int {
         return R.layout.activity_address_list_item
     }
+
 }
