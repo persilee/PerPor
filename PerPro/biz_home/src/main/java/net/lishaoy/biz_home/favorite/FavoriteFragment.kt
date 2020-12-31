@@ -1,19 +1,20 @@
-package net.lishaoy.biz_home.recommend
+package net.lishaoy.biz_home.favorite
 
 import android.os.Bundle
 import android.view.View
+import net.lishaoy.common.ui.PerBaseFragment
 import net.lishaoy.biz_home.R
 import net.lishaoy.common.flutter.PerFlutterCacheManager
 import net.lishaoy.common.flutter.PerFlutterFragment
-import net.lishaoy.common.ui.PerBaseFragment
 
-class RecommendFragment: PerFlutterFragment() {
+class FavoriteFragment : PerFlutterFragment() {
 
     override val module: String?
-        get() = PerFlutterCacheManager.MODULE_RECOMMEND
+        get() = PerFlutterCacheManager.MODULE_FAVORITE
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTitle("推荐")
+        setTitle("收藏")
     }
+
 }
