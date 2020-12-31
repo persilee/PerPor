@@ -63,6 +63,7 @@ dependencies {
 
     implementation project(path: ':common')
     implementation project(path: ':pub_mod')
+    implementation project(path: ':flutter')
 
     implementation dependency.arouter_api
     kapt dependency.arouter_compiler

@@ -79,5 +79,6 @@ dependencies {
     api project(path: ':perui')
     api project(path: ':perlibrary')
     api project(path: ':service_login')
+    api project(path: ':flutter')
 
 }

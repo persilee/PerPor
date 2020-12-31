@@ -23,6 +23,8 @@
             <option value="$PROJECT_DIR$/perui" />
             <option value="$PROJECT_DIR$/pub_mod" />
             <option value="$PROJECT_DIR$/service_login" />
+            <option value="$PROJECT_DIR$/../flutter_module" />
+            <option value="$PROJECT_DIR$/../flutter_module/.android/Flutter" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
