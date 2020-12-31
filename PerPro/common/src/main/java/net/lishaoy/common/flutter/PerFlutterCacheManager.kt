@@ -27,6 +27,7 @@ class PerFlutterCacheManager private constructor(){
 
     private fun initFlutterEngine(context: Context, module: String): FlutterEngine {
         val flutterEngine = FlutterEngine(context)
+        PerFlutterBridge.init(flutterEngine)
         flutterEngine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint(FlutterMain.findAppBundlePath(), module))
         FlutterEngineCache.getInstance().put(module, flutterEngine)
 

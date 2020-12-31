@@ -2,8 +2,6 @@ package net.lishaoy.biz_home.favorite
 
 import android.os.Bundle
 import android.view.View
-import net.lishaoy.common.ui.PerBaseFragment
-import net.lishaoy.biz_home.R
 import net.lishaoy.common.flutter.PerFlutterCacheManager
 import net.lishaoy.common.flutter.PerFlutterFragment
 
