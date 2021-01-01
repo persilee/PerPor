@@ -8,6 +8,8 @@ class RecommendPage extends StatefulWidget {
 class _RecommendPageState extends State<RecommendPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text("推荐"),
+    );
   }
 }
