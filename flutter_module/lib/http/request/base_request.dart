@@ -11,6 +11,8 @@ abstract class BaseRequest {
 
   HttpMethod httpMethod();
 
+  bool needLogin();
+
   String path();
 
   Map<String, String> params = Map();
