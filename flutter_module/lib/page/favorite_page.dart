@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_module/core/per_flutter_bridge.dart';
-import 'package:flutter_module/http/per_http.dart';
-import 'package:flutter_module/http/request/recommend_request.dart';
-import 'package:flutter_module/http/retrofit/api/recommend_api.dart';
+import 'package:flutter_module/http/retrofit/api/api_client.dart';
+import 'package:flutter_module/widget/empty_page.dart';
+import 'package:flutter_module/widget/iconfont.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -12,6 +11,9 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+
+  var isShowEmptyPage = false;
+
   @override
   void initState() {
     super.initState();
@@ -30,7 +32,10 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return isShowEmptyPage ? EmptyPage(
+      buttonAction: () => print("click button"),
+      helpAction: () => print('click help'),
+    ) : Container(
       child: Column(
         children: [
           Text("收藏"),
@@ -45,14 +50,19 @@ class _FavoritePageState extends State<FavoritePage> {
                 // } catch (e) {
                 //   print(e);
                 // }
-                RecommendApi()
+                ApiClient()
                     .getRecommend("1", "10")
                     .then((value) => print(value.data.list[0].toJson()))
                     .catchError((e) => print(e.toString()));
 
                 // print(data.data.list[0].toJson());
               },
-              child: Text('toDetail'))
+              child: Text('toDetail')),
+          FlatButton(onPressed: () {
+            setState(() {
+              isShowEmptyPage = true;
+            });
+          }, child: Text('show empty page'))
         ],
       ),
     );

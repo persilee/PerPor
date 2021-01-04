@@ -5,13 +5,13 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
-part 'recommend_api.g.dart';
+part 'api_client.g.dart';
 
 @RestApi(baseUrl: "https://api.devio.org/as")
-abstract class RecommendApi {
-  factory RecommendApi({String baseUrl}) {
+abstract class ApiClient {
+  factory ApiClient({String baseUrl}) {
     Dio dio = BaseDio.getInstance().getDio();
-    return _RecommendApi(dio, baseUrl: baseUrl);
+    return _ApiClient(dio, baseUrl: baseUrl);
   }
 
   @GET("/goods/recommend")
