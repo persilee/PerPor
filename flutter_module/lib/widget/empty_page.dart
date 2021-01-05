@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'iconfont.dart';
 
 class EmptyPage extends StatelessWidget {
-  final Icon icon;
+  final IconData icon;
   final String title;
   final String desc;
   final String buttonText;
@@ -28,12 +28,15 @@ class EmptyPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            this.icon ??
-                Icon(
-                  IconFont.if_empty,
-                  size: size.width / 3.6,
-                  color: Colors.black54,
-                ),
+            Container(
+              width: size.width / 2.6,
+              child:
+                  Icon(
+                    this.icon ?? IconFont.if_empty,
+                    size: size.width / 3.6,
+                    color: Colors.black54,
+                  ),
+            ),
             Padding(
               padding: EdgeInsets.only(
                 top: 18,
@@ -48,7 +51,7 @@ class EmptyPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  this.desc ?? '虽然什么也没有,要不下拉刷新看看',
+                  this.desc ?? '虽然什么也没有,要不刷新看看',
                   style: TextStyle(fontSize: 18, color: Colors.grey),
                 ),
                 GestureDetector(
@@ -56,6 +59,7 @@ class EmptyPage extends StatelessWidget {
                   child: Icon(
                     IconFont.if_detail,
                     size: 18,
+                    color: Colors.grey,
                   ),
                 ),
               ],

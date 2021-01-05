@@ -1,4 +1,4 @@
-class PerError {
+abstract class PerError {
   final int code;
   final String message;
 
@@ -19,4 +19,17 @@ class NeedAuth implements PerError {
 
   @override
   String get message => "非法访问";
+}
+
+class OtherError implements PerError {
+  final int statusCode;
+  final String statusMessage;
+
+  OtherError({this.statusCode, this.statusMessage});
+
+  @override
+  int get code => statusCode;
+
+  @override
+  String get message => statusMessage;
 }

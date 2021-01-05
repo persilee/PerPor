@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+import '../../per_error.dart';
+
 class BaseDio {
   BaseDio._();
 
@@ -27,6 +29,26 @@ class BaseDio {
     ));
 
     return dio;
+  }
+
+  PerError getDioError(Object obj) {
+    switch (obj.runtimeType) {
+      case DioError:
+        if ((obj as DioError).type == DioErrorType.RESPONSE) {
+          final response = (obj as DioError).response;
+          if (response.statusCode == 401) {
+            return NeedLogin();
+          } else if (response.statusCode == 403) {
+            return NeedAuth();
+          } else {
+            return OtherError(
+                statusCode: response.statusCode,
+                statusMessage: response.statusMessage);
+          }
+        }
+    }
+
+    return OtherError();
   }
 
   getHeaders() {

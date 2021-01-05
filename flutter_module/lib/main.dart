@@ -3,7 +3,7 @@ import 'package:flutter_module/page/favorite_page.dart';
 import 'package:flutter_module/page/recommend_page.dart';
 import 'package:flutter_module/widget/empty_page.dart';
 
-void main() => runApp(MyApp(FavoritePage()));
+void main() => runApp(MyApp(RecommendPage()));
 
 @pragma('vm:entry-point')
 void recommend() => runApp(MyApp(RecommendPage()));
