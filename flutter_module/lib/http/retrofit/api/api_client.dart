@@ -17,5 +17,8 @@ abstract class ApiClient {
   Future<GoodsModel> getRecommend(
       @Query("pageIndex") String pageIndex, @Query("pageSize") String pageSize);
 
+  @GET("/favorites")
+  Future<GoodsModel> getFavorite(
+      @Query("pageIndex") String pageIndex, @Query("pageSize") String pageSize);
 
 }

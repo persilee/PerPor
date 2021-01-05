@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_module/page/favorite_page.dart';
 import 'package:flutter_module/page/recommend_page.dart';
-import 'package:flutter_module/widget/empty_page.dart';
 
 void main() => runApp(MyApp(RecommendPage()));
 

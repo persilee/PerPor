@@ -37,4 +37,26 @@ class _ApiClient implements ApiClient {
     final value = GoodsModel.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<GoodsModel> getFavorite(pageIndex, pageSize) async {
+    ArgumentError.checkNotNull(pageIndex, 'pageIndex');
+    ArgumentError.checkNotNull(pageSize, 'pageSize');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'pageIndex': pageIndex,
+      r'pageSize': pageSize
+    };
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>('/favorites',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = GoodsModel.fromJson(_result.data);
+    return value;
+  }
 }
