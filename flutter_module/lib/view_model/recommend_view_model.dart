@@ -5,15 +5,17 @@ import 'package:flutter_module/model/goods_model.dart';
 import 'package:flutter_module/widget/base_view_model.dart';
 import 'package:flutter_module/widget/page_state.dart';
 
-class RecommendViewModel implements BaseViewModel{
-
-  StreamController<PageState> controller = StreamController<PageState>();
-
-  Stream<PageState> get stream  => controller.stream;
-
+class RecommendViewModel implements BaseViewModel<Goods> {
   List<Goods> dataLists;
 
-  Future getData() async {
+  @override
+  StreamController<PageState> controller = StreamController<PageState>();
+
+  @override
+  Stream<PageState> get stream => controller.stream;
+
+  @override
+  Future<List<Goods>> getData() async {
     controller.add(BusyState());
     var goodsModel;
     try {
@@ -26,5 +28,7 @@ class RecommendViewModel implements BaseViewModel{
     } catch (e) {
       controller.addError(BaseDio.getInstance().getDioError(e));
     }
+
+    return dataLists;
   }
 }

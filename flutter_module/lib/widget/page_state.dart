@@ -1,4 +1,6 @@
-class PageState{}
+import 'package:flutter/material.dart';
+
+class PageState with ChangeNotifier{}
 
 class InitializedState extends PageState {}
 

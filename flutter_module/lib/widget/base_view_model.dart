@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_module/widget/page_state.dart';
 
-abstract class BaseViewModel {
+abstract class BaseViewModel<T> {
 
   final StreamController<PageState> controller;
 
@@ -10,5 +10,5 @@ abstract class BaseViewModel {
 
   BaseViewModel(this.controller, this.stream);
 
-  getData();
+  Future<List<T>> getData();
 }
