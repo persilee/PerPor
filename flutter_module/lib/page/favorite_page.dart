@@ -40,7 +40,7 @@ class _FavoritePageState extends State<FavoritePage> {
     return Scaffold(
       body: StreamPage<PageState>(
         model: _model,
-        content: FavoriteItem(pageState: goodsList,),
+        content: FavoriteItem(),
         onReady: (pageState) {
           if (pageState is DataFetchState && pageState.hasData) {
             goodsList = pageState.data as List<Goods>;

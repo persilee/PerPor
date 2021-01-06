@@ -9,15 +9,19 @@ import 'package:flutter_module/widget/page_state.dart';
 
 class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
   List<Goods> dataLists;
+  int pageIndex = 1;
 
   @override
   // ignore: close_sinks
   StreamController<PageState> controller = StreamController<PageState>();
 
   @override
+  Stream<PageState> get stream => controller.stream;
+
+  @override
   Future<List<Goods>> getData() async {
     controller.add(BusyState());
-    GoodsModel goodsModel;
+    var goodsModel;
     try {
       goodsModel = await ApiClient().getFavorite("1", "10");
       dataLists = goodsModel.data.list;
@@ -35,6 +39,36 @@ class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
     return dataLists;
   }
 
+  Future<List<Goods>> loadMore({bool isRefresh = false}) async {
+    pageIndex ++;
+    GoodsModel goodsModel;
+    try {
+      if(isRefresh) {
+        pageIndex = 1;
+        goodsModel = await ApiClient().getFavorite(pageIndex.toString(), "10");
+        if (goodsModel.data.list.length > 0) {
+          dataLists.clear();
+          dataLists.addAll(goodsModel.data.list);
+        }
+      } else {
+        goodsModel = await ApiClient().getFavorite(pageIndex.toString(), "10");
+        if (goodsModel.data.list.length > 0) {
+          dataLists.addAll(goodsModel.data.list);
+        } else {
+          return null;
+        }
+      }
+
+
+    } catch (e) {
+      controller.addError(BaseDio.getInstance().getDioError(e));
+    }
+    notifyListeners();
+
+    return dataLists;
+  }
+
+
   updateData(dynamic data) {
     dataLists = data as List<Goods>;
   }
@@ -42,7 +76,4 @@ class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
   get total => dataLists.length;
 
   List<Goods> get list => dataLists;
-
-  @override
-  Stream<PageState> get stream => controller.stream;
 }

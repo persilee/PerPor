@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_module/http/retrofit/api/api_client.dart';
 import 'package:flutter_module/http/retrofit/api/base_dio.dart';
 import 'package:flutter_module/model/goods_model.dart';
 import 'package:flutter_module/widget/base_view_model.dart';
 import 'package:flutter_module/widget/page_state.dart';
 
-class RecommendViewModel implements BaseViewModel<Goods> {
+class RecommendViewModel with ChangeNotifier implements BaseViewModel<Goods> {
   List<Goods> dataLists;
+  int pageIndex = 1;
 
   @override
   StreamController<PageState> controller = StreamController<PageState>();
@@ -21,14 +23,53 @@ class RecommendViewModel implements BaseViewModel<Goods> {
     try {
       goodsModel = await ApiClient().getRecommend("1", "10");
       dataLists = goodsModel.data.list;
-      controller.add(DataFetchState<List<Goods>>(dataLists));
+      if(dataLists.length > 0) {
+        controller.add(DataFetchState<List<Goods>>(dataLists));
+      }
       if (dataLists.length <= 0) {
         controller.add(DataFetchState(null));
       }
     } catch (e) {
       controller.addError(BaseDio.getInstance().getDioError(e));
     }
+    notifyListeners();
 
     return dataLists;
   }
+
+  Future<List<Goods>> loadMore({bool isRefresh = false}) async {
+    pageIndex ++;
+    GoodsModel goodsModel;
+    try {
+      if(isRefresh) {
+        pageIndex = 1;
+        goodsModel = await ApiClient().getRecommend(pageIndex.toString(), "10");
+        if (goodsModel.data.list.length > 0) {
+          dataLists.clear();
+          dataLists.addAll(goodsModel.data.list);
+        }
+      } else {
+        goodsModel = await ApiClient().getRecommend(pageIndex.toString(), "10");
+        if (goodsModel.data.list.length > 0) {
+          dataLists.addAll(goodsModel.data.list);
+        } else {
+          return null;
+        }
+      }
+
+    } catch (e) {
+      controller.addError(BaseDio.getInstance().getDioError(e));
+    }
+    notifyListeners();
+
+    return dataLists;
+  }
+
+  updateData(dynamic data) {
+    dataLists = data as List<Goods>;
+  }
+
+  get total => dataLists.length;
+
+  List<Goods> get list => dataLists;
 }

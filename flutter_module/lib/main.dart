@@ -3,6 +3,7 @@ import 'package:flutter/physics.dart';
 import 'package:flutter_module/page/favorite_page.dart';
 import 'package:flutter_module/page/recommend_page.dart';
 import 'package:flutter_module/view_model/favorite_view_model.dart';
+import 'package:flutter_module/view_model/recommend_view_model.dart';
 import 'package:flutter_module/widget/page_state.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -12,12 +13,19 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(
           create: (_) => FavoriteViewModel(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => RecommendViewModel(),
+        ),
       ],
       child: MyApp(FavoritePage()),
     ));
 
 @pragma('vm:entry-point')
-void recommend() => runApp(MyApp(RecommendPage()));
+void recommend() => runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(
+        create: (_) => RecommendViewModel(),
+      ),
+    ], child: MyApp(RecommendPage())));
 
 class MyApp extends StatelessWidget {
   final Widget page;
@@ -29,6 +37,8 @@ class MyApp extends StatelessWidget {
     return RefreshConfiguration(
       headerTriggerDistance: 100.0,
       maxOverScrollExtent: 120,
+      enableLoadingWhenFailed : false,
+      hideFooterWhenNotFull: true,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
