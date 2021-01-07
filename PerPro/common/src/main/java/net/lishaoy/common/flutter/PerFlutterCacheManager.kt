@@ -6,6 +6,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.FlutterEngineCache
 import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.view.FlutterMain
+import net.lishaoy.common.flutter.view.PerImageViewPlugin
 
 class PerFlutterCacheManager private constructor(){
 
@@ -28,6 +29,7 @@ class PerFlutterCacheManager private constructor(){
     private fun initFlutterEngine(context: Context, module: String): FlutterEngine {
         val flutterEngine = FlutterEngine(context)
         PerFlutterBridge.init(flutterEngine)
+        PerImageViewPlugin.registerWith(flutterEngine)
         flutterEngine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint(FlutterMain.findAppBundlePath(), module))
         FlutterEngineCache.getInstance().put(module, flutterEngine)
 
@@ -42,7 +44,11 @@ class PerFlutterCacheManager private constructor(){
         }
     }
 
-    fun getCachedFlutterEngine(context: Context?, module: String): FlutterEngine {
+    fun hasCached(module: String): Boolean {
+        return FlutterEngineCache.getInstance().contains(module)
+    }
+
+    fun getCachedFlutterEngine(context: Context?, module: String): FlutterEngine? {
         var flutterEngine = FlutterEngineCache.getInstance()[module]
         if (flutterEngine == null && context != null) {
             flutterEngine = initFlutterEngine(context, module)

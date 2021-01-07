@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_module/core/per_flutter_bridge.dart';
 import 'package:flutter_module/model/goods_model.dart';
 import 'package:flutter_module/view_model/favorite_view_model.dart';
 import 'package:flutter_module/widget/per_refresh.dart';
@@ -57,7 +58,9 @@ class _FavoriteItemState extends State<FavoriteItem> {
 
   _item(Goods goods) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        PerFlutterBridge.getInstance().goToNative({"action": "goToDetail", "goodsId": goods.goodsId});
+      },
       child: Card(
         child: IntrinsicHeight(
           child: Padding(

@@ -18,23 +18,26 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-
   final _model = FavoriteViewModel();
+  var header;
 
   @override
   void initState() {
     _model.getData();
     super.initState();
+    PerFlutterBridge.getInstance().register("onRefresh", (MethodCall call) {
+      _model.getData();
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+    PerFlutterBridge.getInstance().unRegister("onRefresh");
   }
 
   @override
   Widget build(BuildContext context) {
-
     List<Goods> goodsList;
 
     return Scaffold(

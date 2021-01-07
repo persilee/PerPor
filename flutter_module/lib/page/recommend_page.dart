@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_module/core/per_flutter_bridge.dart';
 import 'package:flutter_module/model/goods_model.dart';
 import 'package:flutter_module/page/recommend_item.dart';
 import 'package:flutter_module/view_model/recommend_view_model.dart';
@@ -18,7 +20,16 @@ class _RecommendPageState extends State<RecommendPage> {
   @override
   void initState() {
     _model.getData();
+    PerFlutterBridge.getInstance().register("onRefresh", (MethodCall call) {
+      _model.getData();
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    PerFlutterBridge.getInstance().unRegister("onRefresh");
   }
 
   @override

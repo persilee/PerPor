@@ -4,6 +4,7 @@ import android.os.Bundle
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import net.lishaoy.common.info.PerLocalConfig
 import net.lishaoy.common.route.PerRoute
 import net.lishaoy.library.util.AppGlobals
 
@@ -56,13 +57,18 @@ class PerFlutterBridge : IPerBridge<Any?, MethodChannel.Result>, MethodChannel.M
                 val bundle = Bundle()
                 bundle.putString("goodsId", goodsId as String)
                 PerRoute.startActivity(AppGlobals.get(), bundle, PerRoute.Destination.DETAIL_MAIN)
+            } else if (action == "goToLogin") {
+                PerRoute.startActivity(AppGlobals.get(), destination = PerRoute.Destination.ACCOUNT_LOGIN)
             }
         }
 
     }
 
     override fun getHeaderParams(callback: MethodChannel.Result) {
-
+        callback!!.success(mapOf(
+            "boarding-pass" to PerLocalConfig.instance!!.boardingPass(),
+            "auth-token" to PerLocalConfig.instance!!.authToken()
+        ))
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {

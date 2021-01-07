@@ -51,7 +51,7 @@ object PerExecutor {
             }
 
             override fun afterExecute(r: Runnable?, t: Throwable?) {
-                PerLog.e("runnable priority is ${(r as PriorityRunnable).priority}")
+                PerLog.i("runnable priority is ${(r as PriorityRunnable).priority}")
             }
         }
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_module/core/per_flutter_bridge.dart';
 import 'package:flutter_module/http/per_error.dart';
 import 'package:flutter_module/model/goods_model.dart';
 import 'package:flutter_module/view_model/favorite_view_model.dart';
@@ -31,6 +32,12 @@ class _StreamPageState extends State<StreamPage> {
             return EmptyPage(
               title: (snapshot.error as PerError).code?.toString(),
               desc: (snapshot.error as PerError).message,
+              buttonAction: (){
+                if (snapshot.error is NeedLogin) {
+                  PerFlutterBridge.getInstance().goToNative({"action": "goToLogin"});
+                }
+              },
+              buttonText: snapshot.error is NeedLogin ? "登录" : "",
             );
           }
           var pageState = snapshot.data;
@@ -54,7 +61,7 @@ class _StreamPageState extends State<StreamPage> {
             }
           }
 
-          return widget.content;
+          return Padding(padding: EdgeInsets.only(bottom: 55), child: widget.content,);
         });
   }
 }

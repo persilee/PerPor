@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_module/http/retrofit/api/api_client.dart';
 import 'package:flutter_module/http/retrofit/api/base_dio.dart';
@@ -22,8 +23,10 @@ class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
   Future<List<Goods>> getData() async {
     controller.add(BusyState());
     var goodsModel;
+    Dio dio;
     try {
-      goodsModel = await ApiClient().getFavorite("1", "10");
+      dio = await BaseDio.getInstance().getDio();
+      goodsModel = await ApiClient(dio: dio).getFavorite("1", "10");
       dataLists = goodsModel.data.list;
       if (dataLists.length > 0) {
         controller.add(DataFetchState<List<Goods>>(dataLists));
@@ -32,6 +35,7 @@ class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
         controller.add(DataFetchState(null));
       }
     } catch (e) {
+      print(e);
       controller.addError(BaseDio.getInstance().getDioError(e));
     }
     notifyListeners();
@@ -42,16 +46,18 @@ class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
   Future<List<Goods>> loadMore({bool isRefresh = false}) async {
     pageIndex ++;
     GoodsModel goodsModel;
+    Dio dio;
     try {
+      dio = await BaseDio.getInstance().getDio();
       if(isRefresh) {
         pageIndex = 1;
-        goodsModel = await ApiClient().getFavorite(pageIndex.toString(), "10");
+        goodsModel = await ApiClient(dio: dio).getFavorite(pageIndex.toString(), "10");
         if (goodsModel.data.list.length > 0) {
           dataLists.clear();
           dataLists.addAll(goodsModel.data.list);
         }
       } else {
-        goodsModel = await ApiClient().getFavorite(pageIndex.toString(), "10");
+        goodsModel = await ApiClient(dio: dio).getFavorite(pageIndex.toString(), "10");
         if (goodsModel.data.list.length > 0) {
           dataLists.addAll(goodsModel.data.list);
         } else {

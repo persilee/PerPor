@@ -9,6 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import kotlinx.android.synthetic.main.activity_login.*
 import net.lishaoy.biz_login.api.AccountApi
+import net.lishaoy.common.flutter.PerFlutterBridge
 import net.lishaoy.common.http.ApiFactory
 import net.lishaoy.common.ui.PerBaseActivity
 import net.lishaoy.library.restful.PerCallback
@@ -50,6 +51,7 @@ class LoginActivity : PerBaseActivity() {
                 override fun onSuccess(response: PerResponse<String>) {
                     if (response.code == PerResponse.SUCCESS) {
                         showToast(getString(R.string.login_success))
+                        PerFlutterBridge.instance?.fire("onRefresh", null)
                         val data = response.data
                         AccountManager.loginSuccess(data!!)
                         setResult(Activity.RESULT_OK, Intent())

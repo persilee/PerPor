@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_module/core/per_flutter_bridge.dart';
 import 'package:flutter_module/model/goods_model.dart';
 import 'package:flutter_module/view_model/favorite_view_model.dart';
 import 'package:flutter_module/view_model/recommend_view_model.dart';
@@ -64,7 +65,9 @@ class _RecommendItemState extends State<RecommendItem> {
 
   _item(BuildContext context, Goods goods) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        PerFlutterBridge.getInstance().goToNative({"action": "goToDetail", "goodsId": goods.goodsId});
+      },
       child: Card(
         child: PhysicalModel(
           color: Colors.transparent,

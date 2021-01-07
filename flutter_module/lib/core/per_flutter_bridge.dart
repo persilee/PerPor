@@ -4,6 +4,7 @@ class PerFlutterBridge {
   
   static PerFlutterBridge _instance = PerFlutterBridge._();
   MethodChannel _channel = const MethodChannel("PerFlutterBridge");
+  var header;
   var _listeners = {};
   PerFlutterBridge._() {
     _channel.setMethodCallHandler((MethodCall call){
@@ -17,6 +18,12 @@ class PerFlutterBridge {
 
   static PerFlutterBridge getInstance() {
     return _instance;
+  }
+
+  Future<Map<String, String>> getHeaderParams() async {
+    Map header = await _channel.invokeMethod("getHeaderParams", {});
+    print(Map<String, String>.from(header));
+    return this.header = Map<String, String>.from(header);
   }
 
   register(String method, Function(MethodCall) callback) {

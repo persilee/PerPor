@@ -14,19 +14,21 @@ import net.lishaoy.common.R
 import net.lishaoy.common.ui.PerBaseFragment
 import net.lishaoy.library.util.AppGlobals
 
-abstract class PerFlutterFragment : PerBaseFragment() {
+abstract class PerFlutterFragment(module: String) : PerBaseFragment() {
 
-    private var flutterEngine: FlutterEngine?
+    private var flutterEngine: FlutterEngine? = null
     private var flutterView: FlutterView? = null
-    abstract val module: String?
+    private val cached = PerFlutterCacheManager.instance!!.hasCached(module)
 
     init {
-        flutterEngine = module?.let {
-            PerFlutterCacheManager.instance?.getCachedFlutterEngine(
-                AppGlobals.get(),
-                it
-            )
-        }
+        flutterEngine =
+            PerFlutterCacheManager.instance!!.getCachedFlutterEngine(AppGlobals.get(), module)
+    }
+
+    private fun createFlutterView(context: Context): FlutterView {
+        val flutterTextureView = FlutterTextureView(activity!!)
+        flutterView = FlutterView(context, flutterTextureView)
+        return flutterView!!
     }
 
     override fun getLayoutId(): Int {
@@ -42,10 +44,15 @@ abstract class PerFlutterFragment : PerBaseFragment() {
         (layoutView as ViewGroup).addView(createFlutterView(activity!!))
     }
 
-    private fun createFlutterView(context: Context): FlutterView {
-        val flutterTextureView = FlutterTextureView(activity!!)
-        flutterView = FlutterView(context, flutterTextureView)
-        return flutterView!!
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (!cached) {
+            flutterEngine?.platformViewsController?.attach(
+                activity,
+                flutterEngine!!.renderer,
+                flutterEngine!!.dartExecutor
+            )
+        }
     }
 
     override fun onStart() {
@@ -71,5 +78,10 @@ abstract class PerFlutterFragment : PerBaseFragment() {
     override fun onDetach() {
         super.onDetach()
         flutterEngine!!.lifecycleChannel.appIsDetached()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        flutterView?.detachFromFlutterEngine()
     }
 }

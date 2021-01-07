@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter_module/page/favorite_page.dart';
+import 'package:flutter_module/page/native_demo_page.dart';
 import 'package:flutter_module/page/recommend_page.dart';
 import 'package:flutter_module/view_model/favorite_view_model.dart';
 import 'package:flutter_module/view_model/recommend_view_model.dart';
@@ -13,9 +14,6 @@ void main() => runApp(MultiProvider(
         ChangeNotifierProvider(
           create: (_) => FavoriteViewModel(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => RecommendViewModel(),
-        ),
       ],
       child: MyApp(FavoritePage()),
     ));
@@ -26,6 +24,9 @@ void recommend() => runApp(MultiProvider(providers: [
         create: (_) => RecommendViewModel(),
       ),
     ], child: MyApp(RecommendPage())));
+
+@pragma('vm:entry-point')
+void nativeView() => runApp(MyApp(NativeDemoPage()));
 
 class MyApp extends StatelessWidget {
   final Widget page;

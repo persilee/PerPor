@@ -8,8 +8,8 @@ part 'api_client.g.dart';
 
 @RestApi(baseUrl: "https://api.devio.org/as")
 abstract class ApiClient {
-  factory ApiClient({String baseUrl}) {
-    Dio dio = BaseDio.getInstance().getDio();
+  factory ApiClient({Dio dio, String baseUrl}) {
+    if (dio == null) dio = Dio();
     return _ApiClient(dio, baseUrl: baseUrl);
   }
 
@@ -20,5 +20,4 @@ abstract class ApiClient {
   @GET("/favorites")
   Future<GoodsModel> getFavorite(
       @Query("pageIndex") String pageIndex, @Query("pageSize") String pageSize);
-
 }

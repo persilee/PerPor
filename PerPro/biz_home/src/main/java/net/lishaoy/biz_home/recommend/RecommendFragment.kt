@@ -7,10 +7,7 @@ import net.lishaoy.common.flutter.PerFlutterCacheManager
 import net.lishaoy.common.flutter.PerFlutterFragment
 import net.lishaoy.common.ui.PerBaseFragment
 
-class RecommendFragment: PerFlutterFragment() {
-
-    override val module: String?
-        get() = PerFlutterCacheManager.MODULE_RECOMMEND
+class RecommendFragment: PerFlutterFragment(PerFlutterCacheManager.MODULE_RECOMMEND) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

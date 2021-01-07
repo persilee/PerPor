@@ -26,7 +26,8 @@ object PerRoute {
         NOTICE_LIST("通知公告","/notice/list"),
         SEARCH_MAIN("搜索页","/search/main"),
         ORDER_MAIN("订单页","/order/main"),
-        ADDRESS_LIST("地址列表","/address/list")
+        ADDRESS_LIST("地址列表","/address/list"),
+        ACCOUNT_LOGIN("登录页","/account/login")
     }
 
     fun startActivity(
