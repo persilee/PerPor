@@ -84,5 +84,6 @@ dependencies {
     implementation project(path: ':biz_home')
     implementation project(path: ':biz_search')
     implementation project(path: ':biz_order')
+    implementation project(path: ':play_ground')
 
 }

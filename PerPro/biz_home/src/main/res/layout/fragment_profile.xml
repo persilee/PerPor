@@ -182,5 +182,19 @@
         android:layout_height="1dp"
         android:background="@color/color_eee"/>
 
+    <net.lishaoy.ui.iconfont.IconFontTextView
+        android:id="@+id/playground"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_444"
+        tools:text="@string/item_playground"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_eee"/>
+
 
 </LinearLayout>

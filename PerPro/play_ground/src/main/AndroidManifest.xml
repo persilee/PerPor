@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.lishaoy.common">
+    package="net.lishaoy.play_ground">
 
     <application>
-        <activity android:name=".flutter.PerFlutterActivity"></activity>
+        <activity android:name=".PlayGroundActivity"></activity>
     </application>
 
 </manifest>

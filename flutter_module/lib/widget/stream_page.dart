@@ -37,7 +37,7 @@ class _StreamPageState extends State<StreamPage> {
                   PerFlutterBridge.getInstance().goToNative({"action": "goToLogin"});
                 }
               },
-              buttonText: snapshot.error is NeedLogin ? "登录" : "",
+              buttonText: snapshot.error is NeedLogin ? "登录" : "刷新",
             );
           }
           var pageState = snapshot.data;

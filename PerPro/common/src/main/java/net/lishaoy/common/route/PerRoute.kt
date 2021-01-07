@@ -27,7 +27,8 @@ object PerRoute {
         SEARCH_MAIN("搜索页","/search/main"),
         ORDER_MAIN("订单页","/order/main"),
         ADDRESS_LIST("地址列表","/address/list"),
-        ACCOUNT_LOGIN("登录页","/account/login")
+        ACCOUNT_LOGIN("登录页","/account/login"),
+        PLAYGROUND_MAIN("游乐场","/playground/main"),
     }
 
     fun startActivity(

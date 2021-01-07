@@ -5,7 +5,7 @@
     <string name="item_collection">&#xe604;   我的收藏</string>
     <string name="item_notify">&#xe654;  课程通知</string>
     <string name="item_history">&#xe606;   浏览历史</string>
-    <string name="item_playground">&#xe640;   playground</string>
+    <string name="item_playground">&#xe640;   游乐场</string>
     <string name="item_address">&#xe603;   收货地址</string>
     <string name="get_profile_failed">获取用户信息失败</string>
     <string name="user_name_not_login">请先登录</string>

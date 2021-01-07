@@ -57,4 +57,11 @@ class PerFlutterCacheManager private constructor(){
         return flutterEngine!!
     }
 
+    fun destroyCached(module: String) {
+        FlutterEngineCache.getInstance()[module]?.apply {
+            destroy()
+        }
+        FlutterEngineCache.getInstance().remove(module)
+    }
+
 }

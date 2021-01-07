@@ -42,6 +42,7 @@ class ProfileFragment : PerBaseFragment() {
         collection.setText(R.string.item_collection)
         address.setText(R.string.item_address)
         history.setText(R.string.item_history)
+        playground.setText(R.string.item_playground)
 
         notice_container.setOnClickListener {
             PerRoute.startActivity(context,destination = PerRoute.Destination.NOTICE_LIST)
@@ -103,6 +104,10 @@ class ProfileFragment : PerBaseFragment() {
             userProfile?.learnMinutes?.let { spannableItem(it, getString(R.string.profile_item_learn)) }
 
         updateBanner(userProfile?.bannerNoticeList)
+
+        playground.setOnClickListener {
+            PerRoute.startActivity(context, destination = PerRoute.Destination.PLAYGROUND_MAIN)
+        }
     }
 
     private fun updateBanner(bannerNoticeList: List<net.lishaoy.service_login.Notice>?) {
