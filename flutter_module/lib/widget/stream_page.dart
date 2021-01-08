@@ -14,8 +14,9 @@ class StreamPage<T extends PageState> extends StatefulWidget {
   final BaseViewModel model;
   final Widget content;
   final Function(T) onReady;
+  final Function() onRefresh;
 
-  StreamPage({@required this.model, this.content, this.onReady});
+  StreamPage({@required this.model, this.content, this.onReady, this.onRefresh});
 
   @override
   _StreamPageState createState() => _StreamPageState();
@@ -35,6 +36,8 @@ class _StreamPageState extends State<StreamPage> {
               buttonAction: (){
                 if (snapshot.error is NeedLogin) {
                   PerFlutterBridge.getInstance().goToNative({"action": "goToLogin"});
+                } else {
+                  widget.onRefresh();
                 }
               },
               buttonText: snapshot.error is NeedLogin ? "登录" : "刷新",

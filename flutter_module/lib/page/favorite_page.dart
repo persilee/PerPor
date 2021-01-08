@@ -50,6 +50,7 @@ class _FavoritePageState extends State<FavoritePage> {
             Provider.of<FavoriteViewModel>(context).updateData(goodsList);
           }
         },
+        onRefresh: () => Provider.of<FavoriteViewModel>(context, listen: false).getData(),
       ),
     );
   }
