@@ -1,5 +1,6 @@
 package net.lishaoy.common.flutter
 
+import android.app.Activity
 import android.os.Bundle
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
@@ -7,6 +8,7 @@ import io.flutter.plugin.common.MethodChannel
 import net.lishaoy.common.info.PerLocalConfig
 import net.lishaoy.common.route.PerRoute
 import net.lishaoy.library.util.AppGlobals
+import net.lishaoy.library.util.PerActivityManager
 
 class PerFlutterBridge : IPerBridge<Any?, MethodChannel.Result>, MethodChannel.MethodCallHandler {
 
@@ -46,7 +48,10 @@ class PerFlutterBridge : IPerBridge<Any?, MethodChannel.Result>, MethodChannel.M
     }
 
     override fun onBack(p: Any?) {
-
+        val activity = PerActivityManager.instance.getTopActivity(true)
+        if ( activity is PerFlutterActivity) {
+            activity.onBackPressed()
+        }
     }
 
     override fun goToNative(p: Any?) {

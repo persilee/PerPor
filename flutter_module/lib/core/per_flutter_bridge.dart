@@ -38,6 +38,10 @@ class PerFlutterBridge {
     _channel.invokeMethod("goToNative", params);
   }
 
+  onBack(Map params) {
+    _channel.invokeMethod("onBack", params);
+  }
+
   MethodChannel bridge() {
     return _channel;
   }

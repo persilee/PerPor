@@ -36,6 +36,7 @@ abstract class PerFlutterFragment(module: String) : PerBaseFragment() {
     }
 
     fun setTitle(title: String) {
+        nav_bar.visibility = View.VISIBLE
         nav_bar.setTitle(title)
     }
 

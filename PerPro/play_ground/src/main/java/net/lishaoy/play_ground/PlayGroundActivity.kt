@@ -25,7 +25,9 @@ class PlayGroundActivity : AppCompatActivity() {
         })
         btn_to_flutter.setOnClickListener {
             ARouter.getInstance().build("/flutter/main")
-                .withString("module", "nativeView").navigation()
+                .withString("module", "nativeView")
+//                .withString("title", "Flutter Activity")
+                .navigation()
         }
 
     }
