@@ -16,6 +16,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import net.lishaoy.library.util.PerViewUtil
 
+@BindingAdapter(value = ["url"])
 fun ImageView.loadUrl(url: String) {
     if (PerViewUtil.isActivityDestroyed(context)) return
     Glide.with(this).load(url).into(this)
@@ -38,11 +39,11 @@ fun ImageView.loadCircle(url: String) {
 @BindingAdapter(value = ["url", "corner"], requireAll = false)
 fun ImageView.loadCorner(url: String, corner: Int) {
     if (PerViewUtil.isActivityDestroyed(context)) return
-    var transform = Glide.with(this).load(url).transform(CenterCrop())
     if (corner > 0) {
-        RoundedCorners(corner)
+        Glide.with(this).load(url).transform(CenterCrop(), RoundedCorners(corner)).into(this)
+    } else {
+        Glide.with(this).load(url).transform(CenterCrop()).into(this)
     }
-    transform.into(this)
 }
 
 fun ImageView.loadCircleBorder(

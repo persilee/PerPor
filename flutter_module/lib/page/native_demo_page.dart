@@ -24,11 +24,14 @@ class _NativeDemoPageState extends State<NativeDemoPage> {
             "native view for image",
             style: TextStyle(fontSize: 20),
           ),
-          SizedBox(
-            height: 300,
-            child: PerImageView(
-              url:
-                  "https://cdn.lishaoy.net/flutterFlare/flutter-flare-cover.png",
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: SizedBox(
+              height: 300,
+              child: PerImageView(
+                url:
+                    "https://cdn.lishaoy.net/flutterFlare/flutter-flare-cover.png",
+              ),
             ),
           )
         ],
