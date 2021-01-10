@@ -23,10 +23,8 @@ class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
   Future<List<Goods>> getData() async {
     controller.add(BusyState());
     var goodsModel;
-    Dio dio;
     try {
-      dio = await BaseDio.getInstance().getDio();
-      goodsModel = await ApiClient(dio: dio).getFavorite("1", "10");
+      goodsModel = await ApiClient().getFavorite("1", "10");
       dataLists = goodsModel.data.list;
       if (dataLists.length > 0) {
         controller.add(DataFetchState<List<Goods>>(dataLists));

@@ -9,7 +9,7 @@ part 'api_client.g.dart';
 @RestApi(baseUrl: "https://api.devio.org/as")
 abstract class ApiClient {
   factory ApiClient({Dio dio, String baseUrl}) {
-    if (dio == null) dio = Dio();
+    if (dio == null) dio = BaseDio.getInstance().getDio();
     return _ApiClient(dio, baseUrl: baseUrl);
   }
 

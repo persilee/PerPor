@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_module/core/per_flutter_bridge.dart';
+import 'package:flutter_module/http/retrofit/api/header_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../per_error.dart';
@@ -17,11 +18,11 @@ class BaseDio {
     return _instance;
   }
 
-  Future<Dio> getDio() async {
+  Dio getDio() {
     Dio dio = Dio();
-    Map<String, String> headers = await PerFlutterBridge.getInstance().getHeaderParams();
+    // Map<String, String> headers = await PerFlutterBridge.getInstance().getHeaderParams();
     dio.options = BaseOptions(
-        receiveTimeout: 5000, connectTimeout: 5000, headers: headers);
+        receiveTimeout: 5000, connectTimeout: 5000);
     dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
@@ -29,6 +30,7 @@ class BaseDio {
       responseHeader: false,
       compact: false,
     ));
+    dio.interceptors.add(HeaderInterceptor());
     return dio;
   }
 
