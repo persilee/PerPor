@@ -36,7 +36,7 @@ fun ImageView.loadCircle(url: String) {
     Glide.with(this).load(url).transform(CenterCrop()).into(this)
 }
 
-@BindingAdapter(value = ["url", "corner"], requireAll = false)
+@BindingAdapter(value = ["url", "corner"], requireAll = true)
 fun ImageView.loadCorner(url: String, corner: Int) {
     if (PerViewUtil.isActivityDestroyed(context)) return
     if (corner > 0) {

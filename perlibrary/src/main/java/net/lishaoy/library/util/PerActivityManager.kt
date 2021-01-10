@@ -11,7 +11,7 @@ class PerActivityManager private constructor(){
     private val activityRefs = ArrayList<WeakReference<Activity>>()
     private val frontBackCallbacks = ArrayList<FrontBackCallback>()
     private var activityStartCount = 0
-    private var front = true;
+    var front = true;
     fun init(application: Application) {
         application.registerActivityLifecycleCallbacks(InnerActivityLifecycleCallbacks())
     }

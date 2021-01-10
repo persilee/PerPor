@@ -11,11 +11,13 @@ import net.lishaoy.library.log.PerConsolePrinter
 import net.lishaoy.library.log.PerLogConfig
 import net.lishaoy.library.log.PerLogConfig.JsonParser
 import net.lishaoy.library.log.PerLogManager
+import net.lishaoy.library.util.CrashHandler
 
 @HiltAndroidApp
 class MyApplication : PerBaseApplication() {
     override fun onCreate() {
         super.onCreate()
+
         ARouter.init(this)
         PerLogManager.init(object : PerLogConfig() {
             override fun getGlobalTag(): String {
@@ -26,6 +28,7 @@ class MyApplication : PerBaseApplication() {
                 return JsonParser { src -> Gson().toJson(src) }
             }
         }, PerConsolePrinter())
+        CrashHandler.init();
     }
 
     override fun attachBaseContext(base: Context?) {
