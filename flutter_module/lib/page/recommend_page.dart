@@ -35,17 +35,16 @@ class _RecommendPageState extends State<RecommendPage> {
   @override
   Widget build(BuildContext context) {
 
-    List<Goods> goodsList;
-
     return Scaffold(
       body: StreamPage(
         model: _model,
         content: RecommendItem(),
-        onReady: (pageState) {
+        builder: (context, snapshot) {
+          PageState pageState = snapshot.data;
           if (pageState is DataFetchState && pageState.hasData) {
-            goodsList = pageState.data as List<Goods>;
-            Provider.of<RecommendViewModel>(context).updateData(goodsList);
+            Provider.of<RecommendViewModel>(context).updateData(pageState.data);
           }
+          return RecommendItem();
         },
       ),
     );

@@ -8,7 +8,7 @@ import 'package:flutter_module/model/goods_model.dart';
 import 'package:flutter_module/widget/base_view_model.dart';
 import 'package:flutter_module/widget/page_state.dart';
 
-class FavoriteViewModel with ChangeNotifier implements BaseViewModel<Goods> {
+class FavoriteViewModel extends ChangeNotifier implements BaseViewModel<Goods> {
   List<Goods> dataLists;
   int pageIndex = 1;
 

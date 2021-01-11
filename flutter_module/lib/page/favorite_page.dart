@@ -38,19 +38,19 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Goods> goodsList;
-
     return Scaffold(
       body: StreamPage<PageState>(
         model: _model,
-        content: FavoriteItem(),
-        onReady: (pageState) {
+        builder: (context, snapshot) {
+          print("PerState: ${snapshot.connectionState} in streamPage");
+          PageState pageState = snapshot.data;
           if (pageState is DataFetchState && pageState.hasData) {
-            goodsList = pageState.data as List<Goods>;
-            Provider.of<FavoriteViewModel>(context).updateData(goodsList);
+            Provider.of<FavoriteViewModel>(context).updateData(pageState.data);
           }
+          return FavoriteItem();
         },
-        onRefresh: () => Provider.of<FavoriteViewModel>(context, listen: false).getData(),
+        onRefresh: () =>
+            Provider.of<FavoriteViewModel>(context, listen: false).getData(),
       ),
     );
   }

@@ -39,8 +39,8 @@ class _FavoriteItemState extends State<FavoriteItem> {
 
   @override
   Widget build(BuildContext context) {
-    List<Goods> goodsList = Provider.of<FavoriteViewModel>(context).list;
 
+    List<Goods> goodsList = Provider.of<FavoriteViewModel>(context).list;
 
     return PerRefresh(
       controller: _refreshController,

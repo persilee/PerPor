@@ -13,10 +13,10 @@ import 'empty_page.dart';
 class StreamPage<T extends PageState> extends StatefulWidget {
   final BaseViewModel model;
   final Widget content;
-  final Function(T) onReady;
   final Function() onRefresh;
+  final Widget Function(BuildContext context, AsyncSnapshot<T> snapshot) builder;
 
-  StreamPage({@required this.model, this.content, this.onReady, this.onRefresh});
+  StreamPage({@required this.model, this.content, this.onRefresh, this.builder});
 
   @override
   _StreamPageState createState() => _StreamPageState();
@@ -30,6 +30,7 @@ class _StreamPageState extends State<StreamPage> {
         stream: widget.model.stream,
         builder: (buildContext, snapshot) {
           if (snapshot.hasError) {
+            print("PerState: ${snapshot.connectionState} in hasError");
             return EmptyPage(
               title: (snapshot.error as PerError).code?.toString(),
               desc: (snapshot.error as PerError).message,
@@ -45,6 +46,7 @@ class _StreamPageState extends State<StreamPage> {
           }
           var pageState = snapshot.data;
           if (!snapshot.hasData || pageState is BusyState) {
+            print("PerState: ${snapshot.connectionState} in busy");
             return Center(
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFDD2F24)),
@@ -53,18 +55,13 @@ class _StreamPageState extends State<StreamPage> {
           }
 
           if (pageState is DataFetchState && !pageState.hasData) {
+            print("PerState: ${snapshot.connectionState} in nonData");
             return EmptyPage(
               title: "没有数据！",
             );
           }
 
-          if (pageState is DataFetchState && pageState.hasData) {
-            if(widget.onReady != null) {
-              widget.onReady(pageState);
-            }
-          }
-
-          return Padding(padding: EdgeInsets.only(bottom: 55), child: widget.content,);
+          return Padding(padding: EdgeInsets.only(bottom: 55), child: widget.builder(context, snapshot),);
         });
   }
 }

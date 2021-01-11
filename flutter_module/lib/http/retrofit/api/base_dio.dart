@@ -20,9 +20,8 @@ class BaseDio {
 
   Dio getDio() {
     Dio dio = Dio();
-    // Map<String, String> headers = await PerFlutterBridge.getInstance().getHeaderParams();
-    dio.options = BaseOptions(
-        receiveTimeout: 5000, connectTimeout: 5000);
+    dio.options = BaseOptions(receiveTimeout: 5000, connectTimeout: 5000);
+    dio.interceptors.add(HeaderInterceptor());
     dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
@@ -30,7 +29,6 @@ class BaseDio {
       responseHeader: false,
       compact: false,
     ));
-    dio.interceptors.add(HeaderInterceptor());
     return dio;
   }
 
